@@ -15,12 +15,13 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rgbd2d;
     Animate animate;
     Vector3 movementVector;
+    
 
     [SerializeField] private float speed = 7f;
     [SerializeField] private float attackSpeed = 4f;
     [SerializeField] public float enableRangeAttackTime = 3f;
     [SerializeField] public GameObject rangeAttackObject;
-
+    [SerializeField] public GameObject cm;
 
     private PlayerPlugIn playerPlugIn;
     
@@ -76,6 +77,7 @@ public class PlayerMove : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
+            DisableRangeAttack();
             speed = attackSpeed;
             UtilsClass.GetMouseWorldPosition();
             Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
@@ -115,10 +117,12 @@ public class PlayerMove : MonoBehaviour
         {
             rangeAttackTimer = enableRangeAttackTime;
             rangeAttackObject.SetActive(true);
+            cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
             UtilsClass.GetMouseWorldPosition();
             Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
             Vector3 attackDir = (mousePosition - transform.position).normalized;
             CMDebug.TextPopupMouse("Range" + attackDir);
+            
             
 
         }
@@ -130,9 +134,16 @@ public class PlayerMove : MonoBehaviour
 
         else if (rangeAttackTimer<0)
         {
-            rangeAttackObject.SetActive(false);
+            DisableRangeAttack();
+
         }
 
+    }
+
+    private void DisableRangeAttack()
+    {
+        rangeAttackObject.SetActive(false);
+        cm.GetComponent<CursorManager>().SwitchToArrowCursor();
     }
 
     public void SpeedReturn()
