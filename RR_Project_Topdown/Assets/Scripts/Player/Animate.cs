@@ -10,6 +10,8 @@ public class Animate : MonoBehaviour
     public float horizontal;
     public float vertical;
 
+    [SerializeField] public GameObject fx;
+
 
     private void Awake()
     {
@@ -25,19 +27,24 @@ public class Animate : MonoBehaviour
 
     public void PlayAttackAnimation(int dir)
     {
-        switch(dir)
+        fx.SetActive(true);
+        switch (dir)
         {
             case 8:
                 animator.SetTrigger("BackAttack");
+                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
                 break;
             case 4:
                 animator.SetTrigger("SideLAttack");
+                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
                 break;
             case 6:
                 animator.SetTrigger("SideRAttack");
+                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
                 break;
             case 2:
                 animator.SetTrigger("FrontAttack");
+                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
                 break;
 
 
@@ -45,6 +52,11 @@ public class Animate : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void SkillActive()
+    {
+        animator.SetTrigger("SkillActive");
     }
 
 

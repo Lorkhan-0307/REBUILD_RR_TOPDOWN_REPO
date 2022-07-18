@@ -72,8 +72,10 @@ public class PlayerMove : MonoBehaviour
         animate.horizontal = movementVector.x;
         animate.vertical = movementVector.y;
         
-
-        
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            animate.SkillActive();
+        }
 
         if(Input.GetMouseButtonDown(0))
         {
