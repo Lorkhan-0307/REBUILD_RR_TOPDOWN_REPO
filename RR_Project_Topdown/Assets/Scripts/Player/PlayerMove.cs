@@ -15,6 +15,12 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rgbd2d;
     Animate animate;
     Vector3 movementVector;
+
+    private enum State
+    {
+        Normal,
+        SkillActive,
+    }
     
 
     [SerializeField] private float speed = 7f;
@@ -24,7 +30,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] public GameObject cm;
 
     private PlayerPlugIn playerPlugIn;
-    
+
+    private State state;
     private float rangeAttackTimer;
 
 
@@ -35,6 +42,7 @@ public class PlayerMove : MonoBehaviour
         animate = GetComponent<Animate>();
         playerPlugIn = new PlayerPlugIn();
         playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
+        state = State.Normal;
     }
 
     private void PlayerPlugIn_OnPlugInUnlocked(object sender, PlayerPlugIn.OnPlugInUnlockedEventArgs e)
@@ -64,81 +72,103 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movementVector.x = Input.GetAxisRaw("Horizontal");
-        movementVector.y = Input.GetAxisRaw("Vertical");
-        movementVector *= speed;
+
+        switch(state)
+        {
+            case State.Normal:
+                movementVector.x = Input.GetAxisRaw("Horizontal");
+                movementVector.y = Input.GetAxisRaw("Vertical");
+                movementVector *= speed;
 
 
-        animate.horizontal = movementVector.x;
-        animate.vertical = movementVector.y;
+                animate.horizontal = movementVector.x;
+                animate.vertical = movementVector.y;
+
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    DisableRangeAttack();
+                    speed = attackSpeed;
+                    UtilsClass.GetMouseWorldPosition();
+                    Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
+                    Vector3 attackDir = (mousePosition - transform.position).normalized;
+
+                    if (attackDir.y >= attackDir.x)
+                    {
+                        if (attackDir.y >= attackDir.x * -1)
+                        {
+                            animate.PlayAttackAnimation(8);
+
+
+                        }
+                        else
+                        {
+                            animate.PlayAttackAnimation(4);
+                        }
+                    }
+                    else
+                    {
+                        if (attackDir.y >= attackDir.x * -1)
+                        {
+                            animate.PlayAttackAnimation(6);
+                        }
+                        else
+                        {
+                            animate.PlayAttackAnimation(2);
+                        }
+                    }
+
+                    CMDebug.TextPopupMouse("" + attackDir);
+                }
+
+
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    rangeAttackTimer = enableRangeAttackTime;
+                    rangeAttackObject.SetActive(true);
+                    cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
+                    UtilsClass.GetMouseWorldPosition();
+                    Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
+                    Vector3 attackDir = (mousePosition - transform.position).normalized;
+                    CMDebug.TextPopupMouse("Range" + attackDir);
+
+
+
+                }
+
+                if (rangeAttackTimer > 0)
+                {
+                    rangeAttackTimer -= Time.deltaTime;
+                }
+
+                else if (rangeAttackTimer < 0)
+                {
+                    DisableRangeAttack();
+
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    animate.SkillActive();
+                    state = State.SkillActive;
+                }
+
+
+                break;
+
+
+            case State.SkillActive:
+
+
+                break;
         
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            animate.SkillActive();
-        }
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            DisableRangeAttack();
-            speed = attackSpeed;
-            UtilsClass.GetMouseWorldPosition();
-            Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
-            Vector3 attackDir = (mousePosition - transform.position).normalized;
-
-            if (attackDir.y >= attackDir.x)
-            {
-                if (attackDir.y >= attackDir.x * -1)
-                {
-                    animate.PlayAttackAnimation(8);
-                    
-
-                }
-                else
-                {
-                    animate.PlayAttackAnimation(4);
-                }
-            }
-            else
-            {
-                if (attackDir.y >= attackDir.x * -1)
-                {
-                    animate.PlayAttackAnimation(6);
-                }
-                else
-                {
-                    animate.PlayAttackAnimation(2);
-                }
-            }
-
-            CMDebug.TextPopupMouse("" + attackDir);
+        
         }
 
         
-     
-        if(Input.GetMouseButtonDown(1))
-        {
-            rangeAttackTimer = enableRangeAttackTime;
-            rangeAttackObject.SetActive(true);
-            cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
-            UtilsClass.GetMouseWorldPosition();
-            Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
-            Vector3 attackDir = (mousePosition - transform.position).normalized;
-            CMDebug.TextPopupMouse("Range" + attackDir);
-            
-            
-
-        }
-
-        if (rangeAttackTimer > 0)
-        {
-            rangeAttackTimer -= Time.deltaTime;
-        }
-
-        else if (rangeAttackTimer<0)
-        {
-            DisableRangeAttack();
-
-        }
+        
+        
 
     }
 
@@ -162,7 +192,22 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rgbd2d.velocity = movementVector;
+        switch (state)
+        {
+            case State.Normal:
+                rgbd2d.velocity = movementVector;
+                break;
+            case State.SkillActive:
+                rgbd2d.velocity = new Vector3(0,0,0);
+                break;
+        }
+
+        
+    }
+
+    public void StateNormalize()
+    {
+        state = State.Normal;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -32,19 +32,19 @@ public class Animate : MonoBehaviour
         {
             case 8:
                 animator.SetTrigger("BackAttack");
-                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
+                fx.GetComponent<MCAttack>().PlayAttackFXAnimation(dir);
                 break;
             case 4:
                 animator.SetTrigger("SideLAttack");
-                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
+                fx.GetComponent<MCAttack>().PlayAttackFXAnimation(dir);
                 break;
             case 6:
                 animator.SetTrigger("SideRAttack");
-                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
+                fx.GetComponent<MCAttack>().PlayAttackFXAnimation(dir);
                 break;
             case 2:
                 animator.SetTrigger("FrontAttack");
-                fx.GetComponent<MCAttack>().PlayAttackAnimation(dir);
+                fx.GetComponent<MCAttack>().PlayAttackFXAnimation(dir);
                 break;
 
 
@@ -57,6 +57,7 @@ public class Animate : MonoBehaviour
     public void SkillActive()
     {
         animator.SetTrigger("SkillActive");
+        fx.GetComponent<MCAttack>().PlaySkillFXAnimation();
     }
 
 

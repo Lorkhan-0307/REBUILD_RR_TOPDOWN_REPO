@@ -56,7 +56,7 @@ public class MCAttack : MonoBehaviour
         }*/
     }
 
-    public void PlayAttackAnimation(int dir)
+    public void PlayAttackFXAnimation(int dir)
     {
         switch (dir)
         {
@@ -78,6 +78,11 @@ public class MCAttack : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void PlaySkillFXAnimation()
+    {
+        animator.SetTrigger("SkillActive");
     }
 
 }
