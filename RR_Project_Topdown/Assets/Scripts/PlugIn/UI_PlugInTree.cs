@@ -11,23 +11,38 @@ public class UI_PlugInTree : MonoBehaviour
     {
         transform.Find("GauntletBtn").GetComponent<Button_UI>().ClickFunc = () =>
         {
-            playerPlugIn.UnlockPlugIn(PlayerPlugIn.PlugInType.Gauntlet_Enhance);
+            if (!playerPlugIn.TryUnlockPlugIn(PlayerPlugIn.PlugInType.Gauntlet_Enhance))
+            {
+                Debug.Log("Cannot Unlock!");
+            }
         };
-        transform.Find("RangeAttackBtn").GetComponent<Button_UI>().ClickFunc = () =>
+        transform.Find("Health_BarrierMax1Btn").GetComponent<Button_UI>().ClickFunc = () =>
         {
-            playerPlugIn.UnlockPlugIn(PlayerPlugIn.PlugInType.RangeAttack_Enhance);
+            if (!playerPlugIn.TryUnlockPlugIn(PlayerPlugIn.PlugInType.Health_BarrierMax_1))
+            {
+                Debug.Log("Cannot Unlock!");
+            }
         };
-        transform.Find("Health_BarrierMaxBtn").GetComponent<Button_UI>().ClickFunc = () =>
+        transform.Find("Health_BarrierMax2Btn").GetComponent<Button_UI>().ClickFunc = () =>
         {
-            playerPlugIn.UnlockPlugIn(PlayerPlugIn.PlugInType.Health_BarrierMax);
+            if (!playerPlugIn.TryUnlockPlugIn(PlayerPlugIn.PlugInType.Health_BarrierMax_2))
+            {
+                Debug.Log("Cannot Unlock!");
+            }
         };
         transform.Find("SummonAttackBtn").GetComponent<Button_UI>().ClickFunc = () =>
         {
-            playerPlugIn.UnlockPlugIn(PlayerPlugIn.PlugInType.SummonAttack);
+            if (!playerPlugIn.TryUnlockPlugIn(PlayerPlugIn.PlugInType.SummonAttack))
+            {
+                Debug.Log("Cannot Unlock!");
+            }
         };
         transform.Find("AttributeAttackBtn").GetComponent<Button_UI>().ClickFunc = () =>
         {
-            playerPlugIn.UnlockPlugIn(PlayerPlugIn.PlugInType.AttributeAttack);
+            if (!playerPlugIn.TryUnlockPlugIn(PlayerPlugIn.PlugInType.AttributeAttack))
+            {
+                Debug.Log("Cannot Unlock!");
+            }
         };
 
     }

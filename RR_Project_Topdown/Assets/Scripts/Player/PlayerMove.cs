@@ -25,9 +25,11 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] private float speed = 7f;
     [SerializeField] private float attackSpeed = 4f;
+    [SerializeField] private HealthBar healthBar;
     [SerializeField] public float enableRangeAttackTime = 3f;
     [SerializeField] public GameObject rangeAttackObject;
     [SerializeField] public GameObject cm;
+    [SerializeField] public GameObject skillActiveScreen;
 
     private PlayerPlugIn playerPlugIn;
 
@@ -43,6 +45,7 @@ public class PlayerMove : MonoBehaviour
         playerPlugIn = new PlayerPlugIn();
         playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
         state = State.Normal;
+        DisableSkillActiveScreen();
     }
 
     private void PlayerPlugIn_OnPlugInUnlocked(object sender, PlayerPlugIn.OnPlugInUnlockedEventArgs e)
@@ -52,10 +55,11 @@ public class PlayerMove : MonoBehaviour
             case PlayerPlugIn.PlugInType.Gauntlet_Enhance:
                 //Gauntlet++
                 break;
-            case PlayerPlugIn.PlugInType.RangeAttack_Enhance:
-                //RangeAttack++
+            case PlayerPlugIn.PlugInType.Health_BarrierMax_1:
+                //Health or Barrier ++
+                healthBar.UpgradeHealthBar();
                 break;
-            case PlayerPlugIn.PlugInType.Health_BarrierMax:
+            case PlayerPlugIn.PlugInType.Health_BarrierMax_2:
                 //Health or Barrier ++
                 break;
             case PlayerPlugIn.PlugInType.SummonAttack:
@@ -159,7 +163,7 @@ public class PlayerMove : MonoBehaviour
 
 
             case State.SkillActive:
-
+                skillActiveScreen.SetActive(true);
 
                 break;
         
@@ -176,6 +180,11 @@ public class PlayerMove : MonoBehaviour
     {
         rangeAttackObject.SetActive(false);
         cm.GetComponent<CursorManager>().SwitchToArrowCursor();
+    }
+
+    public void DisableSkillActiveScreen()
+    {
+        skillActiveScreen.SetActive(false);
     }
 
     public void SpeedReturn()
