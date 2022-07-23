@@ -20,21 +20,27 @@ public class PlayerMove : MonoBehaviour
     {
         Normal,
         SkillActive,
+        SkillDisactive,
     }
     
 
     [SerializeField] private float speed = 7f;
-    [SerializeField] private float attackSpeed = 4f;
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private float movementSpeedWhileAttack = 4f;
     [SerializeField] public float enableRangeAttackTime = 3f;
+    [SerializeField] public float enableSkillTime = 15f;
+    [SerializeField] public float skillBarMax = 150f;
+    [SerializeField] private HealthBar healthBar;
     [SerializeField] public GameObject rangeAttackObject;
     [SerializeField] public GameObject cm;
     [SerializeField] public GameObject skillActiveScreen;
+    [SerializeField] public GameObject skillBar;
 
     private PlayerPlugIn playerPlugIn;
 
     private State state;
     private float rangeAttackTimer;
+    private float skillBarTimer = 0.1f;
+    private bool skillActivated = false;
 
 
     private void Awake()
@@ -45,7 +51,8 @@ public class PlayerMove : MonoBehaviour
         playerPlugIn = new PlayerPlugIn();
         playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
         state = State.Normal;
-        DisableSkillActiveScreen();
+        DisableSkillActive();
+        skillBar.GetComponent<SkillBar>().SetMaxSkill(skillBarMax);
     }
 
     private void PlayerPlugIn_OnPlugInUnlocked(object sender, PlayerPlugIn.OnPlugInUnlockedEventArgs e)
@@ -61,6 +68,8 @@ public class PlayerMove : MonoBehaviour
                 break;
             case PlayerPlugIn.PlugInType.Health_BarrierMax_2:
                 //Health or Barrier ++
+                //ShieldEffect.SetActive(true);
+                gameObject.GetComponent<Health>().ShieldEffect.SetActive(true);
                 break;
             case PlayerPlugIn.PlugInType.SummonAttack:
                 //Summon Attack Possible
@@ -80,6 +89,35 @@ public class PlayerMove : MonoBehaviour
         switch(state)
         {
             case State.Normal:
+
+                //Skill Activated
+                if(skillActivated == true)
+                {
+                    if (skillBar.GetComponent<SkillBar>().slider.value == 0)
+                    {
+                        DisableSkillActive();
+                        animate.SkillDisactive();
+                    }
+                    skillBarTimer -= Time.deltaTime;
+                    if (skillBarTimer < 0)
+                    {
+                        skillBar.GetComponent<SkillBar>().AddSkill(-1f);
+                        skillBarTimer = 0.1f;
+                    }
+                }
+
+                else if(skillActivated == false)
+                {
+                    skillBarTimer -= Time.deltaTime;
+                    if (skillBarTimer < 0)
+                    {
+                        skillBar.GetComponent<SkillBar>().AddSkill(0.5f);
+                        skillBarTimer = 0.1f;
+                    }
+                }
+
+                //Basic Movement
+
                 movementVector.x = Input.GetAxisRaw("Horizontal");
                 movementVector.y = Input.GetAxisRaw("Vertical");
                 movementVector *= speed;
@@ -92,7 +130,7 @@ public class PlayerMove : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     DisableRangeAttack();
-                    speed = attackSpeed;
+                    speed = movementSpeedWhileAttack;
                     UtilsClass.GetMouseWorldPosition();
                     Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
                     Vector3 attackDir = (mousePosition - transform.position).normalized;
@@ -154,8 +192,16 @@ public class PlayerMove : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    animate.SkillActive();
-                    state = State.SkillActive;
+                    if(skillActivated == false)
+                    {
+                        animate.SkillActive();
+                        state = State.SkillActive;
+                    }
+                    if(skillActivated == true)
+                    {
+                        animate.SkillDisactive();
+                        state = State.SkillDisactive;
+                    }
                 }
 
 
@@ -163,11 +209,14 @@ public class PlayerMove : MonoBehaviour
 
 
             case State.SkillActive:
-                skillActiveScreen.SetActive(true);
 
+                skillActiveScreen.SetActive(true);
+                skillActivated = true;
                 break;
-        
-        
+
+            case State.SkillDisactive:
+                DisableSkillActive();
+                break;
         }
 
         
@@ -182,9 +231,10 @@ public class PlayerMove : MonoBehaviour
         cm.GetComponent<CursorManager>().SwitchToArrowCursor();
     }
 
-    public void DisableSkillActiveScreen()
+    public void DisableSkillActive()
     {
         skillActiveScreen.SetActive(false);
+        skillActivated = false;
     }
 
     public void SpeedReturn()
@@ -209,6 +259,9 @@ public class PlayerMove : MonoBehaviour
             case State.SkillActive:
                 rgbd2d.velocity = new Vector3(0,0,0);
                 break;
+            case State.SkillDisactive:
+                rgbd2d.velocity = new Vector3(0, 0, 0);
+                break;
         }
 
         
@@ -228,10 +281,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+
     public PlayerPlugIn GetPlayerPlugIn()
     {
         return playerPlugIn;
     }
+
+
 
     //Gauntlet++ function
     //RangeAttack++ function

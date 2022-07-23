@@ -60,6 +60,12 @@ public class Animate : MonoBehaviour
         fx.GetComponent<MCAttack>().PlaySkillFXAnimation();
     }
 
+    public void SkillDisactive()
+    {
+        animator.SetTrigger("SkillDisactive");
+
+    }
+
 
 
 }
