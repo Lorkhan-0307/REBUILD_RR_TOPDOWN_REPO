@@ -168,11 +168,12 @@ public class PlayerMove : MonoBehaviour
                 if (Input.GetMouseButtonDown(1))
                 {
                     rangeAttackTimer = enableRangeAttackTime;
-                    rangeAttackObject.SetActive(true);
+                    rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
                     cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
                     UtilsClass.GetMouseWorldPosition();
                     Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
                     Vector3 attackDir = (mousePosition - transform.position).normalized;
+                    rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(attackDir);
                     CMDebug.TextPopupMouse("Range" + attackDir);
 
 
@@ -227,7 +228,7 @@ public class PlayerMove : MonoBehaviour
 
     private void DisableRangeAttack()
     {
-        rangeAttackObject.SetActive(false);
+        rangeAttackObject.GetComponent<SpriteRenderer>().enabled = false;
         cm.GetComponent<CursorManager>().SwitchToArrowCursor();
     }
 
