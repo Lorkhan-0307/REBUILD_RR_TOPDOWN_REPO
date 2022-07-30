@@ -9,13 +9,14 @@ public class Animate : MonoBehaviour
 
     public float horizontal;
     public float vertical;
-
+    public float attackSpeed = 1f;
     [SerializeField] public GameObject fx;
 
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        attackSpeed = 1f;
     }
 
     private void Update()
@@ -28,6 +29,8 @@ public class Animate : MonoBehaviour
     public void PlayAttackAnimation(int dir)
     {
         fx.SetActive(true);
+        animator.SetFloat("AttackSpeed", attackSpeed);
+
         switch (dir)
         {
             case 8:
@@ -66,6 +69,10 @@ public class Animate : MonoBehaviour
 
     }
 
+    public void HurtAnimationActive()
+    {
+        animator.SetTrigger("Hurt");
+    }
 
 
 }

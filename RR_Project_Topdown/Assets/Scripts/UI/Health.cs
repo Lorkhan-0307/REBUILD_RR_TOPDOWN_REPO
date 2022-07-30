@@ -1,11 +1,23 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : LivingEntity
 {
-    [SerializeField] private float startingHealth;
+    [Header("Health")]
+    [SerializeField] private float startingHealth = 3f;
     [SerializeField] private float ShieldCoolTime = 3f;
-    [SerializeField] public GameObject ShieldEffect;
+    public GameObject ShieldEffect;
+    Animate animate;
+    PlayerMove playermove;
+
+    [Header("iFrames")]
+    [SerializeField] private float iFramesDuration = 2f;
+    [SerializeField] private int numberOfFlashes = 3;
+    private SpriteRenderer spriteRenderer;
+
+
 
     /*public float currentHealth { get; private set; }
 
@@ -28,6 +40,12 @@ public class Health : LivingEntity
             //dead animation
         }
     }*/
+    private void Awake()
+    {
+        animate = GetComponent<Animate>();
+        playermove = GetComponent<PlayerMove>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     protected override void OnEnable()
     {
@@ -39,14 +57,19 @@ public class Health : LivingEntity
 
     public override void OnDamage(float damage)
     {
-        if (ShieldEffect.activeSelf)
+        /*if (ShieldEffect.activeSelf)
         {
             return;
-        }
+        }*/
 
         if (!dead)
         {
             //play hurt animation
+            animate.HurtAnimationActive();
+            StartCoroutine(Invunerablility());
+
+            //playerMove State Hurt
+
             //play hurt sound
         }
 
@@ -62,7 +85,7 @@ public class Health : LivingEntity
         //Disable Player
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Separate case Enemy & Projectile?
         //sheild effect
@@ -88,5 +111,19 @@ public class Health : LivingEntity
         ShieldEffect.SetActive(true);
     }
 
+    private IEnumerator Invunerablility()
+    {
+        Physics2D.IgnoreLayerCollision(6, 7, true);
+        //invunerability duration
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            spriteRenderer.color = new Color(1, 0, 0, 0.5f);
+            yield return new WaitForSeconds(iFramesDuration/(numberOfFlashes *2));
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+        }
+
+        Physics2D.IgnoreLayerCollision(6, 7, false);
+    }
 
 }

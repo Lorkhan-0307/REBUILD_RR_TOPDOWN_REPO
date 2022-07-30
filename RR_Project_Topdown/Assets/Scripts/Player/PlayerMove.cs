@@ -21,11 +21,14 @@ public class PlayerMove : MonoBehaviour
         Normal,
         SkillActive,
         SkillDisactive,
+        Hurt,
+        Death,
     }
-    
 
+    #region Variables
     [SerializeField] private float speed = 7f;
     [SerializeField] private float movementSpeedWhileAttack = 4f;
+    [SerializeField] private float attackDamage = 1f;
     [SerializeField] public float enableRangeAttackTime = 3f;
     [SerializeField] public float enableSkillTime = 15f;
     [SerializeField] public float skillBarMax = 150f;
@@ -42,6 +45,7 @@ public class PlayerMove : MonoBehaviour
     private float skillBarTimer = 0.1f;
     private bool skillActivated = false;
 
+    #endregion
 
     private void Awake()
     {
@@ -53,13 +57,49 @@ public class PlayerMove : MonoBehaviour
         state = State.Normal;
         DisableSkillActive();
         skillBar.GetComponent<SkillBar>().SetMaxSkill(skillBarMax);
+        rangeAttackObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    #region Manage PlugInTree
     private void PlayerPlugIn_OnPlugInUnlocked(object sender, PlayerPlugIn.OnPlugInUnlockedEventArgs e)
     {
         switch (e.plugInType)
         {
-            case PlayerPlugIn.PlugInType.Gauntlet_Enhance:
+            case PlayerPlugIn.PlugInType.Gauntlet_Damage_1:
+                UpgradeAttackDamage(2f);
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Damage_2:
+                UpgradeAttackSpeed(0.5f);
+                UpgradeAttackDamage(2f);
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Damage_3:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Damage_4:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Range_1:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Range_2:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Range_3:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Range_4:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Speed_1:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Speed_2:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Speed_3:
+                //Gauntlet++
+                break;
+            case PlayerPlugIn.PlugInType.Gauntlet_Speed_4:
                 //Gauntlet++
                 break;
             case PlayerPlugIn.PlugInType.Health_BarrierMax_1:
@@ -67,21 +107,27 @@ public class PlayerMove : MonoBehaviour
                 healthBar.UpgradeHealthBar();
                 break;
             case PlayerPlugIn.PlugInType.Health_BarrierMax_2:
-                //Health or Barrier ++
                 //ShieldEffect.SetActive(true);
                 gameObject.GetComponent<Health>().ShieldEffect.SetActive(true);
                 break;
             case PlayerPlugIn.PlugInType.SummonAttack:
                 //Summon Attack Possible
                 break;
-            case PlayerPlugIn.PlugInType.AttributeAttack:
+            case PlayerPlugIn.PlugInType.FireAttack_1:
+                //Attribute Attack ++
+                break;
+            case PlayerPlugIn.PlugInType.IceAttack_1:
+                //Attribute Attack ++
+                break;
+            case PlayerPlugIn.PlugInType.ElectricAttack_1:
                 //Attribute Attack ++
                 break;
 
         }
     }
+    #endregion
 
-
+    #region Update Function
     // Update is called once per frame
     void Update()
     {
@@ -95,8 +141,8 @@ public class PlayerMove : MonoBehaviour
                 {
                     if (skillBar.GetComponent<SkillBar>().slider.value == 0)
                     {
-                        DisableSkillActive();
                         animate.SkillDisactive();
+                        state = State.SkillDisactive;
                     }
                     skillBarTimer -= Time.deltaTime;
                     if (skillBarTimer < 0)
@@ -140,8 +186,7 @@ public class PlayerMove : MonoBehaviour
                         if (attackDir.y >= attackDir.x * -1)
                         {
                             animate.PlayAttackAnimation(8);
-
-
+                          
                         }
                         else
                         {
@@ -160,7 +205,7 @@ public class PlayerMove : MonoBehaviour
                         }
                     }
 
-                    CMDebug.TextPopupMouse("" + attackDir);
+                    //CMDebug.TextPopupMouse("" + attackDir);
                 }
 
 
@@ -174,7 +219,7 @@ public class PlayerMove : MonoBehaviour
                     Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
                     Vector3 attackDir = (mousePosition - transform.position).normalized;
                     rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(attackDir);
-                    CMDebug.TextPopupMouse("Range" + attackDir);
+                    //CMDebug.TextPopupMouse("Range" + attackDir);
 
 
 
@@ -218,13 +263,12 @@ public class PlayerMove : MonoBehaviour
             case State.SkillDisactive:
                 DisableSkillActive();
                 break;
+            case State.Hurt:
+                break;
         }
-
-        
-        
-        
-
     }
+
+    #endregion
 
     private void DisableRangeAttack()
     {
@@ -241,6 +285,11 @@ public class PlayerMove : MonoBehaviour
     public void SpeedReturn()
     {
         speed = 7f;
+    }
+
+    public void ActivateHurtState()
+    {
+        state = State.Hurt;
     }
 
     public static Vector3 GetMousePosition(Vector3 screenPosition, Camera WorldCamera)
@@ -263,6 +312,9 @@ public class PlayerMove : MonoBehaviour
             case State.SkillDisactive:
                 rgbd2d.velocity = new Vector3(0, 0, 0);
                 break;
+            case State.Hurt:
+                rgbd2d.velocity = new Vector3(0, 0, 0);
+                break;
         }
 
         
@@ -283,16 +335,27 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    #region Plug In Function
     public PlayerPlugIn GetPlayerPlugIn()
     {
         return playerPlugIn;
     }
 
+    private void UpgradeAttackSpeed(float multiplier)
+    {
+        animate.attackSpeed *= multiplier;
+    }
 
-
+    private void UpgradeAttackDamage(float multiplier)
+    {
+        attackDamage *= multiplier;
+    }
     //Gauntlet++ function
     //RangeAttack++ function
     //Health&Barrier++ function
     //SummonAttack++ function
     //AttributeAttack++ function
+
+    #endregion
+
 }

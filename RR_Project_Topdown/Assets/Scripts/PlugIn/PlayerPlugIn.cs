@@ -14,11 +14,33 @@ public class PlayerPlugIn
     public enum PlugInType
     {
         None,
-        Gauntlet_Enhance,
+        Gauntlet_Damage_1, //Increase Gauntlet Damage
+        Gauntlet_Damage_2, //Decrease Attack Speed, Gauntlet Damage * 2
+        Gauntlet_Damage_3, //
+        Gauntlet_Damage_4, //
+        Gauntlet_Range_1,
+        Gauntlet_Range_2,
+        Gauntlet_Range_3,
+        Gauntlet_Range_4,
+        Gauntlet_Speed_1,
+        Gauntlet_Speed_2,
+        Gauntlet_Speed_3,
+        Gauntlet_Speed_4,
         Health_BarrierMax_1,
         Health_BarrierMax_2,
         SummonAttack,
-        AttributeAttack,
+        FireAttack_1,
+        FireAttack_2,
+        FireAttack_3,
+        FireAttack_4,
+        IceAttack_1,
+        IceAttack_2,
+        IceAttack_3,
+        IceAttack_4,
+        ElectricAttack_1,
+        ElectricAttack_2,
+        ElectricAttack_3,
+        ElectricAttack_4,
     }
 
     private List<PlugInType> unlockedPlugInTypeList;
@@ -46,6 +68,19 @@ public class PlayerPlugIn
     {
         switch (plugInType)
         {
+            case PlugInType.Gauntlet_Damage_2: return PlugInType.Gauntlet_Damage_1;
+            case PlugInType.Gauntlet_Damage_3: return PlugInType.Gauntlet_Damage_1;
+            case PlugInType.Gauntlet_Damage_4:
+                return IsPlugInUnlocked(PlugInType.Gauntlet_Damage_2) ? PlugInType.Gauntlet_Damage_2 : PlugInType.Gauntlet_Damage_3;
+            case PlugInType.Gauntlet_Range_2: return PlugInType.Gauntlet_Range_1;
+            case PlugInType.Gauntlet_Range_3: return PlugInType.Gauntlet_Range_1;
+            case PlugInType.Gauntlet_Range_4:
+                return IsPlugInUnlocked(PlugInType.Gauntlet_Range_2) ? PlugInType.Gauntlet_Range_2 : PlugInType.Gauntlet_Range_3;
+            case PlugInType.Gauntlet_Speed_2: return PlugInType.Gauntlet_Speed_1;
+            case PlugInType.Gauntlet_Speed_3: return PlugInType.Gauntlet_Speed_1;
+            case PlugInType.Gauntlet_Speed_4:
+                return IsPlugInUnlocked(PlugInType.Gauntlet_Speed_2) ? PlugInType.Gauntlet_Speed_2 : PlugInType.Gauntlet_Speed_3;
+
             case PlugInType.Health_BarrierMax_2: return PlugInType.Health_BarrierMax_1;
         }
         return PlugInType.None;
