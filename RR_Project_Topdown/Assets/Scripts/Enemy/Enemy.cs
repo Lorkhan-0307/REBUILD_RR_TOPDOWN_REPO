@@ -15,7 +15,9 @@ public class Enemy : LivingEntity
     [SerializeField] private float enemyHealth = 10f;
     [SerializeField] private GameObject projectile;
 
-    
+    [SerializeField] private EnemyScriptableObject enemyScriptableObject;
+
+
 
     private float timeBtwShots;
     private float lastAttackTime;
@@ -25,6 +27,10 @@ public class Enemy : LivingEntity
     private LivingEntity targetEntity;
     private NavMeshAgent pathFinder;
     private Rigidbody2D rgbd;
+
+    
+
+    public bool isKnockback = false;
 
 
     //For Flashing Sprite On Damage
@@ -172,10 +178,16 @@ public class Enemy : LivingEntity
         yield return new WaitForSeconds(1f);
         pathFinder.speed = enemySpeed;
     }
+
+    private IEnumerator enemyStayOnPosition2(float time)
+    {
+        pathFinder.speed = 0;
+        yield return new WaitForSeconds(time);
+        pathFinder.speed = enemySpeed;
+    }
+
     private IEnumerator HurtSpriteChanger()
     {
-        
-        
         for (int i = 0; i < numberOfFlashes; i++)
         {
             spriteRenderer.color = new Color(1, 0, 0, 0.5f);
@@ -183,19 +195,26 @@ public class Enemy : LivingEntity
             spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes*2));
         }
-
-        
     }
     
-    private IEnumerator enemyKnockBack()
+    private IEnumerator EnemyKnockBack()
     {
-        rgbd.isKinematic = false;
-        Vector3 diff = this.transform.position - targetEntity.transform.position;
-        diff = diff.normalized * 3;
-        rgbd.AddForce(diff, ForceMode2D.Impulse);
-        yield return new WaitForSeconds(2);
-        rgbd.velocity = Vector2.zero;
-        rgbd.isKinematic = true;
+        if(!isKnockback)
+        {
+            isKnockback = true;
+
+            rgbd.isKinematic = false;
+            pathFinder.speed = 0;
+            Vector3 diff = this.transform.position - targetEntity.transform.position;
+            diff = diff.normalized * enemyScriptableObject.fKnockbackMultiplier;
+            rgbd.AddForce(diff, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(enemyScriptableObject.fKnockbackDuration);
+            rgbd.velocity = Vector2.zero;
+            pathFinder.speed = enemySpeed;
+            rgbd.isKinematic = true;
+
+            isKnockback = false;
+        }
     }
 
 
@@ -205,15 +224,24 @@ public class Enemy : LivingEntity
     {
         if (!dead)
         {
+            Debug.Log("DAMAGE");
             //hurt animation
             StartCoroutine(HurtSpriteChanger());
-            //KnockBack
-            StartCoroutine(enemyKnockBack());
             //hurt audio
             //hurt particle effect
         }
 
         base.OnDamage(damage);
+    }
+
+    public void EnemyStun(float time)
+    {
+        StartCoroutine(enemyStayOnPosition2(time));
+    }
+
+    public void EnemyKnockback()
+    {
+        StartCoroutine(EnemyKnockBack());
     }
 
     public override void Die()

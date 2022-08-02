@@ -27,10 +27,6 @@ public class Projectiles : MonoBehaviour
             Instantiate(pfBulletExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
-        
-       
-
-        
     }
 
 }
