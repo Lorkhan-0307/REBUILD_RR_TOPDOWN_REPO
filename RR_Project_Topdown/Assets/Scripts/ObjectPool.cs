@@ -13,7 +13,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
     public GameObject GetPoolObject() { return ... }
 
     // 풀에 사용이 끝난 오브젝트를 다시 집어 넣는다.
-    public void PushPoolObject(T t) {}
+    public void PushPoolObject(GameObject obj) {}
 }
 
 public class PoolObject : MonoBehaviour
