@@ -154,6 +154,8 @@ MonoBehaviour:
   startTimeBtwShots: 2
   enemyHealth: 10
   projectile: {fileID: 8963230129417484963, guid: 9ec6147a9730e884a82ba0d71ae5dd20, type: 3}
+  enemyScriptableObject: {fileID: 11400000, guid: dff3a89b580667c4080825795d5df202, type: 2}
+  isKnockback: 0
   iFramesDuration: 0.5
   numberOfFlashes: 2
 --- !u!195 &1316722048324479947
@@ -190,7 +192,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0

@@ -216,9 +216,9 @@ public class PlayerMove : MonoBehaviour
                     rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
                     cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
                     UtilsClass.GetMouseWorldPosition();
-                    Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
-                    Vector3 attackDir = (mousePosition - transform.position).normalized;
-                    rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(attackDir);
+                    Vector3 mousePosition = GetMousePosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, rangeAttackObject.transform.position.z), Camera.main);
+                    
+                    rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(mousePosition);
                     //CMDebug.TextPopupMouse("Range" + attackDir);
 
 

@@ -37,7 +37,7 @@ public class CursorManager : MonoBehaviour
 
     public void SwitchToRangeAttackCursor()
     {
-        Cursor.SetCursor(cursorTextureArray[1], new Vector2(0, 0), CursorMode.Auto);
+        Cursor.SetCursor(cursorTextureArray[1], new Vector2(16, 16), CursorMode.Auto);
     }
 
     public void SwitchToArrowCursor()

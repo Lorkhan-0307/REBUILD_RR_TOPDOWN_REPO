@@ -16,10 +16,16 @@ public class MeleeAttackCollision : MonoBehaviour
        
         if (collision.gameObject.tag == "Enemy")
         {
-            LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
+            Enemy attackTarget = collision.GetComponent<Enemy>();
             if (attackTarget != null)
             {
                 attackTarget.OnDamage(meleeDamage);
+                
+                if (!attackTarget.isKnockback)
+                {
+                    attackTarget.EnemyKnockback();
+                }
+                
                 
             }
         }

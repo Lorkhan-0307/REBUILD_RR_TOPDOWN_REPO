@@ -128,6 +128,8 @@ MonoBehaviour:
   startTimeBtwShots: 2
   enemyHealth: 10
   projectile: {fileID: 0}
+  enemyScriptableObject: {fileID: 11400000, guid: 739d4288364e9cd4e996616eafab7100, type: 2}
+  isKnockback: 0
   iFramesDuration: 0.5
   numberOfFlashes: 2
 --- !u!61 &5317096383102137420

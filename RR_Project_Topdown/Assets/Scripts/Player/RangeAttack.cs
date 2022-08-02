@@ -48,19 +48,16 @@ public class RangeAttack : MonoBehaviour
             }
             
         }*/
-
-
-
-
     }
 
-    public void PlayerShootProjectiles_OnShoot(Vector3 shootDir)
+    public void PlayerShootProjectiles_OnShoot(Vector3 mousePosition)
     {
         Quaternion diff = this.transform.rotation;
         //diff = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z+90);
+        Vector3 attackDir = (mousePosition - firePosition.transform.position).normalized;
 
         Transform bulletTransform =  Instantiate(pfBullet, firePosition.transform.position, diff);
-        bulletTransform.GetComponent<Projectiles>().Setup(shootDir);
+        bulletTransform.GetComponent<Projectiles>().Setup(attackDir);
 
     }
 
