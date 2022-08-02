@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(spawnedEnemy);
+        //Debug.Log(spawnedEnemy);
 
         if (spawnedEnemy == spawnCount)
         {

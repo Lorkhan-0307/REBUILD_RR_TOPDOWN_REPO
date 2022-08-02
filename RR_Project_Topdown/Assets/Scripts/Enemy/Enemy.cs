@@ -14,14 +14,25 @@ public class Enemy : LivingEntity
     [SerializeField] private float startTimeBtwShots = 2f;
     [SerializeField] private float enemyHealth = 10f;
     [SerializeField] private GameObject projectile;
+
+    
+
     private float timeBtwShots;
     private float lastAttackTime;
+    private float enemySpeed;
     private Animator animator;
     private Vector2 direction;
-
-
     private LivingEntity targetEntity;
     private NavMeshAgent pathFinder;
+    private Rigidbody2D rgbd;
+
+
+    //For Flashing Sprite On Damage
+    [Header("iFrames")]
+    [SerializeField] private float iFramesDuration = 0.5f;
+    [SerializeField] private int numberOfFlashes = 2;
+    private SpriteRenderer spriteRenderer;
+
 
     private bool hasTarget
     {
@@ -42,6 +53,9 @@ public class Enemy : LivingEntity
         pathFinder.updateUpAxis = false;
         currentHealth = enemyHealth;
         animator = GetComponent<Animator>();
+        enemySpeed = pathFinder.speed;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rgbd = GetComponent<Rigidbody2D>();
     }
 
     // Start is called before the first frame update
@@ -56,7 +70,7 @@ public class Enemy : LivingEntity
     {
         //Debug.Log(gameObject.name);
         SetDirection();
-        if (gameObject.name == "R(Clone)"){
+        if (gameObject.name == "R(Clone)" && hasTarget){
             Shoot();
         }
     }
@@ -142,6 +156,7 @@ public class Enemy : LivingEntity
     {
         if (timeBtwShots <= 0)
         {
+            StartCoroutine(enemyStayOnPosition());
             Instantiate(projectile, transform.position, Quaternion.identity);
             timeBtwShots = startTimeBtwShots;
         }
@@ -151,11 +166,49 @@ public class Enemy : LivingEntity
         }
     }
 
+    private IEnumerator enemyStayOnPosition()
+    {
+        pathFinder.speed = 0;
+        yield return new WaitForSeconds(1f);
+        pathFinder.speed = enemySpeed;
+    }
+    private IEnumerator HurtSpriteChanger()
+    {
+        
+        
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            spriteRenderer.color = new Color(1, 0, 0, 0.5f);
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes*2));
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes*2));
+        }
+
+        
+    }
+    
+    private IEnumerator enemyKnockBack()
+    {
+        rgbd.isKinematic = false;
+        Vector3 diff = this.transform.position - targetEntity.transform.position;
+        diff = diff.normalized * 3;
+        rgbd.AddForce(diff, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(2);
+        rgbd.velocity = Vector2.zero;
+        rgbd.isKinematic = true;
+    }
+
+
+    
+
     public override void OnDamage(float damage)
     {
         if (!dead)
         {
             //hurt animation
+            StartCoroutine(HurtSpriteChanger());
+            //KnockBack
+            StartCoroutine(enemyKnockBack());
             //hurt audio
             //hurt particle effect
         }

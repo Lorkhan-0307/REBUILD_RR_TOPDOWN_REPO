@@ -22,7 +22,6 @@ public class Projectiles : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "Enemy")
         {
             Instantiate(pfBulletExplosion, transform.position, Quaternion.identity);

@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class MCAttack : MonoBehaviour
 {
+    /*
     [SerializeField] private Sprite[] FXTextureArray;
     [SerializeField] private int frameCount;
     [SerializeField] private float frameRate;
 
     [SerializeField] private List<FXAnimation> FXAnimationList;
+    */
+
+    [SerializeField] private GameObject FrontAttackCollider;
+    [SerializeField] private GameObject BackAttackCollider;
+    [SerializeField] private GameObject SideLAttackCollider;
+    [SerializeField] private GameObject SideRAttackCollider;
+
+    [SerializeField] public float meleeDamage = 10f;
 
     private int currentFrame;
     private float frameTimer;
+
+
 
     Animator animator;
 
@@ -24,14 +35,13 @@ public class MCAttack : MonoBehaviour
     }
     
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        FrontAttackCollider.SetActive(false);
+        BackAttackCollider.SetActive(false);
+        SideLAttackCollider.SetActive(false);
+        SideRAttackCollider.SetActive(false);
     }
 
     [System.Serializable]
@@ -55,6 +65,7 @@ public class MCAttack : MonoBehaviour
             //SETANIMATION
         }*/
     }
+
 
     public void PlayAttackFXAnimation(int dir)
     {
@@ -84,5 +95,7 @@ public class MCAttack : MonoBehaviour
     {
         animator.SetTrigger("SkillActive");
     }
+
+
 
 }
