@@ -19,27 +19,6 @@ public class Health : LivingEntity
 
 
 
-    /*public float currentHealth { get; private set; }
-
-    private void Awake()
-    {
-        currentHealth = startingHealth;
-    }
-
-    public void TakeDamage(float _damage)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
-
-        if (currentHealth > 0)
-        {
-            //hurt animation
-        }
-
-        else
-        {
-            //dead animation
-        }
-    }*/
     private void Awake()
     {
         animate = GetComponent<Animate>();
@@ -67,8 +46,6 @@ public class Health : LivingEntity
             //play hurt animation
             animate.HurtAnimationActive();
             StartCoroutine(Invunerablility());
-
-            //playerMove State Hurt
 
             //play hurt sound
         }

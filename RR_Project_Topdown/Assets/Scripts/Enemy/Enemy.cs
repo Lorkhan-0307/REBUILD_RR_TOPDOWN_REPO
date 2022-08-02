@@ -54,9 +54,17 @@ public class Enemy : LivingEntity
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(timeBtwShots);
+        //Debug.Log(gameObject.name);
         SetDirection();
-        Shoot();
+        if (gameObject.name == "R(Clone)"){
+            Shoot();
+        }
+    }
+
+    public void SetUp(float newHealth, float newSpeed)
+    {
+        currentHealth = newHealth;
+        pathFinder.speed = newSpeed;
     }
 
     private void SetDirection()
