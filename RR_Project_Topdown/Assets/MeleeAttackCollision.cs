@@ -16,7 +16,6 @@ public class MeleeAttackCollision : MonoBehaviour
        
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log(collision.gameObject.name);
             LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
             if (attackTarget != null)
             {

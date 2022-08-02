@@ -172,6 +172,14 @@ public class Enemy : LivingEntity
         yield return new WaitForSeconds(1f);
         pathFinder.speed = enemySpeed;
     }
+
+    private IEnumerator enemyStayOnPosition2(float time)
+    {
+        pathFinder.speed = 0;
+        yield return new WaitForSeconds(time);
+        pathFinder.speed = enemySpeed;
+    }
+
     private IEnumerator HurtSpriteChanger()
     {
         
@@ -187,7 +195,7 @@ public class Enemy : LivingEntity
         
     }
     
-    private IEnumerator enemyKnockBack()
+    private IEnumerator EnemyKnockBack()
     {
         rgbd.isKinematic = false;
         Vector3 diff = this.transform.position - targetEntity.transform.position;
@@ -208,12 +216,17 @@ public class Enemy : LivingEntity
             //hurt animation
             StartCoroutine(HurtSpriteChanger());
             //KnockBack
-            StartCoroutine(enemyKnockBack());
+            StartCoroutine(EnemyKnockBack());
             //hurt audio
             //hurt particle effect
         }
 
         base.OnDamage(damage);
+    }
+
+    public void EnemyStun(float time)
+    {
+        StartCoroutine(enemyStayOnPosition2(time));
     }
 
     public override void Die()
