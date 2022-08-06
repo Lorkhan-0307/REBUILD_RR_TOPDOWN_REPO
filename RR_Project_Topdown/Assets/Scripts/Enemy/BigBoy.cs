@@ -13,16 +13,24 @@ public class BigBoy : LivingEntity
     [SerializeField] private float startTimeBtwShots = 2f;
     [SerializeField] private float enemyHealth = 10f;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject LaserEffect;
+    [SerializeField] private GameObject LaserArm;
+    [SerializeField] private float bossSpeed=5f;
 
-    private float timeBtwShots;
+    private float laserAttackDuration = 5f;
+    private float laserAttackTime = 5f;
     private float lastAttackTime;
+    private float timeBtwShots;
     private float enemySpeed;
+
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 direction;
-    private LivingEntity targetEntity;
+    private Vector2 armDirection;
     private NavMeshAgent pathFinder;
+    private LivingEntity targetEntity;
 
+    public bool isArmFlipped = false;
 
     private bool hasTarget
     {
@@ -44,7 +52,8 @@ public class BigBoy : LivingEntity
         currentHealth = enemyHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        enemySpeed = pathFinder.speed;
+        pathFinder.speed = bossSpeed;
+        LaserArm.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -52,6 +61,8 @@ public class BigBoy : LivingEntity
     {
         timeBtwShots = startTimeBtwShots;
         StartCoroutine(UpdatePath());
+        StartCoroutine(Shoot());
+        StartCoroutine(LaserOff());
     }
 
     // Update is called once per frame
@@ -59,9 +70,9 @@ public class BigBoy : LivingEntity
     {
         //Debug.Log(gameObject.name);
         SetDirection();
-        if (gameObject.name == "R(Clone)" && hasTarget)
+        if (hasTarget)
         {
-            Shoot();
+            //StartCoroutine(Shoot());
         }
     }
 
@@ -121,26 +132,66 @@ public class BigBoy : LivingEntity
     }
 
 
-    private void Shoot()
+    private IEnumerator Shoot()
     {
-        if (timeBtwShots <= 0)
+        if (hasTarget)
         {
-            StartCoroutine(enemyStayOnPosition());
-            Instantiate(projectile, transform.position, Quaternion.identity);
-            timeBtwShots = startTimeBtwShots;
-        }
-        else
-        {
-            timeBtwShots -= Time.deltaTime;
+            StartCoroutine(bossStayOnPosition());
+            //play bigboy shoot animation
+            //play bigboy shoot sound
+            //rotate arm position to Player
+            //arm fire animation
+            LaserArm.SetActive(true);
+            SetArmPosition();
+            //LaserEffect.SetActive(true);
+            yield return null;
         }
     }
 
-    private IEnumerator enemyStayOnPosition()
+    private IEnumerator LaserOff()
+    {
+        while (true)
+        {
+            yield return null;
+            if (LaserEffect.activeInHierarchy)
+            {
+                laserAttackDuration -= Time.deltaTime;
+                if (laserAttackDuration <= 0)
+                {
+                    laserAttackDuration = laserAttackTime;
+                    LaserArm.SetActive(false);
+                    //LaserEffect.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private IEnumerator bossStayOnPosition()
     {
         pathFinder.speed = 0;
-        yield return new WaitForSeconds(1f);
-        pathFinder.speed = enemySpeed;
+        yield return new WaitForSeconds(5f);
+        pathFinder.speed = bossSpeed;
     }
+
+    private void SetArmPosition()
+    {
+        if (targetEntity != null && LaserArm.activeSelf)
+        {
+            armDirection = (targetEntity.transform.position - LaserArm.transform.position).normalized;
+
+            if (armDirection.x >= 0)
+            {
+                isArmFlipped = false;
+                LaserArm.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                isArmFlipped = true;
+                LaserArm.GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+    }
+
 
     public override void OnDamage(float damage)
     {

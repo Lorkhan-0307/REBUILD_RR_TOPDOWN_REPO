@@ -76,7 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 37481657
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7196274902888685757, guid: 935f20aed9ca48b41b75732f13f72f08, type: 3}
+  m_Sprite: {fileID: -7196274902888685757, guid: 935f20aed9ca48b41b75732f13f72f08,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,7 +129,8 @@ MonoBehaviour:
   startTimeBtwShots: 2
   enemyHealth: 10
   projectile: {fileID: 0}
-  enemyScriptableObject: {fileID: 11400000, guid: 739d4288364e9cd4e996616eafab7100, type: 2}
+  enemyScriptableObject: {fileID: 11400000, guid: 739d4288364e9cd4e996616eafab7100,
+    type: 2}
   isKnockback: 0
   iFramesDuration: 0.5
   numberOfFlashes: 2

@@ -21,7 +21,7 @@ public class MeleeAttackCollision : MonoBehaviour
             {
                 attackTarget.OnDamage(meleeDamage);
                 
-                if (!attackTarget.isKnockback)
+                if (!attackTarget.isKnockback && !attackTarget.isStun)
                 {
                     attackTarget.EnemyKnockback();
                 }

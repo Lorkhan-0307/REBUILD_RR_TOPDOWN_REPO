@@ -210,8 +210,9 @@ public class PlayerMove : MonoBehaviour
 
 
 
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
                 {
+
                     rangeAttackTimer = enableRangeAttackTime;
                     rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
                     cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();

@@ -31,6 +31,7 @@ public class Enemy : LivingEntity
     
 
     public bool isKnockback = false;
+    public bool isStun = false;
 
 
     //For Flashing Sprite On Damage
@@ -181,9 +182,17 @@ public class Enemy : LivingEntity
 
     private IEnumerator enemyStayOnPosition2(float time)
     {
-        pathFinder.speed = 0;
-        yield return new WaitForSeconds(time);
-        pathFinder.speed = enemySpeed;
+        if(!isStun)
+        {
+            isStun = true;
+            GameObject iceLock = Instantiate(enemyScriptableObject.IceLock, transform.position, Quaternion.identity);
+            pathFinder.speed = 0;
+            yield return new WaitForSeconds(time);
+            pathFinder.speed = enemySpeed;
+            isStun = false;
+            Destroy(iceLock);
+        }
+        
     }
 
     private IEnumerator HurtSpriteChanger()

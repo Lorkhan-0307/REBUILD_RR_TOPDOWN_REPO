@@ -7,24 +7,37 @@ public class RangeAttack : MonoBehaviour
     [SerializeField] public float enableRangeAttackTime = 3f;
     [SerializeField] private Transform pfBullet;
     [SerializeField] private GameObject firePosition;
+    [SerializeField] public float MaxbulletCount = 3f;
+    [SerializeField] public float reloadBulletTime = 10f;
+
+    private float bulletCountTimer = 0f;
 
 
     PlayerMove pm;
     private float timer;
     Transform parentTransform;
+    public float bulletCount;
 
     private void Awake()
     {
         timer = enableRangeAttackTime;
         pm = GetComponentInParent<PlayerMove>();
         parentTransform = GetComponentInParent<Transform>();
-
+        bulletCount = MaxbulletCount;
 
     }
 
     private void Update()
     {
-        
+        if(bulletCount < MaxbulletCount)
+        {
+            bulletCountTimer += Time.deltaTime;
+            if(bulletCountTimer >= reloadBulletTime)
+            {
+                bulletCount += 1;
+                bulletCountTimer = 0f;
+            }
+        }
         
     }
 
@@ -52,6 +65,7 @@ public class RangeAttack : MonoBehaviour
 
     public void PlayerShootProjectiles_OnShoot(Vector3 mousePosition)
     {
+        bulletCount -= 1;
         Quaternion diff = this.transform.rotation;
         //diff = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z+90);
         Vector3 attackDir = (mousePosition - firePosition.transform.position).normalized;

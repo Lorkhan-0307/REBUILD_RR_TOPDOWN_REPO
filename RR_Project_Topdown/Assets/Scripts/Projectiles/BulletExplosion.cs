@@ -15,8 +15,10 @@ public class BulletExplosion : MonoBehaviour
             if (attackTarget != null)
             {
                 attackTarget.OnDamage(bulletDamage);
-                attackTarget.EnemyStun(stunTime);
-                //StartCoroutine(attackTarget.enemyStayOnPosition());
+                if(!attackTarget.isStun && !attackTarget.isKnockback)
+                {
+                    attackTarget.EnemyStun(stunTime);
+                }
             }
         }
     }

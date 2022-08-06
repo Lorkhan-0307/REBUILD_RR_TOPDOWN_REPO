@@ -1,26 +1,81 @@
 // https://sourcemaking.com/design_patterns/object_pool
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ObjectPool : MonoSingleton<ObjectPool>
 {
     public GameObject prefab;
+    public GameObject[] GameObjects;
+
     
     public List<PoolObject> listPoolObject;
 
+    [SerializeField] private int iEnemyCount = 5;
+
+    private void Awake()
+    {
+        CreatePool();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GetPoolObject();
+        }
+    }
+
     // 오브젝트 풀을 미리생성한다.
-    public void CreatePool() {}
+    public void CreatePool() 
+    {
+        if(!prefab.TryGetComponent(out PoolObject poolObject))
+        {
+            prefab.AddComponent<PoolObject>();
+        }
+        
+        for (int i=0; i<iEnemyCount; i++)
+        {
+            GameObject newGameObject = UnityEditor.PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+
+
+            listPoolObject.Add(newGameObject.GetComponent<PoolObject>());
+            newGameObject.gameObject.SetActive(false);
+            newGameObject.transform.SetParent(transform);
+            newGameObject.name = "TestPrefab" + i.ToString();
+        }
+
+    }
 
     // 풀 에서, 사용 가능한 오브젝트를 가져온다.
-    public GameObject GetPoolObject() { return ... }
+    /*public GameObject GetPoolObject() 
+    {
+        listPoolObject[0].gameObject.SetActive(true);
+        return listPoolObject[0].GetComponent<GameObject>();
+    }*/
+    public void GetPoolObject()
+    {
+        if(listPoolObject.Count == 0)
+        {
+            GameObject newGameObject = UnityEditor.PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            listPoolObject.Add(newGameObject.GetComponent<PoolObject>());
+            newGameObject.gameObject.SetActive(false);
+            newGameObject.transform.SetParent(transform);
+        }
+        listPoolObject[0].gameObject.SetActive(true);
+        listPoolObject.Remove(listPoolObject[0]);
+        
+    }
 
     // 풀에 사용이 끝난 오브젝트를 다시 집어 넣는다.
-    public void PushPoolObject(GameObject obj) {}
+    public void PushPoolObject(GameObject obj) 
+    {
+        listPoolObject.Add(obj.GetComponent<PoolObject>());
+        obj.SetActive(false);
+    }
 }
 
-public class PoolObject : MonoBehaviour
-{
-    // 이 오브젝트가 어느 풀에서 나왔는지 레퍼런스를 이 오브젝트를 가져오는 시점에 assign 해준다.
-    public ObjectPool pool;
 
-    // 풀이 사용이 끝나면 오브젝트 풀에 다시 돌려 준다.
-    void ReturnToPool() {}
-}
+
+
+
