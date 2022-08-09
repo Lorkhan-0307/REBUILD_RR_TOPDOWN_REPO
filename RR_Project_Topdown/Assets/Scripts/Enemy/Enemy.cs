@@ -233,7 +233,6 @@ public class Enemy : LivingEntity
     {
         if (!dead)
         {
-            Debug.Log("DAMAGE");
             //hurt animation
             StartCoroutine(HurtSpriteChanger());
             //hurt audio
@@ -267,7 +266,7 @@ public class Enemy : LivingEntity
         pathFinder.isStopped = true;
         pathFinder.enabled = false;
 
-        //dead animation
+        animator.SetTrigger("Death");
         //dead audio
     }
 

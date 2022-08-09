@@ -11,7 +11,7 @@ public class BulletUI : MonoBehaviour
 
     private void Start()
     {
-        totalBullet.fillAmount = rangeAttack.MaxbulletCount / 5;
+        totalBullet.fillAmount = rangeAttack.bulletCount / 5;
 
         //CMDebug.ButtonUI(new Vector2(50, -100), "Add Health", () => totalHealthBar.fillAmount = (totalHealthBar.fillAmount * 5) / 3);
 

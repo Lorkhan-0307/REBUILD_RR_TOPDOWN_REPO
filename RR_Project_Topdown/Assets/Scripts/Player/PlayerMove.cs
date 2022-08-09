@@ -12,6 +12,7 @@ using CodeMonkey.Utils;
 public class PlayerMove : MonoBehaviour
 {
 
+
     Rigidbody2D rgbd2d;
     Animate animate;
     Vector3 movementVector;
@@ -26,17 +27,12 @@ public class PlayerMove : MonoBehaviour
     }
 
     #region Variables
-    [SerializeField] private float speed = 7f;
-    [SerializeField] private float movementSpeedWhileAttack = 4f;
-    [SerializeField] private float attackDamage = 1f;
-    [SerializeField] public float enableRangeAttackTime = 3f;
-    [SerializeField] public float enableSkillTime = 15f;
-    [SerializeField] public float skillBarMax = 150f;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] public GameObject rangeAttackObject;
     [SerializeField] public GameObject cm;
     [SerializeField] public GameObject skillActiveScreen;
     [SerializeField] public GameObject skillBar;
+    [SerializeField] private PlayerScriptableObject playerScriptableObject;
 
     private PlayerPlugIn playerPlugIn;
 
@@ -56,7 +52,7 @@ public class PlayerMove : MonoBehaviour
         playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
         state = State.Normal;
         DisableSkillActive();
-        skillBar.GetComponent<SkillBar>().SetMaxSkill(skillBarMax);
+        skillBar.GetComponent<SkillBar>().SetMaxSkill(playerScriptableObject.skillBarMax);
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
@@ -166,7 +162,7 @@ public class PlayerMove : MonoBehaviour
 
                 movementVector.x = Input.GetAxisRaw("Horizontal");
                 movementVector.y = Input.GetAxisRaw("Vertical");
-                movementVector *= speed;
+                movementVector *= playerScriptableObject.movementSpeed; 
 
 
                 animate.horizontal = movementVector.x;
@@ -176,7 +172,7 @@ public class PlayerMove : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     DisableRangeAttack();
-                    speed = movementSpeedWhileAttack;
+                    playerScriptableObject.movementSpeed = playerScriptableObject.movementSpeedWhileAttack;
                     UtilsClass.GetMouseWorldPosition();
                     Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
                     Vector3 attackDir = (mousePosition - transform.position).normalized;
@@ -213,7 +209,7 @@ public class PlayerMove : MonoBehaviour
                 if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
                 {
 
-                    rangeAttackTimer = enableRangeAttackTime;
+                    rangeAttackTimer = playerScriptableObject.enableRangeAttackTime;
                     rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
                     cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
                     UtilsClass.GetMouseWorldPosition();
@@ -285,7 +281,7 @@ public class PlayerMove : MonoBehaviour
 
     public void SpeedReturn()
     {
-        speed = 7f;
+        playerScriptableObject.movementSpeed = 7f;
     }
 
     public void ActivateHurtState()
@@ -349,7 +345,7 @@ public class PlayerMove : MonoBehaviour
 
     private void UpgradeAttackDamage(float multiplier)
     {
-        attackDamage *= multiplier;
+        playerScriptableObject.meleeAttackDamage *= multiplier;
     }
     //Gauntlet++ function
     //RangeAttack++ function

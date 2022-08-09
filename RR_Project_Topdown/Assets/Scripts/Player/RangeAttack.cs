@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class RangeAttack : MonoBehaviour
 {
-    [SerializeField] public float enableRangeAttackTime = 3f;
     [SerializeField] private Transform pfBullet;
     [SerializeField] private GameObject firePosition;
-    [SerializeField] public float MaxbulletCount = 3f;
-    [SerializeField] public float reloadBulletTime = 10f;
+
+    [SerializeField] PlayerScriptableObject playerScriptableObject;
 
     private float bulletCountTimer = 0f;
 
@@ -20,19 +19,20 @@ public class RangeAttack : MonoBehaviour
 
     private void Awake()
     {
-        timer = enableRangeAttackTime;
+        timer = playerScriptableObject.enableRangeAttackTime;
         pm = GetComponentInParent<PlayerMove>();
         parentTransform = GetComponentInParent<Transform>();
-        bulletCount = MaxbulletCount;
-
+        bulletCount = playerScriptableObject.maxBulletCount;
+        
     }
+    
 
     private void Update()
     {
-        if(bulletCount < MaxbulletCount)
+        if(bulletCount < playerScriptableObject.maxBulletCount)
         {
             bulletCountTimer += Time.deltaTime;
-            if(bulletCountTimer >= reloadBulletTime)
+            if(bulletCountTimer >= playerScriptableObject.reloadBulletTime)
             {
                 bulletCount += 1;
                 bulletCountTimer = 0f;
@@ -47,6 +47,7 @@ public class RangeAttack : MonoBehaviour
         difference.Normalize();
         float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+        
 
         /*
         if(rotationZ < -90 || rotationZ > 90)

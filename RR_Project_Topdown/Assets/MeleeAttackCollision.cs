@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class MeleeAttackCollision : MonoBehaviour
 {
-    private float meleeDamage;
-
-    private void Awake()
-    {
-        meleeDamage = GetComponentInParent<MCAttack>().meleeDamage;
-    }
+    [SerializeField] PlayerScriptableObject playerScriptableObject;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,7 +14,7 @@ public class MeleeAttackCollision : MonoBehaviour
             Enemy attackTarget = collision.GetComponent<Enemy>();
             if (attackTarget != null)
             {
-                attackTarget.OnDamage(meleeDamage);
+                attackTarget.OnDamage(playerScriptableObject.meleeAttackDamage);
                 
                 if (!attackTarget.isKnockback && !attackTarget.isStun)
                 {

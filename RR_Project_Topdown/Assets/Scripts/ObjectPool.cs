@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoSingleton<ObjectPool>
 {
+    [Header("Prefab Settings")]
     public GameObject prefab;
     public GameObject[] GameObjects;
 
@@ -20,15 +21,13 @@ public class ObjectPool : MonoSingleton<ObjectPool>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GetPoolObject();
-        }
+
     }
 
     // 오브젝트 풀을 미리생성한다.
-    public void CreatePool() 
+    public virtual void CreatePool() 
     {
+        
         if(!prefab.TryGetComponent(out PoolObject poolObject))
         {
             prefab.AddComponent<PoolObject>();
@@ -53,7 +52,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         listPoolObject[0].gameObject.SetActive(true);
         return listPoolObject[0].GetComponent<GameObject>();
     }*/
-    public void GetPoolObject()
+    public virtual void GetPoolObject()
     {
         if(listPoolObject.Count == 0)
         {
@@ -68,7 +67,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
     }
 
     // 풀에 사용이 끝난 오브젝트를 다시 집어 넣는다.
-    public void PushPoolObject(GameObject obj) 
+    public virtual void PushPoolObject(GameObject obj) 
     {
         listPoolObject.Add(obj.GetComponent<PoolObject>());
         obj.SetActive(false);
