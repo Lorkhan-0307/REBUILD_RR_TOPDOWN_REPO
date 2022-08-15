@@ -23,9 +23,9 @@ public class Boss_Walk : StateMachineBehaviour
         {
             LivingEntity livingEntity = collider2Ds[i].GetComponent<LivingEntity>();
 
-            if (livingEntity != null && !livingEntity.dead && animator.GetComponent<BigBoy>().canLaserAttack)
+            if (livingEntity != null && !livingEntity.dead && animator.GetComponent<BigBoy>().canRangeAttack)
             {
-                animator.SetBool("isLaserAttack", true);
+                animator.SetBool("isRangeAttack", true);
             }
         }
 

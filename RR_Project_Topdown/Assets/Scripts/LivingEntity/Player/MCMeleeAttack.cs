@@ -16,6 +16,7 @@ public class MCMeleeAttack : MonoBehaviour
     [SerializeField] private GameObject BackAttackCollider;
     [SerializeField] private GameObject SideLAttackCollider;
     [SerializeField] private GameObject SideRAttackCollider;
+    [SerializeField] private Animator skillFXanimator;
 
     [SerializeField] PlayerScriptableObject playerScriptableObject;
 
@@ -25,6 +26,7 @@ public class MCMeleeAttack : MonoBehaviour
 
 
     Animator animator;
+    
 
     public enum AttackType
     {
@@ -73,15 +75,31 @@ public class MCMeleeAttack : MonoBehaviour
         {
             case 8:
                 animator.SetTrigger("Back");
+                if (skillFXanimator.isActiveAndEnabled)
+                {
+                    skillFXanimator.SetTrigger("Back");
+                }
                 break;
             case 4:
                 animator.SetTrigger("SideL");
+                if (skillFXanimator.isActiveAndEnabled)
+                {
+                    skillFXanimator.SetTrigger("SideL");
+                }
                 break;
             case 6:
                 animator.SetTrigger("SideR");
+                if (skillFXanimator.isActiveAndEnabled)
+                {
+                    skillFXanimator.SetTrigger("SideR");
+                }
                 break;
             case 2:
                 animator.SetTrigger("Front");
+                if (skillFXanimator.isActiveAndEnabled)
+                {
+                    skillFXanimator.SetTrigger("Front");
+                }
                 break;
 
 

@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] public GameObject cm;
     [SerializeField] public GameObject skillActiveScreen;
     [SerializeField] public GameObject skillBar;
+    [SerializeField] public GameObject skillFX;
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
 
     private PlayerPlugIn playerPlugIn;
@@ -239,11 +240,13 @@ public class PlayerMove : MonoBehaviour
                     {
                         animate.SkillActive();
                         state = State.SkillActive;
+                        skillFX.SetActive(true);
                     }
                     if(skillActivated == true)
                     {
                         animate.SkillDisactive();
                         state = State.SkillDisactive;
+                        skillFX.SetActive(false);
                     }
                 }
 
@@ -277,6 +280,7 @@ public class PlayerMove : MonoBehaviour
     {
         skillActiveScreen.SetActive(false);
         skillActivated = false;
+        skillFX.SetActive(false);
     }
 
     public void SpeedReturn()

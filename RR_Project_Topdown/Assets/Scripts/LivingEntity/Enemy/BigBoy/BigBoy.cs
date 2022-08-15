@@ -15,7 +15,8 @@ public class BigBoy : LivingEntity
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject LaserEffect;
     [SerializeField] private GameObject LaserArm;
-    [SerializeField] private float bossSpeed=5f;
+    [SerializeField] private float bossSpeed = 5f;
+    [SerializeField] private int maxAmmo = 5;
 
     private float laserAttackDuration = 5f;
     private float laserAttackTime = 5f;
@@ -23,7 +24,10 @@ public class BigBoy : LivingEntity
     private float lastAttackTime;
     private float timeBtwShots;
     private float enemySpeed;
+    private int currentAmmo;
     public bool canLaserAttack;
+    public bool canRangeAttack;
+
 
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -61,6 +65,8 @@ public class BigBoy : LivingEntity
         pathFinder.speed = bossSpeed;
         LaserArm.SetActive(false);
         canLaserAttack=true;
+        canRangeAttack = true;
+        currentAmmo = maxAmmo;
     }
 
     // Start is called before the first frame update
@@ -76,10 +82,14 @@ public class BigBoy : LivingEntity
     void Update()
     {
         SetDirection();
-        //Debug.Log(canLaserAttack);
+        //Debug.Log(ammo);
         if (!canLaserAttack)
         {
             CheckLaserAttack();
+        }
+        if (!canRangeAttack)
+        {
+            CheckRangeAttack();
         }
     }
 
@@ -144,7 +154,7 @@ public class BigBoy : LivingEntity
     {
         if (hasTarget && canLaserAttack)
         {
-            StartCoroutine(bossStayOnPosition());
+            //StartCoroutine(bossStayOnPosition());
             //play bigboy shoot animation
             //play bigboy shoot sound
             LaserArm.SetActive(true);
@@ -189,11 +199,53 @@ public class BigBoy : LivingEntity
         }
     }
 
-    private IEnumerator bossStayOnPosition()
+    public void RangeAttack()
+    {
+        /*if (timeBtwShots <= 0)
+        {
+            Debug.Log("range attack");
+            Instantiate(projectile, transform.position, Quaternion.identity);
+            timeBtwShots = startTimeBtwShots;
+            ammo--;
+        }
+        else
+        {
+            timeBtwShots -= Time.deltaTime;
+        }*/
+
+        if (currentAmmo > 0)
+        {
+            //StartCoroutine(bossStayOnPosition());
+            Instantiate(projectile, transform.position, Quaternion.identity);
+            currentAmmo--;
+        }
+        else
+        {
+            canRangeAttack = false;
+            animator.SetBool("isLaserAttack", true);
+            animator.SetBool("isRangeAttack", false);
+        }
+
+    }
+
+    private void CheckRangeAttack()
+    {
+        laserAttackCoolTime -= Time.deltaTime;
+        if (laserAttackCoolTime <= 0)
+        {
+            canRangeAttack = true;
+            currentAmmo = maxAmmo;
+            laserAttackCoolTime = 10f;
+        }
+
+    }
+
+    private IEnumerator bossStayOnPosition(float x)
     {
         pathFinder.speed = 0;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(x);
         pathFinder.speed = bossSpeed;
+        
     }
 
     public void SetArmPosition()

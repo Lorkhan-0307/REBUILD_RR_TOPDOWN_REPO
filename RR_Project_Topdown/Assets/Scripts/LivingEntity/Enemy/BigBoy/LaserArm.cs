@@ -38,6 +38,6 @@ public class LaserArm : MonoBehaviour
         armDirection = direction.normalized;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         rotation.eulerAngles = new Vector3(0, 0, angle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 2 * Time.deltaTime);
     }
 }

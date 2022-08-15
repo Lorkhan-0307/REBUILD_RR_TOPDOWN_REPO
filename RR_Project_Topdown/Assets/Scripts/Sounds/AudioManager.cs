@@ -53,14 +53,6 @@ public class AudioManager : MonoSingleton<AudioManager>
         return s;
     }
 
-    /*private void ThemeStart()
-    {
-        Play("Pre-MainTheme");
-        Sound preTheme = GetSound("Pre-MainTheme");
-
-
-    }*/
-
     private IEnumerator ThemeStart()
     {
         Play("Pre-MainTheme");
