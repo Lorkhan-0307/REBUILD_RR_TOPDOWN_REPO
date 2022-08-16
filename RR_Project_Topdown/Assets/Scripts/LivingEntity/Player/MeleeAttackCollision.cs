@@ -6,6 +6,7 @@ public class MeleeAttackCollision : MonoBehaviour
 {
     [SerializeField] PlayerScriptableObject playerScriptableObject;
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
        

@@ -57,8 +57,6 @@ public class EnemySpawnPoolController : MonoBehaviour
             enemy.SetUp(meleeAttackEnemyHealth, speed);
         }
 
-        
-
         spawnedEnemy++;
 
         //enemy.OnDeath += () => enemySpawnPool.PushPoolObject(enemy.gameObject);

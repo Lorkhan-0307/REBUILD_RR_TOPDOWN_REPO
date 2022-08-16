@@ -13,4 +13,5 @@ public class PlayerScriptableObject : ScriptableObject
     public float skillBarMax = 150f;
     public float maxBulletCount = 3f;
     public float reloadBulletTime = 10f;
+    public AudioClip meleeAttackAudio;
 }

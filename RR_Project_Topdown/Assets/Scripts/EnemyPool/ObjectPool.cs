@@ -16,10 +16,6 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         CreatePool();
     }
 
-    private void Update()
-    {
-    }
-
     // 오브젝트 풀을 미리생성한다.
     public virtual void CreatePool() 
     {
@@ -46,7 +42,6 @@ public class ObjectPool : MonoSingleton<ObjectPool>
     }*/
     public virtual PoolObject GetPoolObject()
     {
-
         if(listPoolObject.Count == 0)
         {
             CreatePoolObject();

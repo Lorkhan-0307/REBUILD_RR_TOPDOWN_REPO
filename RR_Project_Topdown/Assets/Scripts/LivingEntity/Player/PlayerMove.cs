@@ -172,6 +172,7 @@ public class PlayerMove : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
+                    FindObjectOfType<AudioManager>().Play("MeleeAttack");
                     DisableRangeAttack();
                     playerScriptableObject.movementSpeed = playerScriptableObject.movementSpeedWhileAttack;
                     UtilsClass.GetMouseWorldPosition();

@@ -149,7 +149,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 1
-  enemyRange: 20
+  enemyRange: 100
   searchCoolTime: 0.25
   attackCoolTime: 0.5
   startTimeBtwShots: 2

@@ -63,6 +63,7 @@ public class BigBoy : LivingEntity
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         pathFinder.speed = bossSpeed;
+        pathFinder.stoppingDistance = 4f;
         LaserArm.SetActive(false);
         canLaserAttack=true;
         canRangeAttack = true;
@@ -83,14 +84,14 @@ public class BigBoy : LivingEntity
     {
         SetDirection();
         //Debug.Log(ammo);
-        if (!canLaserAttack)
+        /*if (!canLaserAttack)
         {
             CheckLaserAttack();
         }
         if (!canRangeAttack)
         {
             CheckRangeAttack();
-        }
+        }*/
     }
 
 
@@ -222,10 +223,43 @@ public class BigBoy : LivingEntity
         else
         {
             canRangeAttack = false;
-            animator.SetBool("isLaserAttack", true);
+            animator.SetBool("isRushing", true);
             animator.SetBool("isRangeAttack", false);
         }
 
+    }
+
+    public IEnumerator RushAttack()
+    {
+        pathFinder.isStopped = true;
+        SetDirection();
+        yield return new WaitForSeconds(0.5f);
+
+        pathFinder.stoppingDistance = 0f;
+        pathFinder.SetDestination(targetEntity.transform.position);
+
+        pathFinder.isStopped = false;
+        pathFinder.speed = 300f;
+        yield return new WaitForSeconds(5f); //다시 살펴봐야함
+
+        animator.SetBool("isLaserAttack", true);
+        animator.SetBool("isRushing", false);
+        canLaserAttack = true;
+        pathFinder.speed = bossSpeed;
+        pathFinder.stoppingDistance = 4f;
+        yield return null;
+
+    }
+
+    private void RangeAttackTrigger()
+    {
+        currentAmmo = maxAmmo;
+        canRangeAttack = true;
+    }
+
+    private void LaserAttackTrigger()
+    {
+        canLaserAttack = true;
     }
 
     private void CheckRangeAttack()
