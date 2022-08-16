@@ -7,10 +7,9 @@ public class ObjectPool : MonoSingleton<ObjectPool>
 {
     [Header("Prefab Settings")]
     public GameObject prefab;
-    
     public List<PoolObject> listPoolObject;
 
-    [SerializeField] private int iEnemyCount = 5;
+    [SerializeField] private int iCount = 5;
 
     private void Awake()
     {
@@ -19,10 +18,6 @@ public class ObjectPool : MonoSingleton<ObjectPool>
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            GetPoolObject();
-        }
     }
 
     // 오브젝트 풀을 미리생성한다.
@@ -34,7 +29,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
             prefab.AddComponent<PoolObject>();
         }
         
-        for (int i=0; i<iEnemyCount; i++)
+        for (int i=0; i<iCount; i++)
         {
             
             CreatePoolObject();
@@ -49,7 +44,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         listPoolObject[0].gameObject.SetActive(true);
         return listPoolObject[0].GetComponent<GameObject>();
     }*/
-    public virtual void GetPoolObject()
+    public virtual PoolObject GetPoolObject()
     {
 
         if(listPoolObject.Count == 0)
@@ -58,7 +53,10 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         }
 
         listPoolObject[0].gameObject.SetActive(true);
+        PoolObject targetPoolObject = listPoolObject[0];
         listPoolObject.Remove(listPoolObject[0]);
+        return targetPoolObject;
+
     }
 
     // 풀에 사용이 끝난 오브젝트를 다시 집어 넣는다.
@@ -66,7 +64,7 @@ public class ObjectPool : MonoSingleton<ObjectPool>
     {
         listPoolObject.Add(obj.GetComponent<PoolObject>());
         obj.transform.SetParent(this.transform);
-        obj.SetActive(false);
+        //obj.SetActive(false);
     }
 
     public PoolObject CreatePoolObject()
@@ -79,8 +77,6 @@ public class ObjectPool : MonoSingleton<ObjectPool>
         newPoolObject.transform.SetParent(this.transform);
         return newPoolObject;
     }
-
-
 }
 
 

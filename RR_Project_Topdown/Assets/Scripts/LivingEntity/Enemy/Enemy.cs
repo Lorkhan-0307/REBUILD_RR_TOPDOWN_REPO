@@ -12,7 +12,7 @@ public class Enemy : LivingEntity
     [SerializeField] private float searchCoolTime = 0.25f;
     [SerializeField] private float attackCoolTime = 0.5f;
     [SerializeField] private float startTimeBtwShots = 2f;
-    [SerializeField] private float enemyHealth = 10f;
+    //[SerializeField] private float enemyHealth = 10f;
     [SerializeField] private GameObject projectile;
 
     [SerializeField] private EnemyScriptableObject enemyScriptableObject;
@@ -27,6 +27,7 @@ public class Enemy : LivingEntity
     private LivingEntity targetEntity;
     private NavMeshAgent pathFinder;
     private Rigidbody2D rgbd;
+
 
     
     [HideInInspector]
@@ -59,7 +60,7 @@ public class Enemy : LivingEntity
         pathFinder = GetComponent<NavMeshAgent>();
         pathFinder.updateRotation = false;
         pathFinder.updateUpAxis = false;
-        currentHealth = enemyHealth;
+        //currentHealth = enemyHealth;
         animator = GetComponent<Animator>();
         enemySpeed = pathFinder.speed;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -187,11 +188,16 @@ public class Enemy : LivingEntity
         {
             isStun = true;
             GameObject iceLock = Instantiate(enemyScriptableObject.IceLock, transform.position, Quaternion.identity);
+            iceLock.transform.parent = this.transform;
             pathFinder.speed = 0;
             yield return new WaitForSeconds(time);
             pathFinder.speed = enemySpeed;
             isStun = false;
-            Destroy(iceLock);
+            if(iceLock)
+            {
+                Destroy(iceLock);
+            }
+            
         }
         
     }
@@ -255,7 +261,14 @@ public class Enemy : LivingEntity
 
     public override void Die()
     {
-        base.Die();
+        
+        if(isStun)
+        {
+            for (var i = this.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(this.transform.GetChild(i).gameObject);
+            }
+        }
 
         Collider2D[] enemyColliders = GetComponents<Collider2D>();
 
@@ -268,6 +281,7 @@ public class Enemy : LivingEntity
         pathFinder.enabled = false;
 
         animator.SetTrigger("Death");
+        base.Die();
         //dead audio
     }
 

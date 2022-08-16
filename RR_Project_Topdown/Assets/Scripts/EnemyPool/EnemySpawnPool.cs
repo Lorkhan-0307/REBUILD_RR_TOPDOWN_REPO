@@ -10,13 +10,23 @@ public class EnemySpawnPool : ObjectPool
         base.CreatePool();
     }
 
-    public override void GetPoolObject()
+    public override PoolObject GetPoolObject()
     {
-        base.GetPoolObject();
+        return base.GetPoolObject();
     }
 
     public override void PushPoolObject(GameObject obj)
     {
         base.PushPoolObject(obj);
+        //obj.GetComponent<SpriteRenderer>().enabled = false;
+        obj.GetComponent<Enemy>().enabled = false;
+        obj.SetActive(false);
+    }
+
+    public PoolObject GetEnemyPoolObject(Transform targetTransform)
+    {
+        PoolObject newPoolObject = GetPoolObject();
+        newPoolObject.gameObject.transform.position = targetTransform.position;
+        return newPoolObject;
     }
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5317096383102137420}
   - component: {fileID: 6599876377229651097}
   - component: {fileID: 7739218094687683502}
+  - component: {fileID: 7578863352641978877}
   m_Layer: 7
   m_Name: M
   m_TagString: Enemy
@@ -76,8 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 37481657
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7196274902888685757, guid: 935f20aed9ca48b41b75732f13f72f08,
-    type: 3}
+  m_Sprite: {fileID: -7196274902888685757, guid: 935f20aed9ca48b41b75732f13f72f08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,11 +127,10 @@ MonoBehaviour:
   searchCoolTime: 0.25
   attackCoolTime: 0.5
   startTimeBtwShots: 2
-  enemyHealth: 10
   projectile: {fileID: 0}
-  enemyScriptableObject: {fileID: 11400000, guid: 739d4288364e9cd4e996616eafab7100,
-    type: 2}
+  enemyScriptableObject: {fileID: 11400000, guid: 739d4288364e9cd4e996616eafab7100, type: 2}
   isKnockback: 0
+  isStun: 0
   iFramesDuration: 0.5
   numberOfFlashes: 2
 --- !u!61 &5317096383102137420
@@ -203,3 +202,17 @@ NavMeshAgent:
   m_BaseOffset: 2.71875
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7578863352641978877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794687552423408716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4066000ba440a1d4da48e09d05bdd467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolObject: {fileID: 0}
+  pool: {fileID: 0}
