@@ -16,9 +16,13 @@ public class EnemySpawnPoolController : MonoBehaviour
     [SerializeField] private float speedMax = 3f;
     [SerializeField] private float speedMin = 1f;
 
+
+    [SerializeField] public GameObject boss;
+
     private int spawnedEnemy = 0;
     private float intensity;
     private IEnumerator coroutine;
+    private int killCount = 0;
 
     void Start()
     {
@@ -59,9 +63,18 @@ public class EnemySpawnPoolController : MonoBehaviour
 
         spawnedEnemy++;
 
-        //enemy.OnDeath += () => enemySpawnPool.PushPoolObject(enemy.gameObject);
+
+        //TESTCODE
+        enemy.OnDeath += () => spawnCount++;
+        if(killCount == 30)
+        {
+            boss.SetActive(true);
+        }
+
+
 
         coroutine = spawnEnemy();
+
         StartCoroutine(coroutine);
     }
     private void StopMethod()

@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 7
   movementSpeedWhileAttack: 4
-  meleeAttackDamage: 5
+  meleeAttackDamage: 10
   skillActiveMeleeAttackDamage: 8
   enableRangeAttackTime: 3
   skillBarMax: 150
   maxBulletCount: 3
   reloadBulletTime: 10
   meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
+  burnTicks: 4
+  burnDamage: 7

@@ -14,21 +14,27 @@ public class PlayerPlugIn
     public enum PlugInType
     {
         None,
-        Gauntlet_Damage_1, //Increase Gauntlet Damage
-        Gauntlet_Damage_2, //Decrease Attack Speed, Gauntlet Damage * 2
-        Gauntlet_Damage_3, //
-        Gauntlet_Damage_4, //
-        Gauntlet_Range_1,
-        Gauntlet_Range_2,
-        Gauntlet_Range_3,
-        Gauntlet_Range_4,
-        Gauntlet_Speed_1,
-        Gauntlet_Speed_2,
-        Gauntlet_Speed_3,
-        Gauntlet_Speed_4,
-        Health_BarrierMax_1,
-        Health_BarrierMax_2,
-        SummonAttack,
+        GauntletAttack_1, // 단순 데미지 증가 15%
+        GauntletAttack_2, // 데미지 30% 증가, 공격속도 10% 감소
+        GauntletAttack_3, // 공격속도 15% 증가, 데미지 25% 감소
+        GauntletAttack_4, // 공격력 50% 증가, 범위증가 OR 공격속도 10% 증가[고민중]
+        Utility_1, // 체력 강화
+        Utility_2, // 실드 생성
+        Utility_3, // 이동속도 증가
+        Utility_4, // 체력 강화 및 피해시 화면 전체의 적에게 적은 데미지
+
+        /*소환수의 경우 
+         * 1. 소환수 생성
+         * 2. 소환수 Melee 공격 강화
+         * 3. 소환수 Debuff 강화
+         * 4. 소환수 Damage&속성공격 플레이어 강화 상태에 맞춰서 강화
+         */
+        //SummonAttack 4까지 생성
+        SummonAttack_1,
+        SummonAttack_2,
+        SummonAttack_3,
+        SummonAttack_4,
+
         FireAttack_1,
         FireAttack_2,
         FireAttack_3,
@@ -37,10 +43,12 @@ public class PlayerPlugIn
         IceAttack_2,
         IceAttack_3,
         IceAttack_4,
-        ElectricAttack_1,
-        ElectricAttack_2,
-        ElectricAttack_3,
-        ElectricAttack_4,
+
+        //전기 공격을 부식으로 교체한 관계로 부식[Corrosion]으로 명칭 변경
+        CorrosionAttack_1,
+        CorrosionAttack_2,
+        CorrosionAttack_3,
+        CorrosionAttack_4,
     }
 
     private List<PlugInType> unlockedPlugInTypeList;
@@ -68,20 +76,12 @@ public class PlayerPlugIn
     {
         switch (plugInType)
         {
-            case PlugInType.Gauntlet_Damage_2: return PlugInType.Gauntlet_Damage_1;
-            case PlugInType.Gauntlet_Damage_3: return PlugInType.Gauntlet_Damage_1;
-            case PlugInType.Gauntlet_Damage_4:
-                return IsPlugInUnlocked(PlugInType.Gauntlet_Damage_2) ? PlugInType.Gauntlet_Damage_2 : PlugInType.Gauntlet_Damage_3;
-            case PlugInType.Gauntlet_Range_2: return PlugInType.Gauntlet_Range_1;
-            case PlugInType.Gauntlet_Range_3: return PlugInType.Gauntlet_Range_1;
-            case PlugInType.Gauntlet_Range_4:
-                return IsPlugInUnlocked(PlugInType.Gauntlet_Range_2) ? PlugInType.Gauntlet_Range_2 : PlugInType.Gauntlet_Range_3;
-            case PlugInType.Gauntlet_Speed_2: return PlugInType.Gauntlet_Speed_1;
-            case PlugInType.Gauntlet_Speed_3: return PlugInType.Gauntlet_Speed_1;
-            case PlugInType.Gauntlet_Speed_4:
-                return IsPlugInUnlocked(PlugInType.Gauntlet_Speed_2) ? PlugInType.Gauntlet_Speed_2 : PlugInType.Gauntlet_Speed_3;
+            case PlugInType.GauntletAttack_2: return PlugInType.GauntletAttack_1;
+            case PlugInType.GauntletAttack_3: return PlugInType.GauntletAttack_1;
+            case PlugInType.GauntletAttack_4:
+                return IsPlugInUnlocked(PlugInType.GauntletAttack_2) ? PlugInType.GauntletAttack_2 : PlugInType.GauntletAttack_3;
 
-            case PlugInType.Health_BarrierMax_2: return PlugInType.Health_BarrierMax_1;
+            case PlugInType.Utility_2: return PlugInType.Utility_1;
         }
         return PlugInType.None;
     }

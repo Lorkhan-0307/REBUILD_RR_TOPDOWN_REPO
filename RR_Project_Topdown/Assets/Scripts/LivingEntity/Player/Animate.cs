@@ -30,6 +30,7 @@ public class Animate : MonoBehaviour
     {
         fx.SetActive(true);
         animator.SetFloat("AttackSpeed", attackSpeed);
+        fx.GetComponent<Animator>().SetFloat("AttackSpeed", attackSpeed);
 
         switch (dir)
         {

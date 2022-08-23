@@ -14,25 +14,33 @@ public class UI_PlugInTree : MonoBehaviour
     {
         this.playerPlugIn = playerPlugIn;
 
+
+        //버튼 추가함(Utility 3,4, SummonAttack2,3,4, ice,fire,corrosion 2,3,4)
         plugInButtonList = new List<PlugInButton>();
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Damage1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Damage_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Damage2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Damage_2));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Damage3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Damage_3));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Damage4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Damage_4));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Range1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Range_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Range2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Range_2));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Range3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Range_3));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Range4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Range_4));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Speed1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Speed_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Speed2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Speed_2));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Speed3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Speed_3));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Gauntlet_Speed4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Gauntlet_Speed_4));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Health_BarrierMax1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Health_BarrierMax_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("Health_BarrierMax2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Health_BarrierMax_2));
-        plugInButtonList.Add(new PlugInButton(transform.Find("SummonAttackBtn"), playerPlugIn, PlayerPlugIn.PlugInType.SummonAttack));
-        plugInButtonList.Add(new PlugInButton(transform.Find("FireAttackBtn"), playerPlugIn, PlayerPlugIn.PlugInType.FireAttack_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("IceAttackBtn"), playerPlugIn, PlayerPlugIn.PlugInType.IceAttack_1));
-        plugInButtonList.Add(new PlugInButton(transform.Find("ElectricAttackBtn"), playerPlugIn, PlayerPlugIn.PlugInType.ElectricAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("GauntletAttack_1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.GauntletAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("GauntletAttack_2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.GauntletAttack_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("GauntletAttack_3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.GauntletAttack_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("GauntletAttack_4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.GauntletAttack_4));
+        plugInButtonList.Add(new PlugInButton(transform.Find("Utility_1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Utility_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("Utility_2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Utility_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("Utility_3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Utility_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("Utility_4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.Utility_4));
+        plugInButtonList.Add(new PlugInButton(transform.Find("SummonAttack1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.SummonAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("SummonAttack2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.SummonAttack_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("SummonAttack3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.SummonAttack_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("SummonAttack4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.SummonAttack_4));
+        plugInButtonList.Add(new PlugInButton(transform.Find("FireAttack1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.FireAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("FireAttack2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.FireAttack_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("FireAttack3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.FireAttack_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("FireAttack4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.FireAttack_4));
+        plugInButtonList.Add(new PlugInButton(transform.Find("IceAttack1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.IceAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("IceAttack2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.IceAttack_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("IceAttack3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.IceAttack_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("IceAttack4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.IceAttack_4));
+        plugInButtonList.Add(new PlugInButton(transform.Find("CorrosionAttack1Btn"), playerPlugIn, PlayerPlugIn.PlugInType.CorrosionAttack_1));
+        plugInButtonList.Add(new PlugInButton(transform.Find("CorrosionAttack2Btn"), playerPlugIn, PlayerPlugIn.PlugInType.CorrosionAttack_2));
+        plugInButtonList.Add(new PlugInButton(transform.Find("CorrosionAttack3Btn"), playerPlugIn, PlayerPlugIn.PlugInType.CorrosionAttack_3));
+        plugInButtonList.Add(new PlugInButton(transform.Find("CorrosionAttack4Btn"), playerPlugIn, PlayerPlugIn.PlugInType.CorrosionAttack_4));
 
 
     }

@@ -7,11 +7,16 @@ public class Boss_Walk : StateMachineBehaviour
     [SerializeField] private LayerMask whatIsTarget;
     [SerializeField] private float shootRange;
     private Transform bigBoy;
+    private BigBoy bigBoy2;
+    private IEnumerator updatePath;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         bigBoy = animator.GetComponent<Transform>();
+        bigBoy2 = animator.GetComponent<BigBoy>();
+        updatePath = bigBoy2.UpdatePath();
+        bigBoy2.StartCoroutine(updatePath);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -34,7 +39,7 @@ public class Boss_Walk : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        bigBoy2.StopCoroutine(updatePath);
     }
 
 }

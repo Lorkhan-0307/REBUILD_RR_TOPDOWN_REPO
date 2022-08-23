@@ -28,6 +28,8 @@ public class Enemy : LivingEntity
     private NavMeshAgent pathFinder;
     private Rigidbody2D rgbd;
 
+    //도트뎀 사용을 위한 변수들 모음
+    public List<int> dotTickTimers = new List<int>();
 
     
     [HideInInspector]
@@ -233,8 +235,90 @@ public class Enemy : LivingEntity
         }
     }
 
-
+    //도트뎀 기능
+    private IEnumerator DOTApply(float tickDamage, int type)
+    {
+        while(dotTickTimers.Count > 0)
+        {
+            for(int i=0; i< dotTickTimers.Count; i++)
+            {
+                dotTickTimers[i]--;
+                
+                if(type == 2)
+                {
+                    OnDamage(tickDamage);
+                }
+            }
+            if (type == 0)
+            {
+                OnDamage(tickDamage);
+            }
+            dotTickTimers.RemoveAll(i=>i==0);
+            yield return new WaitForSeconds(0.75f);
+        }
+    }
     
+    public void ApplyBurn(int ticks, float tickDamage)
+    {
+        if(dotTickTimers.Count<=11)
+        {
+            if (dotTickTimers.Count <= 0)
+            {
+                dotTickTimers.Add(ticks);
+                //Burn의 경우 type 는 0이다.
+                StartCoroutine(DOTApply(tickDamage, 0));
+                if (dotTickTimers.Count >= 5)
+                {
+                    //Explosion
+                }
+            }
+            else
+            {
+                dotTickTimers.Add(ticks);
+            }
+        }
+        
+        
+    }
+
+    public void ApplyIce()
+    {
+
+         if (dotTickTimers.Count <= 0)
+         {
+             dotTickTimers.Add(10);
+            //ice의 경우 type 는 1이다.
+            StartCoroutine(DOTApply(0, 1));
+             if (dotTickTimers.Count >= 5)
+             {
+                //Freeze
+                dotTickTimers.Clear();
+            }
+         }
+         else
+         {
+             dotTickTimers.Add(10);
+         }
+
+    }
+
+    public void ApplyCorrosion(int ticks, float tickDamage)
+    {
+        if (dotTickTimers.Count <= 11)
+        {
+            if (dotTickTimers.Count <= 0)
+            {
+                dotTickTimers.Add(ticks);
+                //corrosion의 경우 type 는 2이다.
+                StartCoroutine(DOTApply(tickDamage, 2));
+            }
+            else
+            {
+                dotTickTimers.Add(ticks);
+            }
+        }
+    }
+
 
     public override void OnDamage(float damage)
     {
@@ -247,6 +331,7 @@ public class Enemy : LivingEntity
         }
 
         base.OnDamage(damage);
+        //Debug.Log("Enemy Health : " + currentHealth);
     }
 
     public void EnemyStun(float time)

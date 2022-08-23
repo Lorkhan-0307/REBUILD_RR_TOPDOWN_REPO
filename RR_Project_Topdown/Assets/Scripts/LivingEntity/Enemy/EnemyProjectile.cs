@@ -31,5 +31,12 @@ public class EnemyProjectile : MonoBehaviour
             attackTarget.OnDamage(1);
             Destroy(gameObject);
         }
+
+        if (collision.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
     }
+
+
 }
