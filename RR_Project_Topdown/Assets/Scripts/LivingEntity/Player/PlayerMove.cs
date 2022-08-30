@@ -78,7 +78,7 @@ public class PlayerMove : MonoBehaviour
         //초기 속성은 물리로 설정
         currentElement = Element.Physical;
 
-        //EnableElementAttack(Element.Fire);
+        EnableElementAttack(Element.Fire);
 
 
     }
@@ -138,8 +138,6 @@ public class PlayerMove : MonoBehaviour
             case PlayerPlugIn.PlugInType.FireAttack_4:
 
                 break;
-
-
 
             /*
              * 냉기
@@ -405,8 +403,6 @@ public class PlayerMove : MonoBehaviour
         rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(mousePosition);
         //CMDebug.TextPopupMouse("Range" + attackDir);
     }
-
-
 
     private void DisableRangeAttack()
     {

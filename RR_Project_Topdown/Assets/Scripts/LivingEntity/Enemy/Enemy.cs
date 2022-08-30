@@ -252,10 +252,23 @@ public class Enemy : LivingEntity
             if (type == 0)
             {
                 OnDamage(tickDamage);
+                
             }
             dotTickTimers.RemoveAll(i=>i==0);
             yield return new WaitForSeconds(0.75f);
         }
+        if(dotTickTimers.Count <= 0)
+        {
+            for (var i = this.transform.childCount - 1; i >= 0; i--)
+            {
+                if(this.transform.GetChild(i).gameObject.TryGetComponent(out Animator childAnimator))
+                {
+                    childAnimator.SetTrigger("TickEnd");
+                }
+                Destroy(this.transform.GetChild(i).gameObject, 0.75f);
+            }
+        }
+
     }
     
     public void ApplyBurn(int ticks, float tickDamage)
@@ -265,6 +278,8 @@ public class Enemy : LivingEntity
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
+                GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
+                fireBurst.transform.SetParent(this.transform);
                 //Burn의 경우 type 는 0이다.
                 StartCoroutine(DOTApply(tickDamage, 0));
                 if (dotTickTimers.Count >= 5)
@@ -331,7 +346,7 @@ public class Enemy : LivingEntity
         }
 
         base.OnDamage(damage);
-        //Debug.Log("Enemy Health : " + currentHealth);
+        Debug.Log("Enemy Health : " + currentHealth);
     }
 
     public void EnemyStun(float time)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerPlugIn
 {
@@ -49,13 +50,20 @@ public class PlayerPlugIn
         CorrosionAttack_2,
         CorrosionAttack_3,
         CorrosionAttack_4,
+        ElectricAttack_1,
+        ElectricAttack_2,
+        ElectricAttack_3,
+        ElectricAttack_4,
+
     }
 
     private List<PlugInType> unlockedPlugInTypeList;
+    //private int plugInNum = 29;
 
     public PlayerPlugIn()
     {
         unlockedPlugInTypeList = new List<PlugInType>();
+
     }
     
     private void UnlockPlugIn(PlugInType plugInType)
@@ -64,6 +72,7 @@ public class PlayerPlugIn
         {
             unlockedPlugInTypeList.Add(plugInType);
             OnPlugInUnlocked?.Invoke(this, new OnPlugInUnlockedEventArgs { plugInType = plugInType });
+            
         }
     }
 
@@ -71,6 +80,7 @@ public class PlayerPlugIn
     {
         return unlockedPlugInTypeList.Contains(plugInType);
     }
+
 
     public PlugInType GetPlugInRequirement(PlugInType plugInType)
     {
@@ -82,6 +92,9 @@ public class PlayerPlugIn
                 return IsPlugInUnlocked(PlugInType.GauntletAttack_2) ? PlugInType.GauntletAttack_2 : PlugInType.GauntletAttack_3;
 
             case PlugInType.Utility_2: return PlugInType.Utility_1;
+            case PlugInType.Utility_3: return PlugInType.Utility_2;
+            case PlugInType.Utility_4: return PlugInType.Utility_3;
+
         }
         return PlugInType.None;
     }

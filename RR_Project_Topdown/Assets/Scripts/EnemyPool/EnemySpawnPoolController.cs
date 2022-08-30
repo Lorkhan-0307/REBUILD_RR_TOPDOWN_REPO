@@ -33,6 +33,7 @@ public class EnemySpawnPoolController : MonoBehaviour
     private void Update()
     {
         //Debug.Log(spawnedEnemy);
+        //Debug.Log(killCount);
 
         if (spawnedEnemy == spawnCount)
         {
@@ -65,8 +66,8 @@ public class EnemySpawnPoolController : MonoBehaviour
 
 
         //TESTCODE
-        enemy.OnDeath += () => spawnCount++;
-        if(killCount == 30)
+        enemy.OnDeath += () => killCount++;
+        if(killCount == 1)
         {
             boss.SetActive(true);
         }

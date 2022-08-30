@@ -9,7 +9,7 @@ public class BulletExplosion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy attackTarget = collision.GetComponent<Enemy>();
             if (attackTarget != null)
