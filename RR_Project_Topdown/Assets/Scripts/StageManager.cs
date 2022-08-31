@@ -212,9 +212,15 @@ public class StageManager : MonoSingleton<StageManager>
                 break;
             //index 5
             /*소환수의 경우 
+             * 
+             * 원거리 공격 방식으로 고정
+             * 플레이어 중심으로 동심원을 그리며 회전
+             * 가장 가까운 적에게 스킬 시전 
+             * 스킬 시전 위치 마치 제라스 W
+             * 
              * 1. 소환수 생성
-             * 2. 소환수 Melee 공격 강화
-             * 3. 소환수 Debuff 강화
+             * 2. 소환수 Melee 공격 강화 혹은 Player Buff
+             * 3. 소환수 Debuff 강화 
              * 4. 소환수 Damage&속성공격 플레이어 강화 상태에 맞춰서 강화
              */
             case PlugInType.SummonAttack_1:

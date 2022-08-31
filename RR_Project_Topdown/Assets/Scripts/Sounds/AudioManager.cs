@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 //How To Use : 
-//FindObjectOfType<AudioManager>().Play("AudioName");
+//FindObjectOfType<AudioManager>().Play("AudioName"); 
 
 public class AudioManager : MonoSingleton<AudioManager>
 {
@@ -59,7 +59,5 @@ public class AudioManager : MonoSingleton<AudioManager>
         Sound preTheme = GetSound("Pre-MainTheme");
         yield return new WaitForSeconds(preTheme.clip.length-1.2f);
         Play("MainTheme");
-
     }
-
 }
