@@ -477,7 +477,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     //Gauntlet++ function
-    private void UpgradeAttackSpeed(float multiplier)
+    public void UpgradeAttackSpeed(float multiplier)
     {
         //주로 1.1 or 1.2를 사용하자. 1.2 기준 세번 이상 업그레이드시 이상해짐.
         animate.attackSpeed *= multiplier;
@@ -489,11 +489,11 @@ public class PlayerMove : MonoBehaviour
     //현재 M 의 체력은 5로 설정되어 있음
     //초기 공격 기준 대략 3~4대의 피격시 사망으로 설정할 예정
     //OB의 MeleeAttack 을 10으로, M의 체력을 35로 설정
-    private void UpgradeAttackDamage(float multiplier)
+    public void UpgradeAttackDamage(float multiplier)
     {
         playerScriptableObject.meleeAttackDamage *= multiplier;
     }
-    
+
     //RangeAttack++ function
     //Health&Barrier++ function
     //SummonAttack++ function
@@ -501,13 +501,13 @@ public class PlayerMove : MonoBehaviour
 
 
     //MovementSpeedFunc
-    private void UpgradeMovementSpeed(float multiplier)
+    public void UpgradeMovementSpeed(float multiplier)
     {
         playerScriptableObject.movementSpeed *= multiplier;
         currentMovementSpeed = playerScriptableObject.movementSpeed;
     }
 
-    private void EnableElementAttack(Element element)
+    public void EnableElementAttack(Element element)
     {
         currentElement = element;
     }
