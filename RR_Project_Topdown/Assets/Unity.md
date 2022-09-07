@@ -2,7 +2,7 @@
 1. Camera
 
 
-2. Git 사용법.
+2. Git 사용법. (git-flow 공부)
     -> Open SourceTree -> 화면 상단에 메뉴 -> Commit (커밋) 
                                             -> Library 폴더가 포함되어 있는지 ?
                                             -> Temp 폴더가 포함되어 있는지 ?
@@ -66,7 +66,7 @@
     4. Canvas 
     5. Screen
 
-4. Popup
+4. Popup 
     - Example
         -> 화면 UI
             -> Popup1 열기
@@ -76,7 +76,7 @@
                 -> Popup4 열기
                 -> Popup4 닫기
             -> 
-        PopupManager (Singleton)
+        PopupManager (Singleton) (class)
             
             // 특업 팝업을 오픈한다.
             // Instantiate Prefab
@@ -101,7 +101,7 @@
                             -> Peek()
                             -> GetCount()
                             -> IsEmpty()
-        Popup (Abstract)
+        Popup (abstract class)
             -> abstract void Open()
             -> abstract void Close()
         
