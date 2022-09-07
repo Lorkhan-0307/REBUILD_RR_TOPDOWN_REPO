@@ -18,3 +18,4 @@ MonoBehaviour:
   upgrades:
   - {fileID: 11400000, guid: 02ed42e1be788574b99f19b76995aac3, type: 2}
   index: 3
+  imageIndex: 14

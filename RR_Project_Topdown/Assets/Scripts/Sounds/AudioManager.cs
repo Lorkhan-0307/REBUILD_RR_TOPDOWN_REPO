@@ -25,10 +25,12 @@ public class AudioManager : MonoSingleton<AudioManager>
     private void Start()
     {
         StartCoroutine(ThemeStart());
+        
     }
 
     private void Update()
     {
+
     }
 
     public void Play(string name)
@@ -57,6 +59,7 @@ public class AudioManager : MonoSingleton<AudioManager>
     {
         Play("Pre-MainTheme");
         Sound preTheme = GetSound("Pre-MainTheme");
+        Debug.Log(preTheme.clip.length);
         yield return new WaitForSeconds(preTheme.clip.length-1.2f);
         Play("MainTheme");
     }

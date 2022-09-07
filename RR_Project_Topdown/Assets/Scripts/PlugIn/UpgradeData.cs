@@ -9,10 +9,10 @@ public enum PlugInType
     GauntletAttack_2,
     GauntletAttack_3,
     GauntletAttack_4,
-    SummonAttack_1,
-    SummonAttack_2,
-    SummonAttack_3,
-    SummonAttack_4,
+    CorrosionAttack_1,
+    CorrosionAttack_2,
+    CorrosionAttack_3,
+    CorrosionAttack_4,
     FireAttack_1,
     FireAttack_2,
     FireAttack_3,
@@ -21,14 +21,14 @@ public enum PlugInType
     IceAttack_2,
     IceAttack_3,
     IceAttack_4,
-    CorrosionAttack_1,
-    CorrosionAttack_2,
-    CorrosionAttack_3,
-    CorrosionAttack_4,
     Utility_1,
     Utility_2,
     Utility_3,
     Utility_4,
+    SummonAttack_1,
+    SummonAttack_2,
+    SummonAttack_3,
+    SummonAttack_4,
 
 }
 
@@ -40,4 +40,5 @@ public class UpgradeData : ScriptableObject
     public Sprite icon;
     public List<UpgradeData> upgrades;
     public int index;
+    public int imageIndex;
 }

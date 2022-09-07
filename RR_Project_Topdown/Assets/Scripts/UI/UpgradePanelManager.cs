@@ -7,6 +7,7 @@ public class UpgradePanelManager : MonoBehaviour
 {
     [SerializeField] private GameObject UpgradePanel;
     [SerializeField] private List<UpgradeButton> upgradeButtons;
+    public int lastIndex;
     PauseManager pauseManager;
 
     private void Awake()
@@ -31,6 +32,10 @@ public class UpgradePanelManager : MonoBehaviour
             upgradeButtons[i].gameObject.SetActive(true);
             upgradeButtons[i].Set(upgradeDatas[i]);
         }
+
+        //가장 첫번째 버튼의 이미지 생성
+        upgradeButtons[0].plugInList[upgradeButtons[0].index].SetActive(true);
+        lastIndex = upgradeButtons[0].index;
     }
 
     public void ClosePanel()

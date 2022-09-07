@@ -16,6 +16,9 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] List<UpgradeDatas> upgrades;
     [SerializeField] List<UpgradeData> acquiredUpgrades;
     [SerializeField] PlayerMove player;
+    [SerializeField] PlayerScriptableObject playerScriptableObject;
+    [SerializeField] HealthBar playerHealth;
+
     private int typeOfPlugIn = 5;
 
     public bool isStageEnd;
@@ -36,11 +39,9 @@ public class StageManager : MonoSingleton<StageManager>
             selectedUpgrades = new List<UpgradeData>();
         }
         selectedUpgrades.Clear();
-        selectedUpgrades.AddRange(GetUpgrades(5));
+        selectedUpgrades.AddRange(GetUpgrades(4));
         upgradePanel.OpenPanel(selectedUpgrades);
     }
-
-
 
     public List<UpgradeData> GetUpgrades(int count)
     {
@@ -165,6 +166,7 @@ public class StageManager : MonoSingleton<StageManager>
                 break;
             case PlugInType.CorrosionAttack_2:
                 //upgrades[upgradeData.index].datas.Clear();
+                
                 break;
             case PlugInType.CorrosionAttack_3:
                 break;
@@ -177,6 +179,7 @@ public class StageManager : MonoSingleton<StageManager>
                 player.EnableElementAttack(PlayerMove.Element.Fire);
                 break;
             case PlugInType.FireAttack_2:
+                playerScriptableObject.burnDamage *= 1.5f;
                 break;
             case PlugInType.FireAttack_3:
                 break;
