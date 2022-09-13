@@ -11,7 +11,7 @@ public class BulletExplosion : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Enemy attackTarget = collision.GetComponent<Enemy>();
+            LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
             if (attackTarget != null)
             {
                 attackTarget.OnDamage(bulletDamage);

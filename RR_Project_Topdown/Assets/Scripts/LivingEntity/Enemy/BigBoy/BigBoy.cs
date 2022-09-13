@@ -20,6 +20,9 @@ public class BigBoy : LivingEntity
     [SerializeField] private int maxRush=3;
     [SerializeField] private Transform firePoint;
 
+
+    [SerializeField] EnemyScriptableObject enemyScriptableObject;
+
     private Rigidbody2D rb;
     private float laserAttackDuration = 5f;
     private float laserAttackTime = 5f;
@@ -41,7 +44,11 @@ public class BigBoy : LivingEntity
     private Vector3 firePointVector;
     private NavMeshAgent pathFinder;
     private LivingEntity targetEntity;
-    
+
+    [Header("iFrames")]
+    [SerializeField] private float iFramesDuration = 0.4f;
+    [SerializeField] private int numberOfFlashes = 2;
+
 
     private bool hasTarget
     {
@@ -71,6 +78,7 @@ public class BigBoy : LivingEntity
         canRangeAttack = true;
         currentAmmo = maxAmmo;
         rushCnt = maxRush;
+        dotTickTimers = new List<int>();
     }
 
     // Start is called before the first frame update
@@ -317,11 +325,98 @@ public class BigBoy : LivingEntity
         if (!dead)
         {
             //hurt animation
+            StartCoroutine(HurtSpriteChanger());
             //hurt audio
             //hurt particle effect
         }
 
         base.OnDamage(damage);
+    }
+    private IEnumerator HurtSpriteChanger()
+    {
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            spriteRenderer.color = new Color(1, 0, 0, 0.5f);
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+        }
+    }
+
+
+    // Apply 시리즈가 보스에 따로 있는 이유 : 보스의 경우 틱데미지의 감소를 넣을까 함.
+    public override void ApplyBurn(int ticks, float tickDamage)
+    {
+        base.ApplyBurn(ticks, tickDamage);
+        if (dotTickTimers.Count <= 11)
+        {
+            if (dotTickTimers.Count <= 0)
+            {
+                dotTickTimers.Add(ticks);
+                GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
+                fireBurst.transform.SetParent(this.transform);
+                //Burn의 경우 type 는 0이다.
+                StartCoroutine(DOTApply(tickDamage, 0));
+                if (dotTickTimers.Count >= 5)
+                {
+                    //Explosion
+                }
+            }
+            else
+            {
+                dotTickTimers.Add(ticks);
+            }
+        }
+    }
+
+    public override void ApplyCorrosion(int ticks, float tickDamage)
+    {
+        base.ApplyCorrosion(ticks, tickDamage);
+        if (dotTickTimers.Count <= 11)
+        {
+            if (dotTickTimers.Count <= 0)
+            {
+                dotTickTimers.Add(ticks);
+                //해당 위치에 corrosion gameobject 추가해야함
+                //GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
+                //fireBurst.transform.SetParent(this.transform);
+                //Corrosion의 경우 type 는 2이다.
+                StartCoroutine(DOTApply(tickDamage, 2));
+            }
+            else
+            {
+                dotTickTimers.Add(ticks);
+            }
+        }
+    }
+
+    public override void ApplyIce()
+    {
+        base.ApplyIce();
+    }
+
+    public override IEnumerator KnockBack()
+    {
+        return base.KnockBack();
+    }
+
+    public override IEnumerator Restraint(float time)
+    {
+        if (!isStun)
+        {
+            isStun = true;
+            GameObject iceLock = Instantiate(enemyScriptableObject.IceLock, transform.position, Quaternion.identity);
+            iceLock.transform.parent = this.transform;
+            pathFinder.speed = 0;
+            yield return new WaitForSeconds(time);
+            pathFinder.speed = enemySpeed;
+            isStun = false;
+            if (iceLock)
+            {
+                Destroy(iceLock);
+            }
+
+        }
     }
 
     public override void Die()
@@ -339,6 +434,11 @@ public class BigBoy : LivingEntity
         pathFinder.enabled = false;
 
         //dead animation
+
+
+        // 보스 죽는거 추가해주세용 :ㅇ
+
+
         //dead audio
     }
 

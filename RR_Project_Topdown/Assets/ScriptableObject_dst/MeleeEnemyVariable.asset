@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fKnockbackMultiplier: 30
   fKnockbackDuration: 0.1
+  IceLock: {fileID: 8927813813175262342, guid: 7a319a4b88da5f8449314c676e440b9c, type: 3}
+  FireBurst: {fileID: 5980293955093364262, guid: 214437b1397eadd41bedafb343b2102f, type: 3}

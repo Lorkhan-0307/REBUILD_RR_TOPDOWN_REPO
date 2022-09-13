@@ -29,13 +29,9 @@ public class Enemy : LivingEntity
     private Rigidbody2D rgbd;
 
     //도트뎀 사용을 위한 변수들 모음
-    public List<int> dotTickTimers = new List<int>();
-
     
-    [HideInInspector]
-    public bool isKnockback = false;
-    [HideInInspector]
-    public bool isStun = false;
+    
+    
 
 
     //For Flashing Sprite On Damage
@@ -67,6 +63,8 @@ public class Enemy : LivingEntity
         enemySpeed = pathFinder.speed;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rgbd = GetComponent<Rigidbody2D>();
+
+        dotTickTimers = new List<int>();
     }
 
     // Start is called before the first frame update
@@ -184,7 +182,7 @@ public class Enemy : LivingEntity
         pathFinder.speed = enemySpeed;
     }
 
-    private IEnumerator enemyStayOnPosition2(float time)
+    public override IEnumerator Restraint(float time)
     {
         if(!isStun)
         {
@@ -203,6 +201,8 @@ public class Enemy : LivingEntity
         }
         
     }
+    
+
 
     private IEnumerator HurtSpriteChanger()
     {
@@ -215,6 +215,8 @@ public class Enemy : LivingEntity
         }
     }
     
+    
+
     private IEnumerator EnemyKnockBack()
     {
         if(!isKnockback)
@@ -235,43 +237,12 @@ public class Enemy : LivingEntity
         }
     }
 
-    //도트뎀 기능
-    private IEnumerator DOTApply(float tickDamage, int type)
-    {
-        while(dotTickTimers.Count > 0)
-        {
-            for(int i=0; i< dotTickTimers.Count; i++)
-            {
-                dotTickTimers[i]--;
-                
-                if(type == 2)
-                {
-                    OnDamage(tickDamage);
-                }
-            }
-            if (type == 0)
-            {
-                OnDamage(tickDamage);
-                
-            }
-            dotTickTimers.RemoveAll(i=>i==0);
-            yield return new WaitForSeconds(0.75f);
-        }
-        if(dotTickTimers.Count <= 0)
-        {
-            for (var i = this.transform.childCount - 1; i >= 0; i--)
-            {
-                if(this.transform.GetChild(i).gameObject.TryGetComponent(out Animator childAnimator))
-                {
-                    childAnimator.SetTrigger("TickEnd");
-                }
-                Destroy(this.transform.GetChild(i).gameObject, 0.75f);
-            }
-        }
-
-    }
     
-    public void ApplyBurn(int ticks, float tickDamage)
+
+    //도트뎀 기능
+
+    
+    public override void ApplyBurn(int ticks, float tickDamage)
     {
         if(dotTickTimers.Count<=11)
         {
@@ -296,7 +267,7 @@ public class Enemy : LivingEntity
         
     }
 
-    public void ApplyIce()
+    public override void ApplyIce()
     {
 
          if (dotTickTimers.Count <= 0)
@@ -317,7 +288,7 @@ public class Enemy : LivingEntity
 
     }
 
-    public void ApplyCorrosion(int ticks, float tickDamage)
+    public override void ApplyCorrosion(int ticks, float tickDamage)
     {
         if (dotTickTimers.Count <= 11)
         {
@@ -346,18 +317,9 @@ public class Enemy : LivingEntity
         }
 
         base.OnDamage(damage);
-        Debug.Log("Enemy Health : " + currentHealth);
     }
 
-    public void EnemyStun(float time)
-    {
-        StartCoroutine(enemyStayOnPosition2(time));
-    }
 
-    public void EnemyKnockback()
-    {
-        StartCoroutine(EnemyKnockBack());
-    }
 
     public override void Die()
     {

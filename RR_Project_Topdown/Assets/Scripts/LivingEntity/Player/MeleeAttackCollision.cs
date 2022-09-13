@@ -12,7 +12,7 @@ public class MeleeAttackCollision : MonoBehaviour
        
         if (collision.gameObject.tag == "Enemy")
         {
-            Enemy attackTarget = collision.GetComponent<Enemy>();
+            LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
             if (attackTarget != null)
             {
                 PlayerMove player = this.GetComponentInParent<PlayerMove>();
@@ -34,10 +34,14 @@ public class MeleeAttackCollision : MonoBehaviour
 
                 attackTarget.OnDamage(playerScriptableObject.meleeAttackDamage);
                 
-                if (!attackTarget.isKnockback && !attackTarget.isStun)
+                if(attackTarget.GetComponent<Enemy>())
                 {
-                    attackTarget.EnemyKnockback();
+                    if (!attackTarget.isKnockback && !attackTarget.isStun)
+                    {
+                        attackTarget.GetComponent<Enemy>().EnemyKnockback();
+                    }
                 }
+                
                 
                 
             }
