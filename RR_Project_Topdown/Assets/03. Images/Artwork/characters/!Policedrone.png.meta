@@ -1,0 +1,1956 @@
+fileFormatVersion: 2
+guid: 935f20aed9ca48b41b75732f13f72f08
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7196274902888685757
+    second: '!Policedrone_0'
+  - first:
+      213: -1491649944757328492
+    second: '!Policedrone_1'
+  - first:
+      213: 2741653088049952331
+    second: '!Policedrone_2'
+  - first:
+      213: -6612878814571553343
+    second: '!Policedrone_3'
+  - first:
+      213: 7954502174691296449
+    second: '!Policedrone_4'
+  - first:
+      213: -5890752254072721859
+    second: '!Policedrone_5'
+  - first:
+      213: -4372480462377758416
+    second: '!Policedrone_6'
+  - first:
+      213: -7954397991104825136
+    second: '!Policedrone_7'
+  - first:
+      213: -1926085467651850483
+    second: '!Policedrone_8'
+  - first:
+      213: 2619152070950972821
+    second: '!Policedrone_9'
+  - first:
+      213: -3415261920595898808
+    second: '!Policedrone_10'
+  - first:
+      213: -8977155269774526740
+    second: '!Policedrone_11'
+  - first:
+      213: 4380252993400939600
+    second: '!Policedrone_12'
+  - first:
+      213: 7582508040468598368
+    second: '!Policedrone_13'
+  - first:
+      213: 6395526226658795109
+    second: '!Policedrone_14'
+  - first:
+      213: -7165944479250700073
+    second: '!Policedrone_15'
+  - first:
+      213: 3413374575471797603
+    second: '!Policedrone_16'
+  - first:
+      213: -1871912975132087997
+    second: '!Policedrone_17'
+  - first:
+      213: 560126978006619837
+    second: '!Policedrone_18'
+  - first:
+      213: 7438607528556135933
+    second: '!Policedrone_19'
+  - first:
+      213: 4238220498392283778
+    second: '!Policedrone_20'
+  - first:
+      213: 4898742216111259294
+    second: '!Policedrone_21'
+  - first:
+      213: 4362173324872936155
+    second: '!Policedrone_22'
+  - first:
+      213: -5921521986805329858
+    second: '!Policedrone_23'
+  - first:
+      213: 6452144235007741565
+    second: '!Policedrone_24'
+  - first:
+      213: -3001051953948750150
+    second: '!Policedrone_25'
+  - first:
+      213: 3320823483084983563
+    second: '!Policedrone_26'
+  - first:
+      213: -2501457110192220342
+    second: '!Policedrone_27'
+  - first:
+      213: -526788986242758989
+    second: '!Policedrone_28'
+  - first:
+      213: -7122107270227672801
+    second: '!Policedrone_29'
+  - first:
+      213: 5539249141879973386
+    second: '!Policedrone_30'
+  - first:
+      213: 2755694582504874838
+    second: '!Policedrone_31'
+  - first:
+      213: 4850356310971721854
+    second: '!Policedrone_32'
+  - first:
+      213: -2787196726761192180
+    second: '!Policedrone_33'
+  - first:
+      213: -8328385224782590395
+    second: '!Policedrone_34'
+  - first:
+      213: -522369579981643885
+    second: '!Policedrone_35'
+  - first:
+      213: 140891060482669927
+    second: '!Policedrone_36'
+  - first:
+      213: 5012432559645794629
+    second: '!Policedrone_37'
+  - first:
+      213: 8890456104341489155
+    second: '!Policedrone_38'
+  - first:
+      213: 6789083790711144869
+    second: '!Policedrone_39'
+  - first:
+      213: 859308201464688751
+    second: '!Policedrone_40'
+  - first:
+      213: -8882599650309705354
+    second: '!Policedrone_41'
+  - first:
+      213: 3556017448667183515
+    second: '!Policedrone_42'
+  - first:
+      213: -6036133744638686245
+    second: '!Policedrone_43'
+  - first:
+      213: 332007787260368212
+    second: '!Policedrone_44'
+  - first:
+      213: 1842528886314272082
+    second: '!Policedrone_45'
+  - first:
+      213: -1438435614141190780
+    second: '!Policedrone_46'
+  - first:
+      213: 2973937839362131792
+    second: '!Policedrone_47'
+  - first:
+      213: -6917315523356527118
+    second: '!Policedrone_48'
+  - first:
+      213: -6984044347971412884
+    second: '!Policedrone_49'
+  - first:
+      213: 4225942211917148757
+    second: '!Policedrone_50'
+  - first:
+      213: -5002462791227506579
+    second: '!Policedrone_51'
+  - first:
+      213: -5022871377395580474
+    second: '!Policedrone_52'
+  - first:
+      213: 4059972280938959839
+    second: '!Policedrone_53'
+  - first:
+      213: -1622944352836697561
+    second: '!Policedrone_54'
+  - first:
+      213: 5216034413060700350
+    second: '!Policedrone_55'
+  - first:
+      213: -6267790108842608826
+    second: '!Policedrone_56'
+  - first:
+      213: -4505981133201643241
+    second: '!Policedrone_57'
+  - first:
+      213: 7487214180637963806
+    second: '!Policedrone_58'
+  - first:
+      213: -3550242240155115382
+    second: '!Policedrone_59'
+  - first:
+      213: -3305341979899437997
+    second: '!Policedrone_60'
+  - first:
+      213: -7020032112183530727
+    second: '!Policedrone_61'
+  - first:
+      213: -6957718550102026758
+    second: '!Policedrone_62'
+  - first:
+      213: -752434903116073376
+    second: '!Policedrone_63'
+  - first:
+      213: 4727849106131118868
+    second: '!Policedrone_64'
+  - first:
+      213: 3239541742493756387
+    second: '!Policedrone_65'
+  - first:
+      213: -3956645371664168861
+    second: '!Policedrone_66'
+  - first:
+      213: 3765640402974949909
+    second: '!Policedrone_67'
+  - first:
+      213: 9196300811057579909
+    second: '!Policedrone_68'
+  - first:
+      213: -4570517663692942342
+    second: '!Policedrone_69'
+  - first:
+      213: -4647124372392177227
+    second: '!Policedrone_70'
+  - first:
+      213: 2321626702214448840
+    second: '!Policedrone_71'
+  - first:
+      213: -3008124440997455682
+    second: '!Policedrone_72'
+  - first:
+      213: 2367708610993927534
+    second: '!Policedrone_73'
+  - first:
+      213: -1115240654481136835
+    second: '!Policedrone_74'
+  - first:
+      213: -2085558542223263853
+    second: '!Policedrone_75'
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: '!Policedrone_0'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 672
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34fd2437a12b12c90800000000000000
+      internalID: -7196274902888685757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_1'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 673
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 495228147489c4be0800000000000000
+      internalID: -1491649944757328492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_2'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 674
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b46f19a25fe4c0620800000000000000
+      internalID: 2741653088049952331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_3'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 672
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cd91c231c55a34a0800000000000000
+      internalID: -6612878814571553343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_4'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 673
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c40c874591146e60800000000000000
+      internalID: 7954502174691296449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_5'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 674
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ee9241908df3ea0800000000000000
+      internalID: -5890752254072721859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_6'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 672
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03153a49f24d153c0800000000000000
+      internalID: -4372480462377758416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_7'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 673
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d8bd1adb2d4c9190800000000000000
+      internalID: -7954397991104825136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_8'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 674
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0fb195d87b2545e0800000000000000
+      internalID: -1926085467651850483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_9'
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 672
+        width: 144
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59de2c18ee8195420800000000000000
+      internalID: 2619152070950972821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_10'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 582
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e86f7c06d8a90d0800000000000000
+      internalID: -3415261920595898808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_11'
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 582
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce6309b58dcba6380800000000000000
+      internalID: -8977155269774526740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_12'
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 583
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0542102d3e8c9cc30800000000000000
+      internalID: 4380252993400939600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_13'
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 582
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06e8ca293ea7a3960800000000000000
+      internalID: 7582508040468598368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_14'
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 582
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e11bbd73971c850800000000000000
+      internalID: 6395526226658795109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_15'
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 583
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d8271286737d8c90800000000000000
+      internalID: -7165944479250700073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_16'
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 582
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365a850771ebe5f20800000000000000
+      internalID: 3413374575471797603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_17'
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 582
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 349aec22111a506e0800000000000000
+      internalID: -1871912975132087997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_18'
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 583
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db69231d488f5c700800000000000000
+      internalID: 560126978006619837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_19'
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 576
+        width: 144
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df58223c22e3b3760800000000000000
+      internalID: 7438607528556135933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_20'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 481
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28a7376961f21da30800000000000000
+      internalID: 4238220498392283778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_21'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 482
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9e75854714dbf340800000000000000
+      internalID: 4898742216111259294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_22'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 482
+        width: 47
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bda6cb5f68d898c30800000000000000
+      internalID: 4362173324872936155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_23'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 481
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e309dc6602782dda0800000000000000
+      internalID: -5921521986805329858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_24'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 482
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7e883f2ffe9a8950800000000000000
+      internalID: 6452144235007741565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_25'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 482
+        width: 47
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abe846ce52f1a56d0800000000000000
+      internalID: -3001051953948750150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_26'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 481
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0d4e070d5fe51e20800000000000000
+      internalID: 3320823483084983563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_27'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 482
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a471e16f20a094dd0800000000000000
+      internalID: -2501457110192220342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_28'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 480
+        width: 191
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b68963453870b8f0800000000000000
+      internalID: -526788986242758989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_29'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 386
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f114ad91c21392d90800000000000000
+      internalID: -7122107270227672801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_30'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 386
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a06a4201fbd5fdc40800000000000000
+      internalID: 5539249141879973386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_31'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 386
+        width: 47
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 653ebab5f913e3620800000000000000
+      internalID: 2755694582504874838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_32'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 386
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e782b85dd5def4340800000000000000
+      internalID: 4850356310971721854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_33'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 386
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c05844e1853e159d0800000000000000
+      internalID: -2787196726761192180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_34'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 386
+        width: 47
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ec83483c1ab6c80800000000000000
+      internalID: -8328385224782590395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_35'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 386
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39f59b772ab20c8f0800000000000000
+      internalID: -522369579981643885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_36'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 386
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76df81c4cab84f100800000000000000
+      internalID: 140891060482669927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_37'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 384
+        width: 191
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5412a422bdcbf8540800000000000000
+      internalID: 5012432559645794629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_38'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 288
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3064a7629be316b70800000000000000
+      internalID: 8890456104341489155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_39'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 289
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a143bfccbba73e50800000000000000
+      internalID: 6789083790711144869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_40'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 290
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f60f1e4a140eceb00800000000000000
+      internalID: 859308201464688751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_41'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 288
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 671f7491eaaaab480800000000000000
+      internalID: -8882599650309705354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_42'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 289
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b99f5ea6703895130800000000000000
+      internalID: 3556017448667183515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_43'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 290
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdb001e07585b3ca0800000000000000
+      internalID: -6036133744638686245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_44'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 288
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455515ec2578b9400800000000000000
+      internalID: 332007787260368212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_45'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 289
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 255882d824af19910800000000000000
+      internalID: 1842528886314272082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_46'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 290
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48de7da1e66a90ce0800000000000000
+      internalID: -1438435614141190780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_47'
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 288
+        width: 144
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 057c54355bc854920800000000000000
+      internalID: 2973937839362131792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_48'
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 198
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f5f9075e22c000a0800000000000000
+      internalID: -6917315523356527118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_49'
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 198
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6cd6972ba0b31f90800000000000000
+      internalID: -6984044347971412884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_50'
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 199
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55276ae3d0095aa30800000000000000
+      internalID: 4225942211917148757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_51'
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 198
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6086c6789ea39ab0800000000000000
+      internalID: -5002462791227506579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_52'
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 198
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c10cd5381d2b4ab0800000000000000
+      internalID: -5022871377395580474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_53'
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 199
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd39c43674be75830800000000000000
+      internalID: 4059972280938959839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_54'
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 198
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72241f6b5b42a79e0800000000000000
+      internalID: -1622944352836697561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_55'
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 198
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb832b6b9a3136840800000000000000
+      internalID: 5216034413060700350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_56'
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 199
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 647babbaa165409a0800000000000000
+      internalID: -6267790108842608826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_57'
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 192
+        width: 144
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71967e6780a8771c0800000000000000
+      internalID: -4505981133201643241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_58'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 97
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e16713ad0ade7e760800000000000000
+      internalID: 7487214180637963806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_59'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 98
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a80a7f81e710bbec0800000000000000
+      internalID: -3550242240155115382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_60'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 98
+        width: 47
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35c58e25bf01122d0800000000000000
+      internalID: -3305341979899437997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_61'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 97
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b2779dcf5d39e90800000000000000
+      internalID: -7020032112183530727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_62'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 98
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af5d50e97d7317f90800000000000000
+      internalID: -6957718550102026758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_63'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 98
+        width: 47
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06639233170de85f0800000000000000
+      internalID: -752434903116073376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_64'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 97
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41be79a76b1bc9140800000000000000
+      internalID: 4727849106131118868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_65'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 98
+        width: 47
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ebe36c0d0a25fc20800000000000000
+      internalID: 3239541742493756387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_66'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 96
+        width: 191
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36883c76ffb2719c0800000000000000
+      internalID: -3956645371664168861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_67'
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5124e2bcefd324430800000000000000
+      internalID: 3765640402974949909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_68'
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 2
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58749b21dd2df9f70800000000000000
+      internalID: 9196300811057579909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_69'
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 2
+        width: 47
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af31fe786624290c0800000000000000
+      internalID: -4570517663692942342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_70'
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 2
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b1118c3109128fb0800000000000000
+      internalID: -4647124372392177227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_71'
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 2
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c6cd866f23183020800000000000000
+      internalID: 2321626702214448840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_72'
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 2
+        width: 47
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb81d2632cef046d0800000000000000
+      internalID: -3008124440997455682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_73'
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 2
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e653de1ef6acbd020800000000000000
+      internalID: 2367708610993927534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_74'
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 2
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d33e396988ed580f0800000000000000
+      internalID: -1115240654481136835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: '!Policedrone_75'
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 0
+        width: 191
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397308c3e8b9e03e0800000000000000
+      internalID: -2085558542223263853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

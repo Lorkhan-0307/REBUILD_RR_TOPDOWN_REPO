@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c7a6f007151d64492d2b566d7b6782, type: 3}
+  m_Name: PlayerOBVariable
+  m_EditorClassIdentifier: 
+  movementSpeed: 7
+  movementSpeedWhileAttack: 4
+  meleeAttackDamage: 11.5
+  skillActiveMeleeAttackDamage: 8
+  enableRangeAttackTime: 3
+  skillBarMax: 150
+  maxBulletCount: 3
+  reloadBulletTime: 10
+  meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
+  burnTicks: 4
+  burnDamage: 62.41274
+  corrosionTicks: 7
+  corrosionDamage: 1
+  slowDownSpeed: 0.5
+  enabledThirdUpgrade: 1
+  enabledFourthUpgrade: 0
+  fireBall: {fileID: 7533490216381180060, guid: 08eaa915421b30a4593451011eda63b8, type: 3}
