@@ -19,7 +19,15 @@ public class Boss_LaserAttack : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        if (bigBoy.changePhase)
+        {
+            bigBoy.StopCoroutine(laserShoot);
+            animator.SetBool("changePhase", true);
+            //animator.SetBool("isLaserAttack", false);
+            bigBoy.LaserArm.SetActive(false);
+            bigBoy.canLaserAttack = false;
+            bigBoy.changePhase = false;
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

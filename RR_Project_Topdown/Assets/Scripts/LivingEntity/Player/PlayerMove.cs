@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey;
 using CodeMonkey.Utils;
-
-
+using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -45,6 +44,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] public GameObject skillActiveScreen;
     [SerializeField] public GameObject skillBar;
     [SerializeField] public GameObject skillFX;
+    [SerializeField] private GameObject Shield;
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     [SerializeField] public float attackCooldownTime = 0.5f;
     private float attackCooldownTimer;
@@ -57,7 +57,7 @@ public class PlayerMove : MonoBehaviour
     private float rangeAttackTimer;
     private float skillBarTimer = 0.1f;
     private bool skillActivated = false;
-    
+    private int upgradeFourthAttackCount = 0;
 
     #endregion
 
@@ -66,8 +66,8 @@ public class PlayerMove : MonoBehaviour
         rgbd2d = GetComponent<Rigidbody2D>();
         movementVector = new Vector3();
         animate = GetComponent<Animate>();
-        playerPlugIn = new PlayerPlugIn();
-        playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
+        //playerPlugIn = new PlayerPlugIn();
+        //playerPlugIn.OnPlugInUnlocked += PlayerPlugIn_OnPlugInUnlocked;
         state = State.Normal;
         DisableSkillActive();
         skillBar.GetComponent<SkillBar>().SetMaxSkill(playerScriptableObject.skillBarMax);
@@ -75,165 +75,21 @@ public class PlayerMove : MonoBehaviour
         attackCooldownTimer = attackCooldownTime;
         currentMovementSpeed = playerScriptableObject.movementSpeed;
 
+        //Util Upgrade Events
+        FindObjectOfType<StageManager>().UpgradeHealth += UpgradeHealth;
+        FindObjectOfType<StageManager>().SetShieldActive += SetShieldActive;
+        FindObjectOfType<StageManager>().UpgradeMoveSpeed += UpgradeMoveSpeed;
+
         //초기 속성은 물리로 설정
         currentElement = Element.Physical;
 
-        EnableElementAttack(Element.Fire);
+        //EnableElementAttack(Element.Corrosion);
 
+        playerScriptableObject.enabledFourthUpgrade = false;
+        playerScriptableObject.enabledThirdUpgrade = false;
 
     }
 
-    #region Manage PlugInTree
-    private void PlayerPlugIn_OnPlugInUnlocked(object sender, PlayerPlugIn.OnPlugInUnlockedEventArgs e)
-    {
-        switch (e.plugInType)
-        {
-            //단순 데미지 증가 15%
-            case PlayerPlugIn.PlugInType.GauntletAttack_1:
-                UpgradeAttackDamage(1.15f);
-                break;
-            //데미지 30% 증가, 공격속도 10% 감소
-            case PlayerPlugIn.PlugInType.GauntletAttack_2:
-                UpgradeAttackSpeed(0.9f);
-                UpgradeAttackDamage(1.3f);
-                break;
-            //공격속도 15% 증가, 데미지 25% 감소
-            case PlayerPlugIn.PlugInType.GauntletAttack_3:
-                UpgradeAttackSpeed(1.15f);
-                UpgradeAttackDamage(0.75f);
-                //Gauntlet++
-                break;
-            //공격력 50% 증가, 범위증가 OR 공격속도 10% 증가[고민중]
-            case PlayerPlugIn.PlugInType.GauntletAttack_4:
-                UpgradeAttackSpeed(1.1f);
-                UpgradeAttackDamage(1.5f);
-                //Gauntlet++
-                break;
-
-            // 속성 공격 시리즈 생성
-
-            /*
-             * 각 속성공격은 하나를 고르면 나머지를 고를 수 없다.
-             * 
-             * 화염
-             * 도트 데미지 중첩 불가, 도트를 맞고 있는 인원에게는 다시금 리필되는 형식
-             * 1.공격에 화염 데미지 추가[도트 화염 데미지 추가, 강하지만 짧은 도트뎀] 
-             * 2.화염의 도트 데미지 증가
-             * 3.적이 죽은 위치에 화염이 남아 이전?
-             * 4.[화염 데미지 중 사망시 폭발, 이전]
-             * 
-             */
-            case PlayerPlugIn.PlugInType.FireAttack_1:
-                EnableElementAttack(Element.Fire);
-                break;
-
-            case PlayerPlugIn.PlugInType.FireAttack_2:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.FireAttack_3:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.FireAttack_4:
-
-                break;
-
-            /*
-             * 냉기
-             * 1.공격에 냉기 데미지 추가[느려짐] 다수 타격시 속박
-             * 2.느려짐 시간 증가
-             * 3.타격시 일정 확률로 느려짐 지대 생성
-             * 4. 속박 후 얼음이 깨질 때 추가데미지
-             * 해당 속박은 총알의 속박을 포함.
-             */
-
-            case PlayerPlugIn.PlugInType.IceAttack_1:
-                EnableElementAttack(Element.Ice);
-                break;
-
-            case PlayerPlugIn.PlugInType.IceAttack_2:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.IceAttack_3:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.IceAttack_4:
-
-                break;
-            /*
-             * 부정(독, 부식)
-             * 1.공격에 부식 데미지 추가[도트 부식 데미지 추가, 부식 스택에 따른 도트 데미지 강화]
-             * 2.부식 도트 데미지 지속시간 강화
-             * 3.공격시 일정 확률로 부식 지대 생성, 부식 지대 위를 지나는 적은 3초에 1회씩 부식 스택이 쌓인다.
-             * 4. [부식 데미지 중첩 무제한 증가?]
-             * 
-             */
-            case PlayerPlugIn.PlugInType.CorrosionAttack_1:
-                EnableElementAttack(Element.Corrosion);
-                break;
-
-            case PlayerPlugIn.PlugInType.CorrosionAttack_2:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.CorrosionAttack_3:
-
-                break;
-
-            case PlayerPlugIn.PlugInType.CorrosionAttack_4:
-
-                break;
-
-            //체력 증가 플러그인 라인업에 이동속도 증가를 넣으면 어떨까?
-            /*Utility Plugin 으로 이름 변경
-             * 1. 체력 강화
-             * 2. 실드 생성
-             * 3. 이동속도 증가
-             * 4. 체력 강화 및 피해시 화면 전체의 적에게 적은 데미지
-             */
-            case PlayerPlugIn.PlugInType.Utility_1:
-                //Health or Barrier ++
-                healthBar.UpgradeHealthBar();
-                break;
-            case PlayerPlugIn.PlugInType.Utility_2:
-                //ShieldEffect.SetActive(true);
-                gameObject.GetComponent<Health>().ShieldEffect.SetActive(true);
-                break;
-            case PlayerPlugIn.PlugInType.Utility_3:
-                //이동속도 증가
-                break;
-            case PlayerPlugIn.PlugInType.Utility_4:
-                //체력 강화 및 피해시 화면 전체의 적에게 적은 데미지
-                break;
-
-
-            //여기가 소환수 생성인거지?
-
-            /*소환수의 경우 
-             * 1. 소환수 생성
-             * 2. 소환수 Melee 공격 강화
-             * 3. 소환수 Debuff 강화
-             * 4. 소환수 Damage&속성공격 플레이어 강화 상태에 맞춰서 강화
-             */
-            case PlayerPlugIn.PlugInType.SummonAttack_1:
-                //Summon Attack Possible
-                break;
-            case PlayerPlugIn.PlugInType.SummonAttack_2:
-                //Summon Attack Possible
-                break;
-            case PlayerPlugIn.PlugInType.SummonAttack_3:
-                //Summon Attack Possible
-                break;
-            case PlayerPlugIn.PlugInType.SummonAttack_4:
-                //Summon Attack Possible
-                break;
-
-        }
-    }
-    #endregion
 
     #region Update Function
     // Update is called once per frame
@@ -364,6 +220,38 @@ public class PlayerMove : MonoBehaviour
         Vector3 mousePosition = GetMousePosition(Input.mousePosition, Camera.main);
         Vector3 attackDir = (mousePosition - transform.position).normalized;
 
+        if(playerScriptableObject.enabledThirdUpgrade)
+        {
+            switch(currentElement)
+            {
+                case Element.Fire:
+                    if(upgradeFourthAttackCount<=2)
+                    {
+                        upgradeFourthAttackCount += 1;
+                    }
+                    else if(upgradeFourthAttackCount >=3)
+                    {
+                        //Quaternion diff = this.transform.rotation;
+                        Quaternion diff = rangeAttackObject.transform.rotation;
+
+                        Vector3 fireAttackDir = (mousePosition - this.transform.position).normalized;
+
+                        Transform fireBallTransform = Instantiate(playerScriptableObject.fireBall, this.transform.position, diff);
+                        fireBallTransform.GetComponent<FireBall>().Setup(fireAttackDir);
+                        upgradeFourthAttackCount = 0;
+                    }
+                    
+                    break;
+
+                case Element.Ice:
+                    break;
+
+                case Element.Corrosion:
+                    break;
+            }
+        }
+
+
         if (attackDir.y >= attackDir.x)
         {
             if (attackDir.y >= attackDir.x * -1)
@@ -397,7 +285,6 @@ public class PlayerMove : MonoBehaviour
         rangeAttackTimer = playerScriptableObject.enableRangeAttackTime;
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
         cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
-        UtilsClass.GetMouseWorldPosition();
         Vector3 mousePosition = GetMousePosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, rangeAttackObject.transform.position.z), Camera.main);
 
         rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(mousePosition);
@@ -510,6 +397,27 @@ public class PlayerMove : MonoBehaviour
     public void EnableElementAttack(Element element)
     {
         currentElement = element;
+    }
+
+    public void UpgradeHealth(object sender, EventArgs e)
+    {
+        //Upgrade Health 수치
+        //Upgrade Health Bar UI
+        healthBar.UpgradeHealthBar();
+        FindObjectOfType<StageManager>().UpgradeHealth -= UpgradeHealth;
+    }
+
+    public void SetShieldActive(object sender, EventArgs e)
+    {
+        Shield.SetActive(true);
+        FindObjectOfType<StageManager>().SetShieldActive -= SetShieldActive;
+    }
+
+    public void UpgradeMoveSpeed(object sender, EventArgs e)
+    {
+        //Set Upgrade Variable
+        currentMovementSpeed *= 5;
+        FindObjectOfType<StageManager>().UpgradeMoveSpeed -= UpgradeMoveSpeed;
     }
 
     #endregion

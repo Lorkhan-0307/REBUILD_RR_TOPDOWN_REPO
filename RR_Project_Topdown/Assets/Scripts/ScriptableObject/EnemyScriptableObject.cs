@@ -7,6 +7,7 @@ public class EnemyScriptableObject : ScriptableObject
 {
     public float fKnockbackMultiplier = 30;
     public float fKnockbackDuration = 0.2f;
-    public GameObject IceLock;
-    public GameObject FireBurst;
+    public GameObject iceLock;
+    public GameObject fireBurst;
+    public GameObject corrosion;
 }

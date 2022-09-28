@@ -6,6 +6,7 @@ public class PopupSettings : Popup
 {
     public override void Close()
     {
+        GameObject.Destroy(gameObject);
         Debug.Log("POPUP CLOSE");
     }
 

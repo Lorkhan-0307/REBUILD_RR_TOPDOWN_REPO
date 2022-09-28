@@ -7,6 +7,9 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject AnyKeyText;
     [SerializeField] private GameObject ButtonPanel;
+    [SerializeField] private GameObject FadeImage;
+    [SerializeField] private Animator transition;
+    [SerializeField] private float transitionTime = 1f;
 
     private void Awake()
     {
@@ -32,12 +35,22 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
     public void EndGame()
     {
         Debug.Log("End Game");
         Application.Quit();
+    }
+
+    private IEnumerator LoadScene(int sceneIndex)
+    {
+        FadeImage.SetActive(true);
+        transition.SetBool("Start", true);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadScene(sceneIndex);
     }
 }

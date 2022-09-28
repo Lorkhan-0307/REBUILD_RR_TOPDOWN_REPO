@@ -21,17 +21,17 @@ public class Enemy : LivingEntity
 
     private float timeBtwShots;
     private float lastAttackTime;
-    private float enemySpeed;
     private Animator animator;
     private Vector2 direction;
     private LivingEntity targetEntity;
     private NavMeshAgent pathFinder;
     private Rigidbody2D rgbd;
+    private float maxHealth;
 
     //도트뎀 사용을 위한 변수들 모음
-    
-    
-    
+
+
+
 
 
     //For Flashing Sprite On Damage
@@ -58,7 +58,6 @@ public class Enemy : LivingEntity
         pathFinder = GetComponent<NavMeshAgent>();
         pathFinder.updateRotation = false;
         pathFinder.updateUpAxis = false;
-        //currentHealth = enemyHealth;
         animator = GetComponent<Animator>();
         enemySpeed = pathFinder.speed;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -82,12 +81,18 @@ public class Enemy : LivingEntity
         if (gameObject.name == "R(Clone)" && hasTarget){
             Shoot();
         }
+        pathFinder.speed = enemySpeed;
+
+        
     }
 
     public void SetUp(float newHealth, float newSpeed)
     {
         currentHealth = newHealth;
+        maxHealth = newHealth;
         pathFinder.speed = newSpeed;
+        enemySpeed = newSpeed;
+        normalEnemySpeed = newSpeed;
     }
 
     private void SetDirection()
@@ -187,7 +192,7 @@ public class Enemy : LivingEntity
         if(!isStun)
         {
             isStun = true;
-            GameObject iceLock = Instantiate(enemyScriptableObject.IceLock, transform.position, Quaternion.identity);
+            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
             iceLock.transform.parent = this.transform;
             pathFinder.speed = 0;
             yield return new WaitForSeconds(time);
@@ -202,7 +207,7 @@ public class Enemy : LivingEntity
         
     }
     
-
+    
 
     private IEnumerator HurtSpriteChanger()
     {
@@ -249,7 +254,7 @@ public class Enemy : LivingEntity
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
-                GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
+                GameObject fireBurst = Instantiate(enemyScriptableObject.fireBurst, transform.position, Quaternion.identity);
                 fireBurst.transform.SetParent(this.transform);
                 //Burn의 경우 type 는 0이다.
                 StartCoroutine(DOTApply(tickDamage, 0));
@@ -267,16 +272,23 @@ public class Enemy : LivingEntity
         
     }
 
-    public override void ApplyIce()
+    public override void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade)
     {
-
+        enemySpeed *= slowDownSpeed;
          if (dotTickTimers.Count <= 0)
          {
-             dotTickTimers.Add(10);
+             dotTickTimers.Add(30);
             //ice의 경우 type 는 1이다.
             StartCoroutine(DOTApply(0, 1));
-             if (dotTickTimers.Count >= 5)
+            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
+            iceLock.transform.SetParent(this.transform);
+            if (dotTickTimers.Count >= 5)
              {
+                StartCoroutine(Restraint(0.75f));
+                if(enabledThirdUpgrade)
+                {
+                    OnDamage(maxHealth * 0.1f);
+                }
                 //Freeze
                 dotTickTimers.Clear();
             }
@@ -288,6 +300,13 @@ public class Enemy : LivingEntity
 
     }
 
+    public override IEnumerator DOTApply(float tickDamage, int type)
+    {
+        
+        return base.DOTApply(tickDamage, type);
+    }
+
+
     public override void ApplyCorrosion(int ticks, float tickDamage)
     {
         if (dotTickTimers.Count <= 11)
@@ -295,6 +314,8 @@ public class Enemy : LivingEntity
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
+                GameObject corrosion = Instantiate(enemyScriptableObject.corrosion, transform.position, Quaternion.identity);
+                corrosion.transform.SetParent(this.transform);
                 //corrosion의 경우 type 는 2이다.
                 StartCoroutine(DOTApply(tickDamage, 2));
             }
@@ -312,6 +333,7 @@ public class Enemy : LivingEntity
         {
             //hurt animation
             StartCoroutine(HurtSpriteChanger());
+            Debug.Log(this.name + " HP: " + currentHealth);
             //hurt audio
             //hurt particle effect
         }
@@ -361,6 +383,5 @@ public class Enemy : LivingEntity
             }
         }
     }
-
 
 }

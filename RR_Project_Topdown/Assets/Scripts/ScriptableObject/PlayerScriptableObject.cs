@@ -20,5 +20,14 @@ public class PlayerScriptableObject : ScriptableObject
     public int burnTicks = 5;
     public float burnDamage = 3f;
 
+    public int corrosionTicks = 7;
+    public float corrosionDamage = 1f;
+
+    public float slowDownSpeed = 0.5f;
+
+    public bool enabledThirdUpgrade = false;
+    public bool enabledFourthUpgrade = false;
+
+    [SerializeField] public Transform fireBall;
 
 }

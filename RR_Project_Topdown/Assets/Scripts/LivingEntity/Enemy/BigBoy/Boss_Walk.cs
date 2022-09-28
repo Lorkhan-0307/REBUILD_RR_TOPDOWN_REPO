@@ -34,6 +34,13 @@ public class Boss_Walk : StateMachineBehaviour
             }
         }
 
+        if (bigBoy2.changePhase)
+        {
+            animator.SetBool("changePhase", true);
+            animator.SetBool("isWalking", false);
+            bigBoy2.changePhase = false;
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

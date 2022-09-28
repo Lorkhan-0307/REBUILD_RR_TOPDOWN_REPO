@@ -5,11 +5,11 @@ using UnityEngine;
 public class BulletExplosion : MonoBehaviour
 {
     [SerializeField] private float bulletDamage = 20f;
-    [SerializeField] private float stunTime = 5f;
+    //[SerializeField] private float stunTime = 5f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        /*if (collision.gameObject.CompareTag("Enemy"))
         {
             LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
             if (attackTarget != null)
@@ -20,7 +20,18 @@ public class BulletExplosion : MonoBehaviour
                     attackTarget.EnemyStun(stunTime);
                 }
             }
+        }*/
+
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            LivingEntity attackTarget = collision.GetComponent<LivingEntity>();
+
+            if (attackTarget != null)
+            {
+                attackTarget.OnDamage(bulletDamage);
+            }
         }
+
     }
     
 

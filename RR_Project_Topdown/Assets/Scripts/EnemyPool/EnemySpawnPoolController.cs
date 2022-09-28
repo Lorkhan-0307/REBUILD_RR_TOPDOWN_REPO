@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 using KeyType = System.String;
 
@@ -16,13 +18,21 @@ public class EnemySpawnPoolController : MonoBehaviour
     [SerializeField] private float speedMax = 3f;
     [SerializeField] private float speedMin = 1f;
 
-
     [SerializeField] public GameObject boss;
 
+    public event EventHandler OnStageEnd;
+    public event EventHandler<OnSetActivePotalEventArgs> OnSetActivePotal;
+
+    public class OnSetActivePotalEventArgs : EventArgs
+    {
+        public int stageNum;
+    }
+
     private int spawnedEnemy = 0;
+    private int killCount = 0;
+    private int stageNum = 0;
     private float intensity;
     private IEnumerator coroutine;
-    private int killCount = 0;
 
     void Start()
     {
@@ -33,11 +43,17 @@ public class EnemySpawnPoolController : MonoBehaviour
     private void Update()
     {
         //Debug.Log(spawnedEnemy);
-        //Debug.Log(killCount);
+        //Debug.Log("spawnCount: " + spawnCount + " killcount: " + killCount);
 
         if (spawnedEnemy == spawnCount)
         {
             StopCoroutine(coroutine);
+        }
+
+        if(killCount == spawnCount)
+        {
+            OnStageEnd?.Invoke(this, EventArgs.Empty);
+            OnSetActivePotal?.Invoke(this, new OnSetActivePotalEventArgs { stageNum = stageNum });
         }
     }
 
@@ -67,12 +83,14 @@ public class EnemySpawnPoolController : MonoBehaviour
 
         //TESTCODE
         enemy.OnDeath += () => killCount++;
-        if(killCount == 1)
+
+        //killCount가 스테이지 클리어 조건을 만족하면, 스테이지 클리어 bool true.
+        /*if(killCount == spawnCount)
         {
-            boss.SetActive(true);
-        }
-
-
+            //boss.SetActive(true);
+            Debug.Log("stage end");
+            isStageEnd = true;
+        }*/
 
         coroutine = spawnEnemy();
 

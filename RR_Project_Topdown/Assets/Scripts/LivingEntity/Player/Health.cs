@@ -7,8 +7,8 @@ public class Health : LivingEntity
 {
     [Header("Health")]
     [SerializeField] private float startingHealth = 3f;
-    [SerializeField] private float ShieldCoolTime = 3f;
-    public GameObject ShieldEffect;
+    //[SerializeField] private float ShieldCoolTime = 3f;
+    //public GameObject ShieldEffect;
     Animate animate;
     PlayerMove playermove;
 
@@ -31,7 +31,7 @@ public class Health : LivingEntity
         base.OnEnable();
 
         currentHealth = startingHealth;
-        ShieldEffect.SetActive(false);
+        //ShieldEffect.SetActive(false);
     }
 
     public override void OnDamage(float damage)
@@ -62,31 +62,6 @@ public class Health : LivingEntity
         //Disable Player
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Separate case Enemy & Projectile?
-        //sheild effect
-        if (collision.transform.CompareTag("Enemy") || collision.transform.CompareTag("Projectile"))
-        {
-            if (ShieldEffect.activeSelf)
-            {
-                StartCoroutine(ShieldCycle());
-            }
-        }
-
-    }
-
-    //Test Later when Enemy Script is completed
-    private IEnumerator ShieldCycle()
-    {
-        //play shield off animation
-        //play player knockback animation
-        ShieldEffect.SetActive(false);
-
-        yield return new WaitForSeconds(ShieldCoolTime);
-
-        ShieldEffect.SetActive(true);
-    }
 
     private IEnumerator Invunerablility()
     {

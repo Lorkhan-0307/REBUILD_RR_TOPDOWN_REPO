@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class UpgradeDatas
@@ -18,22 +20,30 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] PlayerMove player;
     [SerializeField] PlayerScriptableObject playerScriptableObject;
     [SerializeField] HealthBar playerHealth;
+    [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
 
     private int typeOfPlugIn = 5;
 
-    public bool isStageEnd;
     private List<UpgradeData> selectedUpgrades;
 
+    public event EventHandler UpgradeHealth;
+    public event EventHandler SetShieldActive;
+    public event EventHandler UpgradeMoveSpeed;
+
+    private void Start()
+    {
+        enemySpawnPoolController.OnStageEnd += UpdatePlugIn;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UpdatePlugIn();
+            UpdatePlugIn_Temp();
         }
     }
 
-    //발동 조건 필요
-    private void UpdatePlugIn()
+    // For Plug In Test
+    private void UpdatePlugIn_Temp()
     {
         if (selectedUpgrades == null)
         {
@@ -42,6 +52,19 @@ public class StageManager : MonoSingleton<StageManager>
         selectedUpgrades.Clear();
         selectedUpgrades.AddRange(GetUpgrades(4));
         upgradePanel.OpenPanel(selectedUpgrades);
+    }
+
+    //발동 조건 필요
+    private void UpdatePlugIn(object sender, EventArgs e)
+    {
+        if (selectedUpgrades == null)
+        {
+            selectedUpgrades = new List<UpgradeData>();
+        }
+        selectedUpgrades.Clear();
+        selectedUpgrades.AddRange(GetUpgrades(4));
+        upgradePanel.OpenPanel(selectedUpgrades);
+        enemySpawnPoolController.OnStageEnd -= UpdatePlugIn;
     }
 
     public List<UpgradeData> GetUpgrades(int count)
@@ -121,6 +144,8 @@ public class StageManager : MonoSingleton<StageManager>
             acquiredUpgrades = new List<UpgradeData>();
         }
 
+        Debug.Log(upgradeData.plugInType);
+
         switch (upgradeData.plugInType)
         {
             //여기에 player 할당 받아서 함수로 넣으면 됨. 
@@ -167,24 +192,32 @@ public class StageManager : MonoSingleton<StageManager>
                 break;
             case PlugInType.CorrosionAttack_2:
                 //upgrades[upgradeData.index].datas.Clear();
-                
+                playerScriptableObject.corrosionTicks += 5;
                 break;
             case PlugInType.CorrosionAttack_3:
+                playerScriptableObject.enabledThirdUpgrade = true;
                 break;
             case PlugInType.CorrosionAttack_4:
+                playerScriptableObject.enabledFourthUpgrade = true;
                 break;
             //index 2
             case PlugInType.FireAttack_1:
                 upgrades[upgradeData.index - 1].datas.Clear();
                 upgrades[upgradeData.index + 1].datas.Clear();
                 player.EnableElementAttack(PlayerMove.Element.Fire);
+                Debug.Log("Fire1");
                 break;
             case PlugInType.FireAttack_2:
-                playerScriptableObject.burnDamage *= 1.5f;
+                playerScriptableObject.burnDamage *= 1.2f;
+                Debug.Log("Fire2");
                 break;
             case PlugInType.FireAttack_3:
+                playerScriptableObject.enabledThirdUpgrade = true;
+                Debug.Log("Fire3");
                 break;
             case PlugInType.FireAttack_4:
+                playerScriptableObject.enabledFourthUpgrade = true;
+                Debug.Log("Fire4");
                 break;
             //index 3
             case PlugInType.IceAttack_1:
@@ -193,10 +226,13 @@ public class StageManager : MonoSingleton<StageManager>
                 player.EnableElementAttack(PlayerMove.Element.Ice);
                 break;
             case PlugInType.IceAttack_2:
+                playerScriptableObject.slowDownSpeed *= 1.4f;
                 break;
             case PlugInType.IceAttack_3:
+                playerScriptableObject.enabledThirdUpgrade = true;
                 break;
             case PlugInType.IceAttack_4:
+                playerScriptableObject.enabledFourthUpgrade = true;
                 break;
             //index 4
             //체력 증가 플러그인 라인업에 이동속도 증가를 넣으면 어떨까?
@@ -207,10 +243,15 @@ public class StageManager : MonoSingleton<StageManager>
              * 4. 체력 강화 및 피해시 화면 전체의 적에게 적은 데미지
              */
             case PlugInType.Utility_1:
+                //Health or Barrier ++
+                UpgradeHealth?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.Utility_2:
+                //ShieldEffect.SetActive(true);
+                SetShieldActive?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.Utility_3:
+                UpgradeMoveSpeed?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.Utility_4:
                 break;

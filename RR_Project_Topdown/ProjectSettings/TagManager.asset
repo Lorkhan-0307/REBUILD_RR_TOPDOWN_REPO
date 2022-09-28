@@ -10,6 +10,7 @@ TagManager:
   - Projectile
   - Wall
   - fx
+  - Bullet
   layers:
   - Default
   - TransparentFX

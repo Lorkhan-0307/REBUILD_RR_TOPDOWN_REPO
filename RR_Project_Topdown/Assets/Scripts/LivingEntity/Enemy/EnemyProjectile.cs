@@ -18,7 +18,10 @@ public class EnemyProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += shootDir * speed * Time.deltaTime;
+        if (gameObject.CompareTag("Bullet"))
+        {
+            transform.position += shootDir * speed * Time.deltaTime;
+        }
         Destroy(gameObject, 3f);
     }
 

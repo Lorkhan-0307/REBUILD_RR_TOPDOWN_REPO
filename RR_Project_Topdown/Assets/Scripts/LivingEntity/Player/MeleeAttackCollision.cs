@@ -26,8 +26,10 @@ public class MeleeAttackCollision : MonoBehaviour
                         attackTarget.ApplyBurn(playerScriptableObject.burnTicks, playerScriptableObject.burnDamage);
                         break;
                     case PlayerMove.Element.Ice:
+                        attackTarget.ApplyIce(playerScriptableObject.slowDownSpeed, playerScriptableObject.enabledThirdUpgrade);
                         break;
                     case PlayerMove.Element.Corrosion:
+                        attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks, playerScriptableObject.corrosionDamage);
                         break;
 
                 }

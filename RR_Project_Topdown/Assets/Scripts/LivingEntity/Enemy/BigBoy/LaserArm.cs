@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LaserArm : MonoBehaviour
 {
+    [SerializeField] private float rotationSpeed = 1f;
     private float angle;
-    private LineRenderer lr;
     private BigBoy bigBoy;
     private Transform player;
     private Quaternion rotation;
@@ -28,7 +28,20 @@ public class LaserArm : MonoBehaviour
         bigBoy.SetArmPosition();
         Vector2 direction = player.position - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rotation.eulerAngles = new Vector3(0, 0, angle);
+
+        if(gameObject.name == "LaserArm")
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle);
+        }
+        else if (gameObject.name == "LaserArm2")
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle + 30);
+        }
+        else
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle + 60);
+        }
+
         transform.rotation = rotation;
     }
 
@@ -37,7 +50,21 @@ public class LaserArm : MonoBehaviour
         Vector2 direction = player.position - transform.position;
         armDirection = direction.normalized;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rotation.eulerAngles = new Vector3(0, 0, angle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 2 * Time.deltaTime);
+
+        if(gameObject.name == "LaserArm")
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle);
+        }
+        else if(gameObject.name == "LaserArm2")
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle + 30);
+        }
+        else
+        {
+            rotation.eulerAngles = new Vector3(0, 0, angle + 60);
+        }
+
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
 }

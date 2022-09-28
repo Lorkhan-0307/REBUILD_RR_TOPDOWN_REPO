@@ -101,16 +101,33 @@ public class RoomManager : MonoBehaviour
     }
 
     public StartPositionArray startPositionArray;
-    private int currentStage = 0;
+
     [SerializeField] private int LastStage = 3;
+    [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
+    [SerializeField] private List<GameObject> potals;
+
+    private int currentStage = 0;
+    private int stageNum;
+
+    private void Awake()
+    {
+        /*for(int i = 0; i < potals.Count; i++)
+        {
+            potals[i].SetActive(false);
+        }*/
+    }
 
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+        enemySpawnPoolController.OnSetActivePotal += SetActivePotal;
     }
 
     public void NextStage()
     {
+        //현재 스테이지의 포탈 off
+        potals[stageNum].SetActive(false);
+
         currentStage++;
         Debug.Log(currentStage);
 
@@ -127,5 +144,12 @@ public class RoomManager : MonoBehaviour
             Player.transform.position = startPositionArray.StartPosition[randomIndex].position;
             startPositionArray.StartPosition.RemoveAt(randomIndex);
         }
+    }
+
+    private void SetActivePotal(object sender, EnemySpawnPoolController.OnSetActivePotalEventArgs e)
+    {
+        stageNum = e.stageNum;
+        //Debug.Log(stageNum);
+        potals[e.stageNum].SetActive(true);
     }
 }

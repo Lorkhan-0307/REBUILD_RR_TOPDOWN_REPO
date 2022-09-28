@@ -11,7 +11,7 @@ public interface IDamageable
     IEnumerator DOTApply(float tickDamage, int type);
 
     void ApplyBurn(int ticks, float tickDamage);
-    void ApplyIce();
+    void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade);
     void ApplyCorrosion(int ticks, float tickDamage);
 
     void EnemyStun(float time);

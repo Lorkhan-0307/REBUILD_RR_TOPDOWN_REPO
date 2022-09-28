@@ -20,6 +20,12 @@ public class Boss_RangeAttack : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //bigBoy.RangeAttack();
+        if (bigBoy.changePhase)
+        {
+            animator.SetBool("changePhase", true);
+            animator.SetBool("isRangeAttack", false);
+            bigBoy.changePhase = false;
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

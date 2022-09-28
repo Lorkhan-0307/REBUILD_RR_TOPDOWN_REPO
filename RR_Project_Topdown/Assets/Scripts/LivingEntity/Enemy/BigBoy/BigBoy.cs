@@ -10,31 +10,42 @@ public class BigBoy : LivingEntity
     [SerializeField] private float enemyRange = 20f;
     [SerializeField] private float searchCoolTime = 0.25f;
     [SerializeField] private float attackCoolTime = 0.5f;
-    [SerializeField] private float startTimeBtwShots = 2f;
-    [SerializeField] private float enemyHealth = 10f;
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private GameObject LaserEffect;
-    [SerializeField] private GameObject LaserArm;
+    [SerializeField] private float bossHealth = 10f;
     [SerializeField] private float bossSpeed = 5f;
+    [SerializeField] private float rushSpeed = 30f;
+    [SerializeField] private float ghostDelay;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject projectile_2;
+    [SerializeField] public GameObject LaserArm;
+    [SerializeField] private GameObject LaserArm_2;
+    [SerializeField] private GameObject LaserArm_3;
+    [SerializeField] private GameObject LaserEffect;
+    [SerializeField] private GameObject LaserEffect_2;
+    [SerializeField] private GameObject LaserEffect_3;
+    [SerializeField] private GameObject Ghost;
     [SerializeField] private int maxAmmo = 5;
     [SerializeField] private int maxRush=3;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private int fireShot = 5;
+    [SerializeField] private float bulletSpeed = 10f;
 
 
     [SerializeField] EnemyScriptableObject enemyScriptableObject;
 
     private Rigidbody2D rb;
-    private float laserAttackDuration = 5f;
-    private float laserAttackTime = 5f;
+    //private float laserAttackDuration = 5f;
+    //private float laserAttackTime = 5f;
     private float lastAttackTime;
-    private float timeBtwShots;
-    private float enemySpeed;
+    private float ghostDelaySeconds;
+    //private float enemySpeed;
     private int currentAmmo;
     private int rushCnt = 0;
+    private int phase = 1;
+    public bool isRushing;
     public bool canLaserAttack;
     public bool canRangeAttack;
-    private bool isRushing;
     public bool isArmFlipped = false;
+    public bool changePhase;
 
 
     private SpriteRenderer spriteRenderer;
@@ -44,6 +55,8 @@ public class BigBoy : LivingEntity
     private Vector3 firePointVector;
     private NavMeshAgent pathFinder;
     private LivingEntity targetEntity;
+    private float maxHealth;
+    float angle = 0f;
 
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration = 0.4f;
@@ -67,7 +80,7 @@ public class BigBoy : LivingEntity
         pathFinder = GetComponent<NavMeshAgent>();
         pathFinder.updateRotation = false;
         pathFinder.updateUpAxis = false;
-        currentHealth = enemyHealth;
+        currentHealth = bossHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -78,37 +91,58 @@ public class BigBoy : LivingEntity
         canRangeAttack = true;
         currentAmmo = maxAmmo;
         rushCnt = maxRush;
+        ghostDelaySeconds = ghostDelay;
         dotTickTimers = new List<int>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        timeBtwShots = startTimeBtwShots;
-        //StartCoroutine(UpdatePath());
-        //StartCoroutine(LaserShoot());
-        //StartCoroutine(LaserOff());
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(currentHealth);
         //if Rush Attack, do not set direction of boss
         if (!isRushing)
         {
             SetDirection();
         }
-
+        else
+        {
+            UpdateGhostDelay();
+        }
         firePointVector = new Vector3(firePoint.position.x, firePoint.position.y, 0f);
-        //Debug.Log(ammo);
-        //Debug.Log(pathFinder.speed);
     }
 
 
-    public void SetUp(float newHealth, float newSpeed)
+    /*public void SetUp(float newHealth, float newSpeed)
     {
         currentHealth = newHealth;
+        maxHealth = newHealth;
         pathFinder.speed = newSpeed;
+        enemySpeed = normalEnemySpeed = newSpeed;
+    }*/
+
+    #region Attack Pattern
+
+    private void UpdateGhostDelay()
+    {
+        if(ghostDelaySeconds > 0)
+        {
+            ghostDelaySeconds -= Time.deltaTime;
+        }
+        else
+        {
+            GameObject currentGhost = Instantiate(Ghost, transform.position, transform.rotation);
+            Sprite currentSprite = GetComponent<SpriteRenderer>().sprite;
+            currentGhost.transform.localScale = this.transform.localScale;
+            currentGhost.GetComponent<SpriteRenderer>().sprite = currentSprite;
+            ghostDelaySeconds = ghostDelay;
+            Destroy(currentGhost, 1f);
+        }
     }
 
     private void SetDirection()
@@ -124,6 +158,24 @@ public class BigBoy : LivingEntity
             else
             {
                 spriteRenderer.flipX = true;
+            }
+        }
+    }
+    public void SetArmPosition()
+    {
+        if (targetEntity != null && LaserArm.activeSelf)
+        {
+            armDirection = (targetEntity.transform.position - LaserArm.transform.position).normalized;
+
+            if (armDirection.x >= 0)
+            {
+                isArmFlipped = false;
+                LaserArm.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                isArmFlipped = true;
+                LaserArm.GetComponent<SpriteRenderer>().flipX = true;
             }
         }
     }
@@ -163,57 +215,116 @@ public class BigBoy : LivingEntity
     {
         if (hasTarget && canLaserAttack)
         {
-            //play bigboy shoot sound
-            LaserArm.SetActive(true);
-            yield return new WaitForSeconds(5f);
-            if (LaserEffect.activeInHierarchy)
+            if(phase == 1)
             {
-                LaserArm.SetActive(false);
-                animator.SetBool("isWalking", true);
-                animator.SetBool("isLaserAttack", false);
-                canLaserAttack = false;
-            }
-        }
-    }
-
-    public IEnumerator LaserOff()
-    {
-        while (true)
-        {
-            yield return null;
-            if (LaserEffect.activeInHierarchy)
-            {
-                laserAttackDuration -= Time.deltaTime;
-                if (laserAttackDuration <= 0)
+                //play bigboy shoot sound
+                LaserArm.SetActive(true);
+                yield return new WaitForSeconds(5f);
+                if (LaserEffect.activeInHierarchy)
                 {
-                    laserAttackDuration = laserAttackTime;
+                    LaserArm.SetActive(false);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isLaserAttack", false);
+                    canLaserAttack = false;
+                }
+
+            }
+            else if(phase == 2)
+            {
+                //play bigboy shoot sound
+                LaserArm.SetActive(true);
+                LaserArm_2.SetActive(true);
+                LaserArm_3.SetActive(true);
+                yield return new WaitForSeconds(5f);
+
+                if (LaserEffect.activeInHierarchy && LaserEffect_2.activeInHierarchy && LaserEffect_3.activeInHierarchy)
+                {
+                    LaserArm.SetActive(false);
+                    LaserArm_2.SetActive(false);
+                    LaserArm_3.SetActive(false);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isLaserAttack", false);
+                    canLaserAttack = false;
+                }
+
+
+            }
+
+            //play bigboy shoot sound
+            /*LaserArm.SetActive(true);
+            LaserArm_2.SetActive(true);
+            LaserArm_3.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            if (phase == 1)
+            {
+                if (LaserEffect.activeInHierarchy)
+                {
                     LaserArm.SetActive(false);
                     animator.SetBool("isWalking", true);
                     animator.SetBool("isLaserAttack", false);
                     canLaserAttack = false;
                 }
             }
+            else if (phase == 2)
+            {
+                if (LaserEffect.activeInHierarchy && LaserEffect_2.activeInHierarchy)
+                {
+                    LaserArm.SetActive(false);
+                    LaserArm_2.SetActive(false);
+                    LaserArm_3.SetActive(false);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isLaserAttack", false);
+                    canLaserAttack = false;
+                }
+            }*/
         }
     }
+
+    /*public IEnumerator LaserOff()
+    {
+        while (true)
+        {
+            yield return null;
+            if (phase == 1)
+            {
+                if (LaserEffect.activeInHierarchy)
+                {
+                    laserAttackDuration -= Time.deltaTime;
+                    if (laserAttackDuration <= 0)
+                    {
+                        laserAttackDuration = laserAttackTime;
+                        LaserArm.SetActive(false);
+                        animator.SetBool("isWalking", true);
+                        animator.SetBool("isLaserAttack", false);
+                        canLaserAttack = false;
+                    }
+                }
+            }
+            else if (phase == 2)
+            {
+                if (LaserEffect.activeInHierarchy && LaserEffect_2.activeInHierarchy)
+                {
+                    laserAttackDuration -= Time.deltaTime;
+                    if (laserAttackDuration <= 0)
+                    {
+                        laserAttackDuration = laserAttackTime;
+                        LaserArm.SetActive(false);
+                        LaserArm_2.SetActive(false);
+                        LaserArm_3.SetActive(false);
+                        animator.SetBool("isWalking", true);
+                        animator.SetBool("isLaserAttack", false);
+                        canLaserAttack = false;
+                    }
+                }
+            }
+        }
+    }*/
 
 
     public void RangeAttack()
     {
-        /*if (timeBtwShots <= 0)
-        {
-            Debug.Log("range attack");
-            Instantiate(projectile, transform.position, Quaternion.identity);
-            timeBtwShots = startTimeBtwShots;
-            ammo--;
-        }
-        else
-        {
-            timeBtwShots -= Time.deltaTime;
-        }*/
-
         if (currentAmmo > 0)
         {
-            //StartCoroutine(bossStayOnPosition());
             Instantiate(projectile, firePointVector, Quaternion.identity);
             currentAmmo--;
         }
@@ -226,11 +337,61 @@ public class BigBoy : LivingEntity
 
     }
 
+    public void RangeShotAttack()
+    {
+        /*if (currentAmmo > 0)
+        {
+            for(int i = 0; i < fireShot; i++)
+            {
+                GameObject bullet = GameObject.Instantiate(projectile_2);
+                bullet.transform.position = transform.position;
+
+                Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+                Vector2 dirVec = direction;
+                Vector2 ranVec = new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-1f, 1f));
+                dirVec += ranVec;
+                rb.AddForce(dirVec.normalized * bulletSpeed, ForceMode2D.Impulse);
+            }
+            currentAmmo--;
+        }*/
+
+        if (currentAmmo > 0)
+        {
+
+            for(int i = 0; i < fireShot; i++)
+            {
+                GameObject bullet = GameObject.Instantiate(projectile_2);
+                bullet.transform.position = transform.position;
+                bullet.transform.rotation = Quaternion.identity;
+
+                Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+                Vector2 dirVec = new Vector2(Mathf.Cos((Mathf.PI * 2 * i / fireShot) + angle), Mathf.Sin((Mathf.PI * 2 * i / fireShot) + angle));
+                rb.AddForce(dirVec.normalized * bulletSpeed, ForceMode2D.Impulse);
+
+                Vector3 rotVec = Vector3.forward * 360 * i / fireShot + Vector3.forward * 90;
+                bullet.transform.Rotate(rotVec);
+            }
+            angle += 30f;
+            currentAmmo--;
+        }
+
+        else
+        {
+            canRangeAttack = false;
+            animator.SetBool("isRushing", true);
+            animator.SetBool("isRangeAttack", false);
+        }
+    }
+
     public IEnumerator RushAttack()
     {
         while (rushCnt > 0)
         {
             isRushing = true;
+
+            //TEST CODE
+            //if(!dead) pathFinder.isStopped = true;
+
             pathFinder.isStopped = true;
             SetDirection();
             //boss charge animation 추가
@@ -244,7 +405,7 @@ public class BigBoy : LivingEntity
             pathFinder.speed = 8000f;
             */
 
-            rb.AddForce(direction * 30f, ForceMode2D.Impulse); //force 변수 설정
+            rb.AddForce(direction * rushSpeed, ForceMode2D.Impulse); //force 변수 설정
 
             yield return new WaitForSeconds(0.75f); //다시 살펴봐야함
 
@@ -258,7 +419,7 @@ public class BigBoy : LivingEntity
         rushCnt = maxRush;
         canLaserAttack = true;
         isRushing = false;
-        pathFinder.isStopped = false;
+        if(!dead) pathFinder.isStopped = false;
         pathFinder.speed = bossSpeed;
         pathFinder.stoppingDistance = 4f;
 
@@ -266,26 +427,13 @@ public class BigBoy : LivingEntity
 
     }
 
+    #endregion
+
+    #region Animation Trigger
     private void RangeAttackTrigger()
     {
         currentAmmo = maxAmmo;
         canRangeAttack = true;
-    }
-
-    private void LaserAttackTrigger()
-    {
-        canLaserAttack = true;
-    }
-
-
-    private IEnumerator bossStayOnPosition(float x)
-    {
-        //pathFinder.speed = 0;
-        pathFinder.isStopped = true;
-        yield return new WaitForSeconds(x);
-        pathFinder.isStopped = false;
-        //pathFinder.speed = bossSpeed;
-        
     }
 
     private void BossStopTrigger()
@@ -300,38 +448,20 @@ public class BigBoy : LivingEntity
         pathFinder.speed = bossSpeed;
     }
 
-    public void SetArmPosition()
+    private void BossStopRBTrigger()
     {
-        if (targetEntity != null && LaserArm.activeSelf)
-        {
-            armDirection = (targetEntity.transform.position - LaserArm.transform.position).normalized;
-
-            if (armDirection.x >= 0)
-            {
-                isArmFlipped = false;
-                LaserArm.GetComponent<SpriteRenderer>().flipX = false;
-            }
-            else
-            {
-                isArmFlipped = true;
-                LaserArm.GetComponent<SpriteRenderer>().flipX = true;
-            }
-        }
+        rb.velocity = Vector2.zero;
     }
 
-
-    public override void OnDamage(float damage)
+    private void BossWalkTrigger()
     {
-        if (!dead)
-        {
-            //hurt animation
-            StartCoroutine(HurtSpriteChanger());
-            //hurt audio
-            //hurt particle effect
-        }
-
-        base.OnDamage(damage);
+        animator.SetBool("isWalking", true);
+        animator.SetBool("changePhase", false);
     }
+
+    #endregion
+
+    #region IDamageable Interfaces
     private IEnumerator HurtSpriteChanger()
     {
         for (int i = 0; i < numberOfFlashes; i++)
@@ -353,7 +483,7 @@ public class BigBoy : LivingEntity
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
-                GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
+                GameObject fireBurst = Instantiate(enemyScriptableObject.fireBurst, transform.position, Quaternion.identity);
                 fireBurst.transform.SetParent(this.transform);
                 //Burn의 경우 type 는 0이다.
                 StartCoroutine(DOTApply(tickDamage, 0));
@@ -377,10 +507,9 @@ public class BigBoy : LivingEntity
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
-                //해당 위치에 corrosion gameobject 추가해야함
-                //GameObject fireBurst = Instantiate(enemyScriptableObject.FireBurst, transform.position, Quaternion.identity);
-                //fireBurst.transform.SetParent(this.transform);
-                //Corrosion의 경우 type 는 2이다.
+                GameObject corrosion = Instantiate(enemyScriptableObject.corrosion, transform.position, Quaternion.identity);
+                corrosion.transform.SetParent(this.transform);
+                //corrosion의 경우 type 는 2이다.
                 StartCoroutine(DOTApply(tickDamage, 2));
             }
             else
@@ -390,9 +519,32 @@ public class BigBoy : LivingEntity
         }
     }
 
-    public override void ApplyIce()
+    public override void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade)
     {
-        base.ApplyIce();
+        enemySpeed *= slowDownSpeed;
+        if (dotTickTimers.Count <= 0)
+        {
+            dotTickTimers.Add(30);
+            //ice의 경우 type 는 1이다.
+            StartCoroutine(DOTApply(0, 1));
+            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
+            iceLock.transform.SetParent(this.transform);
+            if (dotTickTimers.Count >= 5)
+            {
+                StartCoroutine(Restraint(0.75f));
+                if (enabledThirdUpgrade)
+                {
+                    OnDamage(maxHealth * 0.1f);
+                }
+                //Freeze
+                dotTickTimers.Clear();
+            }
+        }
+        else
+        {
+            dotTickTimers.Add(10);
+        }
+
     }
 
     public override IEnumerator KnockBack()
@@ -405,7 +557,7 @@ public class BigBoy : LivingEntity
         if (!isStun)
         {
             isStun = true;
-            GameObject iceLock = Instantiate(enemyScriptableObject.IceLock, transform.position, Quaternion.identity);
+            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
             iceLock.transform.parent = this.transform;
             pathFinder.speed = 0;
             yield return new WaitForSeconds(time);
@@ -419,29 +571,66 @@ public class BigBoy : LivingEntity
         }
     }
 
-    public override void Die()
+    #endregion
+
+    public override void OnDamage(float damage)
     {
-        base.Die();
-
-        Collider2D[] enemyColliders = GetComponents<Collider2D>();
-
-        for (int i = 0; i < enemyColliders.Length; i++)
+        if (!dead)
         {
-            enemyColliders[i].enabled = false;
+            //hurt animation
+            StartCoroutine(HurtSpriteChanger());
+            //hurt audio
+            //hurt particle effect
         }
 
-        pathFinder.isStopped = true;
-        pathFinder.enabled = false;
+        base.OnDamage(damage);
+    }
+    public override void Die()
+    {
+        if(phase == 1)
+        {
+            //increase rush cnt
+            maxRush++; // rush count to 4
+            //increase ammo
+            maxAmmo *= 2;
+            //phase change animation
+            changePhase = true;
+            //Reset Boss Health
+            bossHealth *= 2;
+            currentHealth = bossHealth;
+            //increase phase
+            phase++;
+        }
 
-        //dead animation
+        else if (phase == 2)
+        {
+            Collider2D[] enemyColliders = GetComponents<Collider2D>();
+
+            // 보스 죽는거 추가해주세용 :ㅇ
 
 
-        // 보스 죽는거 추가해주세용 :ㅇ
+            //dead audio
+            //dead animation
+            //dead audio
+            for (int i = 0; i < enemyColliders.Length; i++)
+            {
+                enemyColliders[i].enabled = false;
+            }
+        
+            pathFinder.isStopped = true;
+            pathFinder.enabled = false;
 
+            base.Die();
+            animator.SetBool("isDead", true);
+            Destroy(gameObject, 2f);
+            //dead animation
+            //dead audio
 
-        //dead audio
+        }
+
     }
 
+    #region OnTrigger Function
     //player가 부딪쳤을때
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -466,4 +655,5 @@ public class BigBoy : LivingEntity
             rb.velocity = Vector2.zero;
         }
     }
+    #endregion
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 7
   movementSpeedWhileAttack: 4
-  meleeAttackDamage: 10
+  meleeAttackDamage: 11.5
   skillActiveMeleeAttackDamage: 8
   enableRangeAttackTime: 3
   skillBarMax: 150
@@ -22,4 +22,10 @@ MonoBehaviour:
   reloadBulletTime: 10
   meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
   burnTicks: 4
-  burnDamage: 7
+  burnDamage: 62.41274
+  corrosionTicks: 7
+  corrosionDamage: 1
+  slowDownSpeed: 0.5
+  enabledThirdUpgrade: 1
+  enabledFourthUpgrade: 0
+  fireBall: {fileID: 7533490216381180060, guid: 08eaa915421b30a4593451011eda63b8, type: 3}
