@@ -5,16 +5,18 @@ using UnityEngine;
 public class PopupTestScript : MonoBehaviour
 {
     [SerializeField] PopUpManager PopUpManager;
+    Popup popupComponent1;
+    Popup popupComponent2;
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            PopUpManager.Open("Test01");
+            popupComponent1 = PopUpManager.Open("Test01");
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            PopUpManager.Open("Test02");
+            popupComponent2 = PopUpManager.Open("Test02");
         }
         if(Input.GetKeyDown(KeyCode.P))
         {

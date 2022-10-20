@@ -213,7 +213,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         attackCooldownTimer = attackCooldownTime;
-        FindObjectOfType<AudioManager>().Play("MeleeAttack");
+        FindObjectOfType<AudioManager>().Play("MeleeAttack", 0);
         DisableRangeAttack();
         currentMovementSpeed = playerScriptableObject.movementSpeedWhileAttack;
         UtilsClass.GetMouseWorldPosition();

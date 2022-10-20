@@ -26,27 +26,66 @@ using UnityEngine;
 public class PopUpManager : MonoSingleton<PopUpManager>
 {
     [SerializeField] Transform popupCanvas;
+    [SerializeField] Transform invisibleImage;
     Stack<Popup> popupStack = new Stack<Popup>();
     
     
-    public void Open(string popupld)
+    public static Popup Open(string popupld)
     {
         string prefabName = "Popup " + popupld;
         Debug.Log(prefabName);
         GameObject prefab = Resources.Load<GameObject>(prefabName);
+        
 
         var popup = GameObject.Instantiate(prefab) as GameObject;
-        popup.GetComponent<Popup>().Open();
-        
+
+
+
+        popup.name = prefabName;
+
+        var popupComponent = popup.GetComponent<Popup>();
+        popupComponent.Open();
+
+        return popupComponent;
+    }
+
+    public void Open(Popup popup)
+    {
         popup.transform.SetParent(popupCanvas);
         popup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-        popupStack.Push(prefab.GetComponent<Popup>());
-    }   
+        popupStack.Push(popup.GetComponent<Popup>());
+
+        InvisibleImageReplace();
+
+        
+    }
+
+    public void InvisibleImageReplace()
+    {
+        int stackCount = popupStack.Count;
+        if (stackCount == 0)
+        {
+            invisibleImage.SetSiblingIndex(stackCount);
+        }
+        else if (stackCount == 1)
+        {
+            invisibleImage.SetSiblingIndex(stackCount - 1);
+        }
+        else
+        {
+            invisibleImage.SetSiblingIndex(stackCount - 2);
+        }
+    }
+
+    public void Close(Popup popup)
+    {
+        popupStack.Pop();
+        InvisibleImageReplace();
+    }
 
     public void Close()
     {
-        var popup = popupStack.Pop();
+        popupStack.Peek().Close();
         Debug.Log("POPUPCLOSE form POPUPMG");
-        popup.Close();
     }
 }

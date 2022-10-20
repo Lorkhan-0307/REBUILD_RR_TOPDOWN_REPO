@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PopupSettings : Popup
 {
-    public override void Close()
+    protected override void OnClose()
     {
-        GameObject.DestroyImmediate(gameObject, true);
+        GameObject.Destroy(gameObject);
+
         Debug.Log("POPUP CLOSE");
     }
 
-    public override void Open()
+    protected override void OnOpen()
     {
         Debug.Log("POPUP OPEN");
     }

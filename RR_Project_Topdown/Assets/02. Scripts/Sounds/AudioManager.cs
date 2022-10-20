@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoSingleton<AudioManager>
 {
+    public AudioMixer mixer;
     public Sound[] sounds;
 
     private void Awake()
@@ -33,13 +34,22 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     }
 
-    public void Play(string name)
+    public void Play(string name, int num)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s==null)
+        if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
+        }
+
+        if (num == 0)
+        {
+            s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
+        }
+        else
+        {
+            s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("BGsound")[0];
         }
         s.source.Play();
     }
@@ -57,10 +67,10 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     private IEnumerator ThemeStart()
     {
-        Play("Pre-MainTheme");
+        Play("Pre-MainTheme", 1);
         Sound preTheme = GetSound("Pre-MainTheme");
         //Debug.Log(preTheme.clip.length);
         yield return new WaitForSeconds(preTheme.clip.length-1.2f);
-        Play("MainTheme");
+        Play("MainTheme", 1);
     }
 }

@@ -1,27 +1,43 @@
 using UnityEngine;
 
+
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    private static T instance;
+    private static object mutex = new object();
+
     public static T Instance
     {
         get
         {
-            if (instance == null)
+            lock (mutex)
             {
-                var obj = (GameObject)GameObject.FindObjectOfType(typeof(T));
-                if (obj == null)
+                if (instance == null)
                 {
-                    var instanceObject = new GameObject();
-                    instanceObject.name = "(Singleton)"+typeof(T).ToString();
-                    instance = instanceObject.AddComponent<T>();
+                    var founds = FindObjectsOfType(typeof(T));
+                    if (founds.Length > 1)
+                    {
+                        return null;
+                    }
+                    else if (founds.Length > 0)
+                    {
+                        instance = (T)founds[0];
+
+                        DontDestroyOnLoad(instance.gameObject);
+                    }
+                    else
+                    {
+                        GameObject singleton = new GameObject();
+                        instance = singleton.AddComponent<T>();
+                        singleton.name = "(Singleton) " + typeof(T).ToString();
+
+                        DontDestroyOnLoad(singleton);
+                    }
                 }
-                else
-                {
-                    instance = (T)obj.GetComponent<T>();
-                }
+
+                return instance;
             }
-            return instance;
         }
     }
-    private static T instance;
+
 }
