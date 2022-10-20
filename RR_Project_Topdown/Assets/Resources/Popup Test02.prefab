@@ -202,8 +202,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -5175285788033804828}
-        m_TargetAssemblyTypeName: Popup, Assembly-CSharp
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PopUpManager, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:
