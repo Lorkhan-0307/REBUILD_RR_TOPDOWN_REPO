@@ -26,6 +26,7 @@ using UnityEngine;
 public class PopUpManager : MonoSingleton<PopUpManager>
 {
     [SerializeField] Transform popupCanvas;
+    [SerializeField] Transform invisibleImage;
     Stack<Popup> popupStack = new Stack<Popup>();
     
     
@@ -34,8 +35,12 @@ public class PopUpManager : MonoSingleton<PopUpManager>
         string prefabName = "Popup " + popupld;
         Debug.Log(prefabName);
         GameObject prefab = Resources.Load<GameObject>(prefabName);
+        
 
         var popup = GameObject.Instantiate(prefab) as GameObject;
+
+
+
         popup.name = prefabName;
 
         var popupComponent = popup.GetComponent<Popup>();
@@ -49,11 +54,33 @@ public class PopUpManager : MonoSingleton<PopUpManager>
         popup.transform.SetParent(popupCanvas);
         popup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         popupStack.Push(popup.GetComponent<Popup>());
+
+        InvisibleImageReplace();
+
+        
+    }
+
+    public void InvisibleImageReplace()
+    {
+        int stackCount = popupStack.Count;
+        if (stackCount == 0)
+        {
+            invisibleImage.SetSiblingIndex(stackCount);
+        }
+        else if (stackCount == 1)
+        {
+            invisibleImage.SetSiblingIndex(stackCount - 1);
+        }
+        else
+        {
+            invisibleImage.SetSiblingIndex(stackCount - 2);
+        }
     }
 
     public void Close(Popup popup)
     {
         popupStack.Pop();
+        InvisibleImageReplace();
     }
 
     public void Close()
