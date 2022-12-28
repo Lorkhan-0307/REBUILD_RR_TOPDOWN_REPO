@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class EnemySpawnPool : ObjectPool
 {
     public override void CreatePool()
@@ -23,10 +24,11 @@ public class EnemySpawnPool : ObjectPool
         obj.SetActive(false);
     }
 
-    public PoolObject GetEnemyPoolObject(Transform targetTransform)
+    public PoolObject GetEnemyPoolObject(Vector3 position)
     {
         PoolObject newPoolObject = GetPoolObject();
-        newPoolObject.gameObject.transform.position = targetTransform.position;
+        //Debug.Log(targetTransform.position);
+        newPoolObject.gameObject.transform.position = position;
         return newPoolObject;
     }
 }

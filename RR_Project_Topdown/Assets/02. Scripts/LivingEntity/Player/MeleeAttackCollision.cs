@@ -23,24 +23,27 @@ public class MeleeAttackCollision : MonoBehaviour
                     case PlayerMove.Element.Physical:
                         break;
                     case PlayerMove.Element.Fire:
-                        attackTarget.ApplyBurn(playerScriptableObject.burnTicks, playerScriptableObject.burnDamage);
+                        attackTarget.ApplyBurn(playerScriptableObject.burnTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.burnDamage);
                         break;
                     case PlayerMove.Element.Ice:
-                        attackTarget.ApplyIce(playerScriptableObject.slowDownSpeed, playerScriptableObject.enabledThirdUpgrade);
+                        attackTarget.ApplyIce(playerScriptableObject.slowDownSpeed,playerScriptableObject.enabledSecondUpgrade, playerScriptableObject.enabledThirdUpgrade);
                         break;
                     case PlayerMove.Element.Corrosion:
-                        attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks, playerScriptableObject.corrosionDamage);
+                        attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks,playerScriptableObject.maxCorrosionTicks, playerScriptableObject.corrosionDamage, playerScriptableObject.enabledFourthUpgrade);
                         break;
 
                 }
 
-                attackTarget.OnDamage(playerScriptableObject.meleeAttackDamage);
+                if (player.skillActivated)
+                    attackTarget.OnDamage(playerScriptableObject.skillActiveMeleeAttackDamage);
+                else
+                    attackTarget.OnDamage(playerScriptableObject.meleeAttackDamage);
                 
                 if(attackTarget.GetComponent<Enemy>())
                 {
                     if (!attackTarget.isKnockback && !attackTarget.isStun)
                     {
-                        attackTarget.GetComponent<Enemy>().EnemyKnockback();
+                        attackTarget.GetComponent<Enemy>().EnemyKnockBack();
                     }
                 }
                 

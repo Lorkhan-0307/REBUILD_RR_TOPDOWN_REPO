@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - fx
   - Bullet
+  - Pet
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - UI
   - Player
   - Projectiles and Enemies
-  - 
+  - PlayerObstacles
   - 
   - 
   - 
@@ -60,9 +61,9 @@ TagManager:
   - name: Enemy
     uniqueID: 37481657
     locked: 0
-  - name: Player
-    uniqueID: 3502288865
-    locked: 0
   - name: Shield
     uniqueID: 1613446963
+    locked: 0
+  - name: Player
+    uniqueID: 3502288865
     locked: 0

@@ -6,14 +6,10 @@ public interface IDamageable
 {
     void OnDamage(float damage);
 
-    IEnumerator KnockBack();
-    IEnumerator Restraint(float time);
+ 
     IEnumerator DOTApply(float tickDamage, int type);
 
-    void ApplyBurn(int ticks, float tickDamage);
-    void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade);
-    void ApplyCorrosion(int ticks, float tickDamage);
-
-    void EnemyStun(float time);
-    void EnemyKnockback();
+    void ApplyBurn(int ticks, int maxTicks, float tickDamage);
+    void ApplyIce(float slowDownSpeed, bool enabledSecondUpgrade, bool enabledThirdUpgrade);
+    void ApplyCorrosion(int ticks, int maxTicks, float tickDamage, bool fourthUpgrade);
 }

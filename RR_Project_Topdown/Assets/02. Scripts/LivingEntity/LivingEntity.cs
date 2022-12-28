@@ -9,6 +9,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public List<int> dotTickTimers { get; protected set; }
     public bool dead { get; protected set; }
     public event Action OnDeath;
+    public bool isForceField = false;
 
     [HideInInspector]
     public bool isKnockback = false;
@@ -25,6 +26,10 @@ public class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void OnDamage(float damage)
     {
+        if (isForceField)
+        {
+            damage *= 1.5f;
+        }
         currentHealth -= damage;
 
         if(currentHealth <= 0 && !dead)
@@ -41,16 +46,6 @@ public class LivingEntity : MonoBehaviour, IDamageable
         }
 
         dead = true;
-    }
-
-    public virtual IEnumerator KnockBack()
-    {
-        yield return null;
-    }
-    
-    public virtual IEnumerator Restraint(float time)
-    {
-        yield return null;
     }
 
     public virtual IEnumerator DOTApply(float tickDamage, int type)
@@ -77,7 +72,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
         }
         if (dotTickTimers.Count <= 0)
         {
-
+            
 
             for (var i = this.transform.childCount - 1; i >= 0; i--)
             {
@@ -90,31 +85,20 @@ public class LivingEntity : MonoBehaviour, IDamageable
                     }
                     Destroy(this.transform.GetChild(i).gameObject);
                 }
-
-                
             }
         }
     }
 
-    public virtual void ApplyBurn(int ticks, float tickDamage)
+    public virtual void ApplyBurn(int ticks, int maxTicks, float tickDamage)
     {
     }
 
-    public virtual void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade)
+    public virtual void ApplyIce(float slowDownSpeed, bool enabledSecondUpgrade, bool enabledThirdUpgrade)
     {
     }
 
-    public virtual void ApplyCorrosion(int ticks, float tickDamage)
+    public virtual void ApplyCorrosion(int ticks, int maxTicks, float tickDamage, bool fourthUpgrade)
     {
     }
 
-    public void EnemyStun(float time)
-    {
-        StartCoroutine(Restraint(time));
-    }
-
-    public void EnemyKnockback()
-    {
-        StartCoroutine(KnockBack());
-    }
 }

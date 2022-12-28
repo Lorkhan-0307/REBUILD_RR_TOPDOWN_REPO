@@ -3,11 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*public enum PoolType
+{
+    Melee,
+    SmallMelee,
+    Robot,
+    Kamikace,
+    C3PO,
+    Turret,
+    Humanoid
+}*/
+
+
 public class ObjectPool : MonoSingleton<ObjectPool>
 {
     [Header("Prefab Settings")]
     public GameObject prefab;
     public List<PoolObject> listPoolObject;
+    //public PoolType poolType;
 
     [SerializeField] private int iCount = 5;
 
@@ -64,12 +77,11 @@ public class ObjectPool : MonoSingleton<ObjectPool>
 
     public PoolObject CreatePoolObject()
     {
-        GameObject newGameObject = UnityEditor.PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+        GameObject newGameObject = GameObject.Instantiate(prefab, this.transform) as GameObject;
         PoolObject newPoolObject = newGameObject.GetComponent<PoolObject>();
         newPoolObject.pool = this;
         newPoolObject.gameObject.SetActive(false);
         listPoolObject.Add(newPoolObject);
-        newPoolObject.transform.SetParent(this.transform);
         return newPoolObject;
     }
 }

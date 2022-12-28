@@ -91,7 +91,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -792678431
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 15
   m_Sprite: {fileID: -3004904165230851159, guid: 145a3c84868716b4192c23ff09263cca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f831948c55989846b790384fd6f890e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSpeed: 20
+  fireSpeed: 30
   pfBulletExplosion: {fileID: 8328244600747988695, guid: a2e06404e45a5f044b4bdafe67a6f837, type: 3}
 --- !u!70 &1935976599627768764
 CapsuleCollider2D:

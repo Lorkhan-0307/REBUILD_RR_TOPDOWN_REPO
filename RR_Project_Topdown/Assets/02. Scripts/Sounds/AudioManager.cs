@@ -26,7 +26,6 @@ public class AudioManager : MonoSingleton<AudioManager>
     private void Start()
     {
         StartCoroutine(ThemeStart());
-        
     }
 
     private void Update()
@@ -43,15 +42,39 @@ public class AudioManager : MonoSingleton<AudioManager>
             return;
         }
 
+        //num이 0일때 SFX 
         if (num == 0)
         {
             s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
         }
+        //num이 1일때 BGSound
         else
         {
             s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("BGsound")[0];
         }
         s.source.Play();
+    }
+
+    public void Stop(string name, int num)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+
+        //num이 0일때 SFX 
+        if (num == 0)
+        {
+            s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
+        }
+        //num이 1일때 BGSound
+        else
+        {
+            s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("BGsound")[0];
+        }
+        s.source.Stop();
     }
 
     public Sound GetSound(string name)

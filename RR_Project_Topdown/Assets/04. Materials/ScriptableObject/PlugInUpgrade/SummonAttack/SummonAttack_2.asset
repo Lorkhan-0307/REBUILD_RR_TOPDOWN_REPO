@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b20deae79be0a048a90126b4a51420f, type: 3}
+  m_Name: SummonAttack_2
+  m_EditorClassIdentifier: 
+  plugInType: 21
+  Name: 
+  icon: {fileID: -3390129597888165916, guid: 8507fb0de8c31e4449a929be9f28629a, type: 3}
+  upgrades:
+  - {fileID: 11400000, guid: f22e706fc53df7947a0b07d197ae2797, type: 2}
+  index: 5
+  imageIndex: 21

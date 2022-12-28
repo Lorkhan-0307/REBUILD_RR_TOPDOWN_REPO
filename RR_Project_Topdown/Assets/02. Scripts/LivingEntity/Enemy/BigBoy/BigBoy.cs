@@ -15,7 +15,6 @@ public class BigBoy : LivingEntity
     [SerializeField] private float rushSpeed = 30f;
     [SerializeField] private float ghostDelay;
     [SerializeField] private GameObject projectile;
-    [SerializeField] private GameObject projectile_2;
     [SerializeField] public GameObject LaserArm;
     [SerializeField] private GameObject LaserArm_2;
     [SerializeField] private GameObject LaserArm_3;
@@ -115,6 +114,8 @@ public class BigBoy : LivingEntity
             UpdateGhostDelay();
         }
         firePointVector = new Vector3(firePoint.position.x, firePoint.position.y, 0f);
+
+        //Debug.Log(currentHealth);
     }
 
 
@@ -360,7 +361,7 @@ public class BigBoy : LivingEntity
 
             for(int i = 0; i < fireShot; i++)
             {
-                GameObject bullet = GameObject.Instantiate(projectile_2);
+                GameObject bullet = GameObject.Instantiate(projectile);
                 bullet.transform.position = transform.position;
                 bullet.transform.rotation = Quaternion.identity;
 
@@ -475,9 +476,9 @@ public class BigBoy : LivingEntity
 
 
     // Apply 시리즈가 보스에 따로 있는 이유 : 보스의 경우 틱데미지의 감소를 넣을까 함.
-    public override void ApplyBurn(int ticks, float tickDamage)
+    public override void ApplyBurn(int ticks, int maxTicks, float tickDamage)
     {
-        base.ApplyBurn(ticks, tickDamage);
+        base.ApplyBurn(ticks,maxTicks, tickDamage);
         if (dotTickTimers.Count <= 11)
         {
             if (dotTickTimers.Count <= 0)
@@ -499,9 +500,9 @@ public class BigBoy : LivingEntity
         }
     }
 
-    public override void ApplyCorrosion(int ticks, float tickDamage)
+    public override void ApplyCorrosion(int ticks, int maxTicks, float tickDamage, bool fourthUpgrade)
     {
-        base.ApplyCorrosion(ticks, tickDamage);
+        base.ApplyCorrosion(ticks,maxTicks, tickDamage, fourthUpgrade);
         if (dotTickTimers.Count <= 11)
         {
             if (dotTickTimers.Count <= 0)
@@ -519,7 +520,7 @@ public class BigBoy : LivingEntity
         }
     }
 
-    public override void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade)
+    public override void ApplyIce(float slowDownSpeed, bool enabledSecondUpgrade, bool enabledThirdUpgrade)
     {
         enemySpeed *= slowDownSpeed;
         if (dotTickTimers.Count <= 0)
@@ -531,7 +532,6 @@ public class BigBoy : LivingEntity
             iceLock.transform.SetParent(this.transform);
             if (dotTickTimers.Count >= 5)
             {
-                StartCoroutine(Restraint(0.75f));
                 if (enabledThirdUpgrade)
                 {
                     OnDamage(maxHealth * 0.1f);
@@ -545,30 +545,6 @@ public class BigBoy : LivingEntity
             dotTickTimers.Add(10);
         }
 
-    }
-
-    public override IEnumerator KnockBack()
-    {
-        return base.KnockBack();
-    }
-
-    public override IEnumerator Restraint(float time)
-    {
-        if (!isStun)
-        {
-            isStun = true;
-            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
-            iceLock.transform.parent = this.transform;
-            pathFinder.speed = 0;
-            yield return new WaitForSeconds(time);
-            pathFinder.speed = enemySpeed;
-            isStun = false;
-            if (iceLock)
-            {
-                Destroy(iceLock);
-            }
-
-        }
     }
 
     #endregion
@@ -608,10 +584,13 @@ public class BigBoy : LivingEntity
 
             // 보스 죽는거 추가해주세용 :ㅇ
 
-
             //dead audio
             //dead animation
             //dead audio
+            base.Die();
+            animator.SetBool("isDead", true);
+            Destroy(gameObject, 2f);
+
             for (int i = 0; i < enemyColliders.Length; i++)
             {
                 enemyColliders[i].enabled = false;
@@ -620,9 +599,6 @@ public class BigBoy : LivingEntity
             pathFinder.isStopped = true;
             pathFinder.enabled = false;
 
-            base.Die();
-            animator.SetBool("isDead", true);
-            Destroy(gameObject, 2f);
             //dead animation
             //dead audio
 

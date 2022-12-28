@@ -6,17 +6,27 @@ public class Shield : MonoBehaviour
 {
     [SerializeField] private float ShieldCoolTime = 3f;
     [SerializeField] private float ShieldDamage = 1f;
+    [SerializeField] private float attackRange;
+    [SerializeField] private LayerMask whatIsTarget;
+
+    private bool enableEntireAttack;
 
     // Start is called before the first frame update
-    void Awake()
+
+    private void Start()
     {
-        //gameObject.SetActive(false);
+        FindObjectOfType<StageManager>().UpgradeEntireAttack += Shield_UpgradeEntireAttack;
     }
+
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    private void Shield_UpgradeEntireAttack(object sender, System.EventArgs e)
+    {
+        enableEntireAttack = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,6 +41,7 @@ public class Shield : MonoBehaviour
                 if (attackTarget != null)
                 {
                     attackTarget.OnDamage(ShieldDamage);
+                    attackTarget.GetComponent<Enemy>().EnemyKnockBack();
                     //attackTarget.EnemyKnockback();
                 }
 
@@ -45,6 +56,8 @@ public class Shield : MonoBehaviour
         //play shield off animation
         //play Enemy knockback animation
 
+        if (enableEntireAttack) EntireAttack();
+
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         Collider2D[] enemyColliders = GetComponents<Collider2D>();
         for (int i = 0; i < enemyColliders.Length; i++)
@@ -56,10 +69,24 @@ public class Shield : MonoBehaviour
         yield return new WaitForSeconds(ShieldCoolTime);
 
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        Collider2D[] enemyColliders_2 = GetComponents<Collider2D>();
-        for (int i = 0; i < enemyColliders_2.Length; i++)
+        for (int i = 0; i < enemyColliders.Length; i++)
         {
             enemyColliders[i].enabled = true;
+        }
+    }
+
+    private void EntireAttack()
+    {
+        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(transform.position, attackRange, whatIsTarget);
+
+        for(int i = 0; i < collider2Ds.Length; i++)
+        {
+            LivingEntity livingEntity = collider2Ds[i].GetComponent<LivingEntity>();
+
+            if(livingEntity != null && !livingEntity.dead)
+            {
+                livingEntity.OnDamage(ShieldDamage);
+            }
         }
     }
 

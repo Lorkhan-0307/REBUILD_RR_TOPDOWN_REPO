@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum EnemyType
+{
+    Melee, Range
+}
+
 public class Enemy : LivingEntity
 {
     [SerializeField] private LayerMask whatIsTarget;
@@ -12,11 +17,11 @@ public class Enemy : LivingEntity
     [SerializeField] private float searchCoolTime = 0.25f;
     [SerializeField] private float attackCoolTime = 0.5f;
     [SerializeField] private float startTimeBtwShots = 2f;
+    [SerializeField] private EnemyType enemyType;
     //[SerializeField] private float enemyHealth = 10f;
     [SerializeField] private GameObject projectile;
 
-    [SerializeField] private EnemyScriptableObject enemyScriptableObject;
-
+    public EnemyScriptableObject enemyScriptableObject;
 
 
     private float timeBtwShots;
@@ -27,6 +32,8 @@ public class Enemy : LivingEntity
     private NavMeshAgent pathFinder;
     private Rigidbody2D rgbd;
     private float maxHealth;
+    private bool corrosionDeath = false;
+    private bool iceSecondUpgrade = false;
 
     //도트뎀 사용을 위한 변수들 모음
 
@@ -70,21 +77,52 @@ public class Enemy : LivingEntity
     void Start()
     {
         timeBtwShots = startTimeBtwShots;
+
         StartCoroutine(UpdatePath());
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(gameObject.name);
-        SetDirection();
-        if (gameObject.name == "R(Clone)" && hasTarget){
-            Shoot();
+        if(corrosionDeath)
+        {
+            if (dotTickTimers.Count <= 4)
+                corrosionDeath = false;
         }
+
+        if (dotTickTimers.Count <= 0)
+            enemySpeed = normalEnemySpeed;
+
+        if(gameObject.name=="R(Clone)" || gameObject.name == "M(Clone)")
+        {
+            SetDirection();
+        }
+        //나중에 추가된 Enemy들에 해당
+        else
+        {
+            SetDirection_2();
+        }
+
+        switch (enemyType)
+        {
+            case EnemyType.Melee:
+                break;
+            case EnemyType.Range:
+                if (hasTarget)
+                {
+                    timeBtwShots -= Time.deltaTime;
+                    if(timeBtwShots <= 0f)
+                    {
+                        Shoot();
+                    }
+                }
+                break;
+        }
+
         pathFinder.speed = enemySpeed;
 
-        
     }
+        
 
     public void SetUp(float newHealth, float newSpeed)
     {
@@ -135,6 +173,23 @@ public class Enemy : LivingEntity
         }
     }
 
+    private void SetDirection_2()
+    {
+        if(targetEntity!=null)
+        {
+            direction = (targetEntity.transform.position - transform.position).normalized;
+
+            if (direction.x >= 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
+    }
+
     private IEnumerator UpdatePath()
     {
         while (!dead)
@@ -142,7 +197,10 @@ public class Enemy : LivingEntity
             if (hasTarget)
             {
                 pathFinder.isStopped = false;
-                pathFinder.SetDestination(targetEntity.transform.position);
+                if(gameObject.name!= "Turret Robot(Clone)")
+                {
+                    pathFinder.SetDestination(targetEntity.transform.position);
+                }
             }
             else
             {
@@ -168,61 +226,74 @@ public class Enemy : LivingEntity
 
     private void Shoot()
     {
-        if (timeBtwShots <= 0)
-        {
-            StartCoroutine(enemyStayOnPosition());
-            Instantiate(projectile, transform.position, Quaternion.identity);
-            timeBtwShots = startTimeBtwShots;
-        }
-        else
-        {
-            timeBtwShots -= Time.deltaTime;
-        }
+        //StartCoroutine(enemyStayOnPosition());
+        animator.SetBool("Attack", true);
+        Instantiate(projectile, transform.position, Quaternion.identity);
+        animator.SetBool("Attack", false);
+
+        timeBtwShots = startTimeBtwShots;
     }
 
     private IEnumerator enemyStayOnPosition()
     {
+        pathFinder.isStopped = true;
         pathFinder.speed = 0;
         yield return new WaitForSeconds(1f);
+        pathFinder.isStopped = false;
         pathFinder.speed = enemySpeed;
     }
 
-    public override IEnumerator Restraint(float time)
+    public void EnemyRestraint(float time)
     {
-        if(!isStun)
+        StartCoroutine(Restraint(time));
+    }
+
+    public IEnumerator Restraint(float time)
+    {
+        if(!isStun && pathFinder.isOnNavMesh)
         {
+            Debug.Log("CONSTRAINT");
             isStun = true;
             GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
             iceLock.transform.parent = this.transform;
-            pathFinder.speed = 0;
+            //속박 수정해야함~
+            pathFinder.isStopped = true;
             yield return new WaitForSeconds(time);
-            pathFinder.speed = enemySpeed;
+            pathFinder.isStopped = false;
             isStun = false;
+            if (iceSecondUpgrade)
+                OnDamage(enemyScriptableObject.enemyHealth * 0.1f);
+
             if(iceLock)
             {
                 Destroy(iceLock);
             }
-            
         }
-        
     }
     
     
 
     private IEnumerator HurtSpriteChanger()
     {
-        for (int i = 0; i < numberOfFlashes; i++)
+        if(enemySpeed >= normalEnemySpeed)
         {
-            spriteRenderer.color = new Color(1, 0, 0, 0.5f);
-            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes*2));
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes*2));
+            for (int i = 0; i < numberOfFlashes; i++)
+            {
+                spriteRenderer.color = new Color(1, 0, 0, 0.5f);
+                yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+                spriteRenderer.color = Color.white;
+                yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+            }
         }
+     
     }
-    
-    
 
-    private IEnumerator EnemyKnockBack()
+    public void EnemyKnockBack()
+    {
+        StartCoroutine(IEnemyKnockBack());
+    }
+
+    private IEnumerator IEnemyKnockBack()
     {
         if(!isKnockback)
         {
@@ -247,15 +318,17 @@ public class Enemy : LivingEntity
     //도트뎀 기능
 
     
-    public override void ApplyBurn(int ticks, float tickDamage)
+    public override void ApplyBurn(int ticks,int maxTicks, float tickDamage)
     {
-        if(dotTickTimers.Count<=11)
+        if(dotTickTimers.Count<=maxTicks)
         {
             if (dotTickTimers.Count <= 0)
             {
                 dotTickTimers.Add(ticks);
                 GameObject fireBurst = Instantiate(enemyScriptableObject.fireBurst, transform.position, Quaternion.identity);
                 fireBurst.transform.SetParent(this.transform);
+                Debug.Log($"{tickDamage} : fire damage)");
+
                 //Burn의 경우 type 는 0이다.
                 StartCoroutine(DOTApply(tickDamage, 0));
                 if (dotTickTimers.Count >= 5)
@@ -272,44 +345,50 @@ public class Enemy : LivingEntity
         
     }
 
-    public override void ApplyIce(float slowDownSpeed, bool enabledThirdUpgrade)
+    public override void ApplyIce(float slowDownSpeed, bool enabledSecondUpgrade, bool enabledThirdUpgrade)
     {
-        enemySpeed *= slowDownSpeed;
-         if (dotTickTimers.Count <= 0)
-         {
-             dotTickTimers.Add(30);
-            //ice의 경우 type 는 1이다.
-            StartCoroutine(DOTApply(0, 1));
-            GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
-            iceLock.transform.SetParent(this.transform);
-            if (dotTickTimers.Count >= 5)
-             {
-                StartCoroutine(Restraint(0.75f));
-                if(enabledThirdUpgrade)
-                {
-                    OnDamage(maxHealth * 0.1f);
-                }
-                //Freeze
-                dotTickTimers.Clear();
+        if(enemySpeed >= normalEnemySpeed)
+            enemySpeed *= slowDownSpeed;
+
+        if (enabledSecondUpgrade)
+            iceSecondUpgrade = true;
+
+        
+
+        // 10%로 속박
+        if (UnityEngine.Random.Range(0, 10) == 0)
+            EnemyRestraint(2f);
+
+        if(dotTickTimers.Count <= 10)
+        {
+            if (dotTickTimers.Count <= 0)
+            {
+                dotTickTimers.Add(30);
+                //ice의 경우 type 는 1이다.
+                StartCoroutine(DOTApply(0, 1));
+                //GameObject iceLock = Instantiate(enemyScriptableObject.iceLock, transform.position, Quaternion.identity);
+                //iceLock.transform.SetParent(this.transform);
             }
-         }
-         else
-         {
-             dotTickTimers.Add(10);
-         }
+            else
+            {
+                dotTickTimers.Add(10);
+            }
+        }
+        
 
     }
 
     public override IEnumerator DOTApply(float tickDamage, int type)
     {
-        
         return base.DOTApply(tickDamage, type);
     }
 
 
-    public override void ApplyCorrosion(int ticks, float tickDamage)
+    public override void ApplyCorrosion(int ticks, int maxTicks, float tickDamage, bool fourthUpgrade)
     {
-        if (dotTickTimers.Count <= 11)
+        if (fourthUpgrade)
+            corrosionDeath = true;
+        if (dotTickTimers.Count <= maxTicks)
         {
             if (dotTickTimers.Count <= 0)
             {
@@ -333,7 +412,7 @@ public class Enemy : LivingEntity
         {
             //hurt animation
             StartCoroutine(HurtSpriteChanger());
-            Debug.Log(this.name + " HP: " + currentHealth);
+            //Debug.Log(this.name + " HP: " + currentHealth);
             //hurt audio
             //hurt particle effect
         }
@@ -345,27 +424,34 @@ public class Enemy : LivingEntity
 
     public override void Die()
     {
-        
+        if(corrosionDeath == true && dotTickTimers.Count >= 5)
+        {
+            //폭발 일어나기~
+            Transform _corrosionExplosion = Instantiate(enemyScriptableObject.corrosionExplosion);
+        }
         if(isStun)
         {
+            if (!pathFinder.isStopped)
+                pathFinder.isStopped = true;
             for (var i = this.transform.childCount - 1; i >= 0; i--)
             {
                 Destroy(this.transform.GetChild(i).gameObject);
             }
         }
 
-        Collider2D[] enemyColliders = GetComponents<Collider2D>();
+        base.Die();
+        animator.SetTrigger("Death");
+
+        /*Collider2D[] enemyColliders = GetComponents<Collider2D>();
 
         for(int i = 0; i < enemyColliders.Length; i++)
         {
             enemyColliders[i].enabled = false;
-        }
+        }*/
 
         pathFinder.isStopped = true;
         pathFinder.enabled = false;
 
-        animator.SetTrigger("Death");
-        base.Die();
         //dead audio
     }
 

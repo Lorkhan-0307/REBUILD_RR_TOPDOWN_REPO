@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class BulletExplosion : MonoBehaviour
 {
-    [SerializeField] private float bulletDamage = 20f;
-    //[SerializeField] private float stunTime = 5f;
+    [SerializeField] private float stunTime = 5f;
+    [SerializeField] private PlayerScriptableObject playerScriptableObject;
+    private PlayerMove playerMove;
+
+    private void Awake()
+    {
+        playerMove = PlayerMove.FindObjectOfType<PlayerMove>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,7 +34,19 @@ public class BulletExplosion : MonoBehaviour
 
             if (attackTarget != null)
             {
-                attackTarget.OnDamage(bulletDamage);
+                attackTarget.OnDamage(playerScriptableObject.rangeAttackDamage);
+                if(playerMove.currentElement == PlayerMove.Element.Corrosion && playerScriptableObject.enabledThirdUpgrade == true)
+                {
+                    attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.corrosionDamage, playerScriptableObject.enabledFourthUpgrade);
+                    attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.corrosionDamage, playerScriptableObject.enabledFourthUpgrade);
+                    attackTarget.ApplyCorrosion(playerScriptableObject.corrosionTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.corrosionDamage, playerScriptableObject.enabledFourthUpgrade);
+                }
+                if (!attackTarget.isStun && !attackTarget.isKnockback)
+                {
+                    if(attackTarget.TryGetComponent(out Enemy enemy))
+                        enemy.EnemyRestraint(stunTime);
+                }
+                
             }
         }
 

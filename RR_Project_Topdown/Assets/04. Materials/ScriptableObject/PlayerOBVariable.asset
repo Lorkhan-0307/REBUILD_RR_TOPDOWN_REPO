@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c7a6f007151d64492d2b566d7b6782, type: 3}
   m_Name: PlayerOBVariable
   m_EditorClassIdentifier: 
-  movementSpeed: 7
+  movespeed: 7
+  constant_movementSpeed: 7
+  movementSpeedMultiplier: 2
   movementSpeedWhileAttack: 4
-  meleeAttackDamage: 11.5
+  meleeAttackDamage: 3000
   skillActiveMeleeAttackDamage: 8
   enableRangeAttackTime: 3
   skillBarMax: 150
@@ -22,10 +24,24 @@ MonoBehaviour:
   reloadBulletTime: 10
   meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
   burnTicks: 4
-  burnDamage: 62.41274
+  maxBurnTicks: 3
+  burnDamage: 10
+  ringOfFireDamage: 5
   corrosionTicks: 7
+  maxCorrosionTicks: 10
   corrosionDamage: 1
-  slowDownSpeed: 0.5
+  corrisionExplosionDamage: 10
+  slowDownSpeed: 0.7
+  enabledSecondUpgrade: 0
   enabledThirdUpgrade: 1
   enabledFourthUpgrade: 0
-  fireBall: {fileID: 7533490216381180060, guid: 08eaa915421b30a4593451011eda63b8, type: 3}
+  upgradeDamage_Gauntlet1: 1.15
+  upgradeDamage_Gauntlet2: 1.3
+  upgradeSpeed_Gauntlet2: 0.9
+  upgradeDamage_Gauntlet3: 0.75
+  upgradeSpeed_Gauntlet3: 1.15
+  upgradeDamage_Gauntlet4: 1.5
+  latestGauntletDamageRate: 1
+  isPetUpgraded: 0
+  petCoolTimeMultiplier: 0.5
+  fireBall: {fileID: 931238887859299250, guid: 684080b60f18cbb4c8dee3445b693497, type: 3}

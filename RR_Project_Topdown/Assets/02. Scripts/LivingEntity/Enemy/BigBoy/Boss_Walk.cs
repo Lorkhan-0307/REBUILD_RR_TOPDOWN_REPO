@@ -27,6 +27,7 @@ public class Boss_Walk : StateMachineBehaviour
         for (int i = 0; i < collider2Ds.Length; i++)
         {
             LivingEntity livingEntity = collider2Ds[i].GetComponent<LivingEntity>();
+            //Debug.Log(animator.GetComponent<BigBoy>().canRangeAttack);
 
             if (livingEntity != null && !livingEntity.dead && animator.GetComponent<BigBoy>().canRangeAttack)
             {

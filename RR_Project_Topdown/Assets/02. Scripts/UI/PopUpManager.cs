@@ -63,17 +63,18 @@ public class PopUpManager : MonoSingleton<PopUpManager>
     public void InvisibleImageReplace()
     {
         int stackCount = popupStack.Count;
-        if (stackCount == 0)
+        if(stackCount == 0)
         {
-            invisibleImage.SetSiblingIndex(stackCount);
+            invisibleImage.gameObject.SetActive(false);
         }
         else if (stackCount == 1)
         {
-            invisibleImage.SetSiblingIndex(stackCount - 1);
+            invisibleImage.gameObject.SetActive(true);
+            invisibleImage.SetSiblingIndex(0);
         }
         else
         {
-            invisibleImage.SetSiblingIndex(stackCount - 2);
+            invisibleImage.SetSiblingIndex(stackCount-1);
         }
     }
 

@@ -29,7 +29,7 @@ public class FireBall : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             LivingEntity livingEntity = collision.GetComponent<LivingEntity>();
-            livingEntity.ApplyBurn(playerScriptableObject.burnTicks, playerScriptableObject.burnDamage);
+            livingEntity.ApplyBurn(playerScriptableObject.burnTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.burnDamage);
         }
     }
 }

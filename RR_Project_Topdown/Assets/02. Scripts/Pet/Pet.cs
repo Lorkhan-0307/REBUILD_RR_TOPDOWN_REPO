@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class Pet : MonoBehaviour
 {
+    public float attackDamage = 10f;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private float searchRange = 20f;
+    [SerializeField] private float attackCoolTime = 2f;
+    [SerializeField] private PlayerScriptableObject playerScriptableObject;
     [SerializeField] private Transform player;
     [SerializeField] private LayerMask whatIsTarget;
-    [SerializeField] private float attackCoolTime = 2f;
+    [SerializeField] private GameObject attackEffect;
+    [SerializeField] private GameObject ForceField;
 
     private LivingEntity targetEntity;
+    private Animator animator;
+    private float attackTime;
+    private bool canAttack;
+    private Vector3 targetPosition;
+
     //private bool isStopped;
+
+    SpriteRenderer spriteRenderer;
+    Transform _pivot;
+    Vector3 _offsetDirection;
+    float _distance;
 
     private bool hasTarget
     {
@@ -27,30 +41,63 @@ public class Pet : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(RotatePlayer());
-        StartCoroutine(RangeAttack());
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        attackTime = attackCoolTime;
+        canAttack = true;
+        SetPivot(player);
+        FindObjectOfType<StageManager>().UpgradePetAbility += Pet_UpgradePetAbility;
+        FindObjectOfType<StageManager>().UpgradePetCoolTime += Pet_UpgradePetCoolTime;
+        FindObjectOfType<StageManager>().UpgradeSetForceFieldActive += Pet_UpgradeSetForceFieldActive;
+        //StartCoroutine(RotatePlayer());
+        //StartCoroutine(RangeAttack());
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(hasTarget);
-        /*if (!hasTarget || !isStopped)
+        if (!hasTarget)
         {
             SerachForEnemy();
-            RotatePlayer();
-        }*/
-        SerachForEnemy();
+            SetDirection();
+        }
+
+        if (!hasTarget || !canAttack)
+        {
+            //Rotate Player
+            if (_pivot == null) return;
+
+            Quaternion rotate = Quaternion.Euler(0, 0, rotateSpeed * Time.deltaTime);
+            _offsetDirection = (rotate * _offsetDirection).normalized;
+            transform.position = _pivot.position + _offsetDirection * _distance;
+        }
+        else
+        {
+            //transform.position = _pivot.position + _offsetDirection * _distance;
+            RangeAttack();
+            //StartCoroutine(RangeAttack());
+        }
+        CheckCoolTime();
+        //Debug.Log("hasTarget: " + hasTarget + " canAttack: " + canAttack);
+
     }
 
-    private IEnumerator RotatePlayer()
+    public void SetPivot(Transform pivot)
     {
-        while(!hasTarget)
+        if (pivot != null)
         {
-            transform.RotateAround(player.position, Vector3.forward, rotateSpeed * Time.deltaTime);
-            yield return null;
+            _pivot = pivot;
+            _offsetDirection = transform.position - pivot.position;
+            _distance = _offsetDirection.magnitude;
+        }
+        else
+        {
+            _pivot = null;
         }
     }
+
 
     private void SerachForEnemy()
     {
@@ -63,6 +110,7 @@ public class Pet : MonoBehaviour
             if (livingEntity != null && !livingEntity.dead)
             {
                 targetEntity = livingEntity;
+                targetPosition = targetEntity.transform.position;
                 break;
             }
         }
@@ -70,19 +118,60 @@ public class Pet : MonoBehaviour
         //if (targetEntity != null) isStopped = true;
     }
 
-    private IEnumerator RangeAttack()
+
+    private void RangeAttack()
     {
-        while (hasTarget)
+        attackEffect.SetActive(true);
+
+        attackTime = attackCoolTime;
+        canAttack = false;
+        targetEntity = null;
+
+    }
+
+
+    private void SetDirection()
+    {
+        if (_offsetDirection.x > 0)
         {
-            Debug.Log("Range attack");
-            //isStopped = false;
-            yield return new WaitForSeconds(attackCoolTime);
+            spriteRenderer.flipX = false;
+        }
+        else
+        {
+            spriteRenderer.flipX = true;
         }
     }
 
-    private void OnDrawGizmos()
+    private void CheckCoolTime()
     {
-        //Gizmos.DrawSphere(transform.position, searchRange);
+        if (!canAttack)
+        {
+            attackTime -= Time.deltaTime;
+            //Debug.Log(attackTime);
+            if (attackTime <= 0f)
+            {
+                canAttack = true;
+            }
+        }
     }
+
+    private void Pet_UpgradePetAbility(object sender, System.EventArgs e)
+    {
+        if(playerScriptableObject.latestGauntletDamageRate >= 1.0f)
+        {
+            attackDamage *= playerScriptableObject.latestGauntletDamageRate;
+        }
+    }
+
+    private void Pet_UpgradePetCoolTime(object sender, System.EventArgs e)
+    {
+        attackCoolTime *= playerScriptableObject.petCoolTimeMultiplier;
+    }
+
+    private void Pet_UpgradeSetForceFieldActive(object sender, System.EventArgs e)
+    {
+        ForceField.SetActive(true);
+    }
+
 
 }

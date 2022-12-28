@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/Main.unity
     guid: 1b4f2aab9b6648a44954f791e5196c2c
+  - enabled: 1
+    path: Assets/01. Scenes/Infinity map(Normal).unity
+    guid: a1e7aeda17ee4844e9e9e5f75098451a
+  - enabled: 1
+    path: Assets/01. Scenes/Infinity map(Zatoichi).unity
+    guid: fafd4b758413c1d40a8a5efab20b05c0
   m_configObjects: {}

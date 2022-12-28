@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -22,25 +23,86 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] HealthBar playerHealth;
     [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
 
-    private int typeOfPlugIn = 5;
+    [Header("Load Main Menu")]
+    [SerializeField] private GameObject FadeImage;
+    [SerializeField] private Animator transition;
+    [SerializeField] private float transitionTime = 1f;
 
+    [Header("Dialogues")]
+    [SerializeField] public DialogueTrigger dialogueTrigger;
+
+    public bool isGameOver { get; private set; }
+
+    private int typeOfPlugIn = 6;
     private List<UpgradeData> selectedUpgrades;
 
     public event EventHandler UpgradeHealth;
-    public event EventHandler SetShieldActive;
+    public event EventHandler UpgradeSetShieldActive;
     public event EventHandler UpgradeMoveSpeed;
+    public event EventHandler UpgradeEntireAttack;
+    public event EventHandler UpgradeSetPetActive;
+    public event EventHandler UpgradePetAbility;
+    public event EventHandler UpgradeSetForceFieldActive;
+    public event EventHandler UpgradePetCoolTime;
+    public event EventHandler GameOverEvent;
 
     private void Start()
     {
-        enemySpawnPoolController.OnStageEnd += UpdatePlugIn;
+        //enemySpawnPoolController.OnStageEnd += UpdatePlugIn;
+        player.OnTriggerPortal += UpdatePlugIn;
+        enemySpawnPoolController.UpgradePlugIn += UpdatePlugIn;
+        FindObjectOfType<Health>().OnDeath += EndGame;
+        PlayerVariable pv = new PlayerVariable();
+
+        dialogueTrigger.TriggerDialogue();
+
+
+        playerScriptableObject.meleeAttackDamage = pv.meleeAttackDamage;
+        playerScriptableObject.skillActiveMeleeAttackDamage = pv.skillActiveMeleeAttackDamage;
+        playerScriptableObject.burnTicks = pv.burnTicks;
+        playerScriptableObject.maxBurnTicks = pv.maxBurnTicks;
+        playerScriptableObject.burnDamage = pv.burnDamage;
+        playerScriptableObject.corrosionTicks = pv.corrosionTicks;
+        playerScriptableObject.corrosionDamage = pv.corrosionDamage;
+        playerScriptableObject.maxCorrosionTicks = pv.maxCorrosionTicks;
+        playerScriptableObject.enabledSecondUpgrade = pv.enabledSecondUpgrade;
+        playerScriptableObject.enabledThirdUpgrade = pv.enabledThirdUpgrade;
+        playerScriptableObject.enabledFourthUpgrade = pv.enabledFourthUpgrade;
+        playerScriptableObject.isPetUpgraded = pv.isPetUpgraded;
+        
+
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             UpdatePlugIn_Temp();
-        }
+        }*/
     }
+
+    private void EndGame()
+    {
+        isGameOver = true;
+        //Debug.Log("End game");
+        GameOverEvent?.Invoke(this, EventArgs.Empty);
+        //FindObjectOfType<UIManager>().OpenGameOverUI();
+    }
+
+    public void LoadMainScene()
+    {
+        StartCoroutine(LoadScene(0));
+    }
+
+    private IEnumerator LoadScene(int sceneIndex)
+    {
+        FadeImage.SetActive(true);
+        transition.SetBool("Start", true);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        SceneManager.LoadScene(sceneIndex);
+    }
+
 
     // For Plug In Test
     private void UpdatePlugIn_Temp()
@@ -64,7 +126,7 @@ public class StageManager : MonoSingleton<StageManager>
         selectedUpgrades.Clear();
         selectedUpgrades.AddRange(GetUpgrades(4));
         upgradePanel.OpenPanel(selectedUpgrades);
-        enemySpawnPoolController.OnStageEnd -= UpdatePlugIn;
+        //enemySpawnPoolController.UpgradePlugIn -= UpdatePlugIn;
     }
 
     public List<UpgradeData> GetUpgrades(int count)
@@ -144,7 +206,7 @@ public class StageManager : MonoSingleton<StageManager>
             acquiredUpgrades = new List<UpgradeData>();
         }
 
-        Debug.Log(upgradeData.plugInType);
+        //Debug.Log(upgradeData.plugInType);
 
         switch (upgradeData.plugInType)
         {
@@ -152,22 +214,35 @@ public class StageManager : MonoSingleton<StageManager>
             //index 0
             //단순 데미지 증가 15%
             case PlugInType.GauntletAttack_1:
-                player.UpgradeAttackDamage(1.15f);
+                player.UpgradeAttackDamage(playerScriptableObject.upgradeDamage_Gauntlet1);
+                playerScriptableObject.latestGauntletDamageRate = playerScriptableObject.upgradeDamage_Gauntlet1;
+
+                // 펫 2번째 업그레이드 이미 되어있는 경우, 펫 능력치를 올린다. 
+                if (playerScriptableObject.isPetUpgraded) UpgradePetAbility?.Invoke(this, EventArgs.Empty);
                 break;
             //데미지 30% 증가, 공격속도 10% 감소
             case PlugInType.GauntletAttack_2:
-                player.UpgradeAttackSpeed(0.9f);
-                player.UpgradeAttackDamage(1.3f);
+                player.UpgradeAttackSpeed(playerScriptableObject.upgradeSpeed_Gauntlet2);
+                player.UpgradeAttackDamage(playerScriptableObject.upgradeDamage_Gauntlet2);
+                playerScriptableObject.latestGauntletDamageRate = playerScriptableObject.upgradeDamage_Gauntlet2;
+                if (playerScriptableObject.isPetUpgraded) UpgradePetAbility?.Invoke(this, EventArgs.Empty);
+
                 break;
             //공격속도 15% 증가, 데미지 25% 감소
             case PlugInType.GauntletAttack_3:
-                player.UpgradeAttackSpeed(1.15f);
-                player.UpgradeAttackDamage(0.75f);
+                player.UpgradeAttackSpeed(playerScriptableObject.upgradeSpeed_Gauntlet3);
+                player.UpgradeAttackDamage(playerScriptableObject.upgradeDamage_Gauntlet3);
+                playerScriptableObject.latestGauntletDamageRate = playerScriptableObject.upgradeDamage_Gauntlet3;
+
+                if (playerScriptableObject.isPetUpgraded) UpgradePetAbility?.Invoke(this, EventArgs.Empty);
                 break;
             //공격력 50% 증가, 범위증가 OR 공격속도 10% 증가[고민중]
             case PlugInType.GauntletAttack_4:
-                player.UpgradeAttackSpeed(1.1f);
-                player.UpgradeAttackDamage(1.5f);
+                //player.UpgradeAttackSpeed(1.1f);
+                player.UpgradeAttackDamage(playerScriptableObject.upgradeDamage_Gauntlet4);
+                playerScriptableObject.latestGauntletDamageRate = playerScriptableObject.upgradeDamage_Gauntlet4;
+
+                if (playerScriptableObject.isPetUpgraded) UpgradePetAbility?.Invoke(this, EventArgs.Empty);
                 break;
 
             // 속성 공격 시리즈 생성
@@ -185,40 +260,45 @@ public class StageManager : MonoSingleton<StageManager>
              */
 
             //index 1
-            case PlugInType.CorrosionAttack_1:
+            case PlugInType.CorrosionAttack_1: 
                 upgrades[upgradeData.index + 1].datas.Clear();
                 upgrades[upgradeData.index + 2].datas.Clear();
                 player.EnableElementAttack(PlayerMove.Element.Corrosion);
                 break;
-            case PlugInType.CorrosionAttack_2:
+            case PlugInType.CorrosionAttack_2: 
                 //upgrades[upgradeData.index].datas.Clear();
-                playerScriptableObject.corrosionTicks += 5;
+                playerScriptableObject.corrosionTicks += 10;
                 break;
-            case PlugInType.CorrosionAttack_3:
+            case PlugInType.CorrosionAttack_3: 
                 playerScriptableObject.enabledThirdUpgrade = true;
                 break;
-            case PlugInType.CorrosionAttack_4:
+            case PlugInType.CorrosionAttack_4: 
                 playerScriptableObject.enabledFourthUpgrade = true;
                 break;
             //index 2
-            case PlugInType.FireAttack_1:
+            case PlugInType.FireAttack_1: 
                 upgrades[upgradeData.index - 1].datas.Clear();
                 upgrades[upgradeData.index + 1].datas.Clear();
                 player.EnableElementAttack(PlayerMove.Element.Fire);
                 Debug.Log("Fire1");
                 break;
-            case PlugInType.FireAttack_2:
-                playerScriptableObject.burnDamage *= 1.2f;
+            case PlugInType.FireAttack_2: 
+                playerScriptableObject.burnDamage *= 2f;
                 Debug.Log("Fire2");
                 break;
-            case PlugInType.FireAttack_3:
+            case PlugInType.FireAttack_3: 
                 playerScriptableObject.enabledThirdUpgrade = true;
                 Debug.Log("Fire3");
                 break;
-            case PlugInType.FireAttack_4:
+            case PlugInType.FireAttack_4: 
                 playerScriptableObject.enabledFourthUpgrade = true;
+                player.SetFireFourthUpgrade();
                 Debug.Log("Fire4");
                 break;
+
+
+
+            //여기까지 완료
             //index 3
             case PlugInType.IceAttack_1:
                 upgrades[upgradeData.index - 2].datas.Clear();
@@ -227,6 +307,7 @@ public class StageManager : MonoSingleton<StageManager>
                 break;
             case PlugInType.IceAttack_2:
                 playerScriptableObject.slowDownSpeed *= 1.4f;
+                playerScriptableObject.enabledThirdUpgrade = true;
                 break;
             case PlugInType.IceAttack_3:
                 playerScriptableObject.enabledThirdUpgrade = true;
@@ -248,12 +329,13 @@ public class StageManager : MonoSingleton<StageManager>
                 break;
             case PlugInType.Utility_2:
                 //ShieldEffect.SetActive(true);
-                SetShieldActive?.Invoke(this, EventArgs.Empty);
+                UpgradeSetShieldActive?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.Utility_3:
                 UpgradeMoveSpeed?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.Utility_4:
+                UpgradeEntireAttack?.Invoke(this, EventArgs.Empty);
                 break;
             //index 5
             /*소환수의 경우 
@@ -269,12 +351,17 @@ public class StageManager : MonoSingleton<StageManager>
              * 4. 소환수 Damage&속성공격 플레이어 강화 상태에 맞춰서 강화
              */
             case PlugInType.SummonAttack_1:
+                UpgradeSetPetActive?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.SummonAttack_2:
+                playerScriptableObject.isPetUpgraded = true;
+                UpgradePetAbility?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.SummonAttack_3:
+                UpgradeSetForceFieldActive?.Invoke(this, EventArgs.Empty);
                 break;
             case PlugInType.SummonAttack_4:
+                UpgradePetCoolTime?.Invoke(this, EventArgs.Empty);
                 break;
         }
 

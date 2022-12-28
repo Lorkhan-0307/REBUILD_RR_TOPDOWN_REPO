@@ -6,7 +6,6 @@ public class RangeAttack : MonoBehaviour
 {
     [SerializeField] private Transform pfBullet;
     [SerializeField] private GameObject firePosition;
-
     [SerializeField] PlayerScriptableObject playerScriptableObject;
 
     private float bulletCountTimer = 0f;

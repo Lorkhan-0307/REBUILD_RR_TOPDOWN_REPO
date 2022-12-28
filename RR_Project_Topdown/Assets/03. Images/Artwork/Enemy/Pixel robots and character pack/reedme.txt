@@ -1,0 +1,20 @@
+Redonegamesstudio 
+____________
+
+Thank you very much for the purchase!
+
+Contents: 
+- robots 1: attack (3), fly(3), dead(5)
+- robots 2: walk (3),dead(4)
+- robots 3: walk(3), attack(3), dead(4)
+- character: walk(9), stay(3), attack 1 (6), attack 2 (2), jump(5)
+
+Visit us:
+https://www.youtube.com/channel/UCuIUOqkx_-IG1stydlgPaZA
+https://www.instagram.com/redonegamesdev/
+https://twitter.com/redonegame
+https://www.facebook.com/RedoneGamesStudio
+
+Redestribution is prohibited!
+Critics and feedbacks are welcome!
+

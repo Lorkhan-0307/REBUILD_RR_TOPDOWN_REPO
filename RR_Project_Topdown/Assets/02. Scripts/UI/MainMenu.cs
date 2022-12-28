@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -36,6 +36,16 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    public void InfinateGame()
+    {
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 2));
+    }
+
+    public void ZatoichiGame()
+    {
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 3));
     }
 
     public void EndGame()

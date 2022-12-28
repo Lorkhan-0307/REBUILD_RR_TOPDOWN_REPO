@@ -7,6 +7,7 @@ public class Health : LivingEntity
 {
     [Header("Health")]
     [SerializeField] private float startingHealth = 3f;
+    [SerializeField] private HealthBar healthBar;
     //[SerializeField] private float ShieldCoolTime = 3f;
     //public GameObject ShieldEffect;
     Animate animate;
@@ -17,13 +18,13 @@ public class Health : LivingEntity
     [SerializeField] private int numberOfFlashes = 3;
     private SpriteRenderer spriteRenderer;
 
-
-
     private void Awake()
     {
         animate = GetComponent<Animate>();
         playermove = GetComponent<PlayerMove>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        FindObjectOfType<StageManager>().UpgradeHealth += UpgradeHealth;
     }
 
     protected override void OnEnable()
@@ -58,10 +59,23 @@ public class Health : LivingEntity
         base.Die();
 
         //play die sound
+        FindObjectOfType<AudioManager>().Play("PlayerDie", 0);
+        FindObjectOfType<AudioManager>().Stop("Pre-MainTheme", 1);
         //play die animation
         //Disable Player
+        gameObject.SetActive(false);
     }
 
+    public void UpgradeHealth(object sender, EventArgs e)
+    {
+        //Upgrade Health 수치
+        //Upgrade Health Bar UI
+        healthBar.UpgradeHealthBar();
+        startingHealth = 5f;//수치 조정 필요
+        currentHealth = startingHealth;
+
+        FindObjectOfType<StageManager>().UpgradeHealth -= UpgradeHealth;
+    }
 
     private IEnumerator Invunerablility()
     {

@@ -40,24 +40,34 @@ public class PlayerMove : MonoBehaviour
     #region Variables
     [SerializeField] private HealthBar healthBar;
     [SerializeField] public GameObject rangeAttackObject;
-    [SerializeField] public GameObject cm;
+    [SerializeField] public GameObject gameManager;
     [SerializeField] public GameObject skillActiveScreen;
     [SerializeField] public GameObject skillBar;
     [SerializeField] public GameObject skillFX;
     [SerializeField] private GameObject Shield;
+    [SerializeField] private GameObject Pet;
+    [SerializeField] private GameObject ringOfFire;
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     [SerializeField] public float attackCooldownTime = 0.5f;
+    [SerializeField] private StageType stageType;
     private float attackCooldownTimer;
 
+    private Health health;
     private PlayerPlugIn playerPlugIn;
 
     private State state;
     public Element currentElement;
+    public EventHandler OnTriggerPortal;
     private float currentMovementSpeed;
     private float rangeAttackTimer;
     private float skillBarTimer = 0.1f;
-    private bool skillActivated = false;
+    public bool skillActivated = false;
     private int upgradeFourthAttackCount = 0;
+
+    private float lastHorizontalInput;
+    private float lastVerticalInput;
+
+    private bool left, right, up, down;
 
     #endregion
 
@@ -73,12 +83,14 @@ public class PlayerMove : MonoBehaviour
         skillBar.GetComponent<SkillBar>().SetMaxSkill(playerScriptableObject.skillBarMax);
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = false;
         attackCooldownTimer = attackCooldownTime;
-        currentMovementSpeed = playerScriptableObject.movementSpeed;
+        playerScriptableObject.movespeed = playerScriptableObject.constant_movementSpeed;
+        currentMovementSpeed = playerScriptableObject.constant_movementSpeed;
+        health = GetComponent<Health>();
 
         //Util Upgrade Events
-        FindObjectOfType<StageManager>().UpgradeHealth += UpgradeHealth;
-        FindObjectOfType<StageManager>().SetShieldActive += SetShieldActive;
-        FindObjectOfType<StageManager>().UpgradeMoveSpeed += UpgradeMoveSpeed;
+        FindObjectOfType<StageManager>().UpgradeSetShieldActive += SetShieldActive;
+        FindObjectOfType<StageManager>().UpgradeMoveSpeed += UpgradeMovementSpeed;
+        FindObjectOfType<StageManager>().UpgradeSetPetActive += SetPetActive;
 
         //초기 속성은 물리로 설정
         currentElement = Element.Physical;
@@ -95,117 +107,176 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
+        if (stageType == StageType.Main || stageType == StageType.Infinity)
         {
-            UpgradeAttackSpeed(1.2f);
-        }
-
-        switch(state)
-        {
-            case State.Normal:
-
-                //Skill Activated
-                if(skillActivated == true)
+            if (!FindObjectOfType<UIManager>().isGamePaused)
+            {
+                if(Input.GetKeyDown(KeyCode.T))
                 {
-                    if (skillBar.GetComponent<SkillBar>().slider.value == 0)
+                    UpgradeAttackSpeed(1.2f);
+                }
+
+                if(Input.GetKeyDown(KeyCode.Q))
+                {
+                    if (FindObjectOfType<UIManager>().canInteract)
                     {
-                        animate.SkillDisactive();
-                        state = State.SkillDisactive;
-                    }
-                    skillBarTimer -= Time.deltaTime;
-                    if (skillBarTimer < 0)
-                    {
-                        skillBar.GetComponent<SkillBar>().AddSkill(-1f);
-                        skillBarTimer = 0.1f;
+                        FindObjectOfType<UIManager>().CloseGuideUI();
+                        OnTriggerPortal?.Invoke(this, EventArgs.Empty);
                     }
                 }
 
-                else if(skillActivated == false)
+                switch(state)
                 {
-                    skillBarTimer -= Time.deltaTime;
-                    if (skillBarTimer < 0)
-                    {
-                        skillBar.GetComponent<SkillBar>().AddSkill(0.5f);
-                        skillBarTimer = 0.1f;
-                    }
-                }
+                    case State.Normal:
 
-                //Basic Movement
+                        //Skill Activated
+                        if(skillActivated == true)
+                        {
+                            if (skillBar.GetComponent<SkillBar>().slider.value == 0)
+                            {
+                                animate.SkillDisactive();
+                                state = State.SkillDisactive;
+                            }
+                            skillBarTimer -= Time.deltaTime;
+                            if (skillBarTimer < 0)
+                            {
+                                skillBar.GetComponent<SkillBar>().AddSkill(-1f);
+                                skillBarTimer = 0.1f;
+                            }
+                        }
 
-                movementVector.x = Input.GetAxisRaw("Horizontal");
-                movementVector.y = Input.GetAxisRaw("Vertical");
-                movementVector *= currentMovementSpeed;
+                        else if(skillActivated == false)
+                        {
+                            skillBarTimer -= Time.deltaTime;
+                            if (skillBarTimer < 0)
+                            {
+                                skillBar.GetComponent<SkillBar>().AddSkill(0.5f);
+                                skillBarTimer = 0.1f;
+                            }
+                        }
+
+                        //Basic Movement
+
+                        movementVector.x = Input.GetAxisRaw("Horizontal");
+                        movementVector.y = Input.GetAxisRaw("Vertical");
+                        movementVector *= currentMovementSpeed;
 
 
-                animate.horizontal = movementVector.x;
-                animate.vertical = movementVector.y;
+                        animate.horizontal = movementVector.x;
+                        animate.vertical = movementVector.y;
 
-                if(attackCooldownTimer>0)
-                {
-                    attackCooldownTimer -= Time.deltaTime;
+                        if(attackCooldownTimer>0)
+                        {
+                            attackCooldownTimer -= Time.deltaTime;
 
-                }
+                        }
 
-                if (rangeAttackTimer > 0)
-                {
-                    rangeAttackTimer -= Time.deltaTime;
+                        if (rangeAttackTimer > 0)
+                        {
+                            rangeAttackTimer -= Time.deltaTime;
 
-                }
+                        }
 
-                if (Input.GetMouseButtonDown(0) && attackCooldownTimer<=0)
-                {
-                    BasicMeleeAttack();
-                }
+                        if (Input.GetMouseButtonDown(0) && attackCooldownTimer<=0)
+                        {
+                            BasicMeleeAttack();
+                        }
 
-                if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
-                {
-                    BasicRangeAttack();
-                }
+                        if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
+                        {
+                            BasicRangeAttack();
+                        }
 
                 
 
-                else if (rangeAttackTimer < 0)
-                {
-                    DisableRangeAttack();
+                        else if (rangeAttackTimer < 0)
+                        {
+                            DisableRangeAttack();
 
+                        }
+
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            if(skillActivated == false)
+                            {
+                                animate.SkillActive();
+                                state = State.SkillActive;
+                                skillFX.SetActive(true);
+                            }
+                            if(skillActivated == true)
+                            {
+                                animate.SkillDisactive();
+                                state = State.SkillDisactive;
+                                skillFX.SetActive(false);
+                            }
+                        }
+
+
+                        break;
+
+
+                    case State.SkillActive:
+
+                        skillActiveScreen.SetActive(true);
+                        skillActivated = true;
+                        break;
+
+                    case State.SkillDisactive:
+                        DisableSkillActive();
+                        break;
+                    case State.Hurt:
+                        break;
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+            }
+        }
+        else if(stageType == StageType.jatoichi)
+        {
+            animate.horizontal = Input.GetAxisRaw("Horizontal");
+            animate.vertical = Input.GetAxisRaw("Vertical");
+
+            if (animate.horizontal > 0f)
+            {
+                right = true; left = false; up = false; down = false;
+            }
+            else if (animate.horizontal < 0f)
+            {
+                right = false; left = true; up = false; down = false;
+            }
+            else if (animate.vertical > 0f)
+            {
+                right = false; left = false; up = true; down = false;
+            }
+            else if(animate.vertical < 0f)
+            {
+                right = false; left = false; up = false; down = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (up)
                 {
-                    if(skillActivated == false)
-                    {
-                        animate.SkillActive();
-                        state = State.SkillActive;
-                        skillFX.SetActive(true);
-                    }
-                    if(skillActivated == true)
-                    {
-                        animate.SkillDisactive();
-                        state = State.SkillDisactive;
-                        skillFX.SetActive(false);
-                    }
+                    animate.PlayAttackAnimation(8);
                 }
+                else if(down)
+                {
+                    animate.PlayAttackAnimation(2);
+                }
+                else if (right)
+                {
+                    animate.PlayAttackAnimation(6);
+                }
+                else if (left)
+                {
+                    animate.PlayAttackAnimation(4);
+                }
+            }
 
-
-                break;
-
-
-            case State.SkillActive:
-
-                skillActiveScreen.SetActive(true);
-                skillActivated = true;
-                break;
-
-            case State.SkillDisactive:
-                DisableSkillActive();
-                break;
-            case State.Hurt:
-                break;
         }
     }
 
-    
     #endregion
+    
 
 
 
@@ -251,6 +322,17 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
+        if (playerScriptableObject.enabledFourthUpgrade)
+        {
+            switch(currentElement)
+            {
+                case Element.Fire:
+
+
+                    break;
+            }
+        }
+
 
         if (attackDir.y >= attackDir.x)
         {
@@ -276,6 +358,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
+        FindObjectOfType<CinemachineShake>().ShakeCamera(5f, 0.1f);
         //CMDebug.TextPopupMouse("" + attackDir);
     }
 
@@ -284,7 +367,7 @@ public class PlayerMove : MonoBehaviour
 
         rangeAttackTimer = playerScriptableObject.enableRangeAttackTime;
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
-        cm.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
+        gameManager.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
         Vector3 mousePosition = GetMousePosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, rangeAttackObject.transform.position.z), Camera.main);
 
         rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(mousePosition);
@@ -294,7 +377,7 @@ public class PlayerMove : MonoBehaviour
     private void DisableRangeAttack()
     {
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = false;
-        cm.GetComponent<CursorManager>().SwitchToArrowCursor();
+        gameManager.GetComponent<CursorManager>().SwitchToArrowCursor();
     }
 
     public void DisableSkillActive()
@@ -306,7 +389,7 @@ public class PlayerMove : MonoBehaviour
 
     public void SpeedReturn()
     {
-        currentMovementSpeed = playerScriptableObject.movementSpeed;
+        currentMovementSpeed = playerScriptableObject.movespeed;
     }
 
     public void ActivateHurtState()
@@ -351,11 +434,20 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.transform.CompareTag("NextRoom"))
         {
-            Debug.Log("Get Next Room");
-            RoomManager.Instance.NextStage();
+            //Debug.Log("Get Next Room");
+            //OnTriggerPortal?.Invoke(this, EventArgs.Empty);
+            //RoomManager.Instance.NextStage();
+            FindObjectOfType<UIManager>().OpenGuideUI();
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("NextRoom"))
+        {
+            FindObjectOfType<UIManager>().CloseGuideUI();
+        }
+    }
 
     #region Plug In Function
     public PlayerPlugIn GetPlayerPlugIn()
@@ -379,6 +471,7 @@ public class PlayerMove : MonoBehaviour
     public void UpgradeAttackDamage(float multiplier)
     {
         playerScriptableObject.meleeAttackDamage *= multiplier;
+        playerScriptableObject.skillActiveMeleeAttackDamage *= multiplier;
     }
 
     //RangeAttack++ function
@@ -388,36 +481,33 @@ public class PlayerMove : MonoBehaviour
 
 
     //MovementSpeedFunc
-    public void UpgradeMovementSpeed(float multiplier)
+    public void UpgradeMovementSpeed(object sender, EventArgs e)
     {
-        playerScriptableObject.movementSpeed *= multiplier;
-        currentMovementSpeed = playerScriptableObject.movementSpeed;
+        playerScriptableObject.movespeed *= playerScriptableObject.movementSpeedMultiplier;
+        currentMovementSpeed = playerScriptableObject.movespeed;
+        FindObjectOfType<StageManager>().UpgradeMoveSpeed -= UpgradeMovementSpeed;
     }
 
     public void EnableElementAttack(Element element)
     {
         currentElement = element;
     }
-
-    public void UpgradeHealth(object sender, EventArgs e)
-    {
-        //Upgrade Health 수치
-        //Upgrade Health Bar UI
-        healthBar.UpgradeHealthBar();
-        FindObjectOfType<StageManager>().UpgradeHealth -= UpgradeHealth;
-    }
-
     public void SetShieldActive(object sender, EventArgs e)
     {
         Shield.SetActive(true);
-        FindObjectOfType<StageManager>().SetShieldActive -= SetShieldActive;
+        FindObjectOfType<StageManager>().UpgradeSetShieldActive -= SetShieldActive;
     }
 
-    public void UpgradeMoveSpeed(object sender, EventArgs e)
+    private void SetPetActive(object sender, EventArgs e)
     {
-        //Set Upgrade Variable
-        currentMovementSpeed *= 5;
-        FindObjectOfType<StageManager>().UpgradeMoveSpeed -= UpgradeMoveSpeed;
+        Pet.SetActive(true);
+        FindObjectOfType<StageManager>().UpgradeSetPetActive -= SetPetActive;
+    }
+
+
+    public void SetFireFourthUpgrade()
+    {
+        ringOfFire.SetActive(true);
     }
 
     #endregion
