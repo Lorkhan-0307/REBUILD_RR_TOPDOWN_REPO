@@ -28,8 +28,9 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] private Animator transition;
     [SerializeField] private float transitionTime = 1f;
 
+    /*
     [Header("Dialogues")]
-    [SerializeField] public DialogueTrigger dialogueTrigger;
+    [SerializeField] public DialogueTrigger dialogueTrigger;*/
 
     public bool isGameOver { get; private set; }
 
@@ -53,8 +54,6 @@ public class StageManager : MonoSingleton<StageManager>
         enemySpawnPoolController.UpgradePlugIn += UpdatePlugIn;
         FindObjectOfType<Health>().OnDeath += EndGame;
         PlayerVariable pv = new PlayerVariable();
-
-        dialogueTrigger.TriggerDialogue();
 
 
         playerScriptableObject.meleeAttackDamage = pv.meleeAttackDamage;

@@ -16,12 +16,13 @@ MonoBehaviour:
   constant_movementSpeed: 7
   movementSpeedMultiplier: 2
   movementSpeedWhileAttack: 4
-  meleeAttackDamage: 3000
+  meleeAttackDamage: 10
   skillActiveMeleeAttackDamage: 8
   enableRangeAttackTime: 3
   skillBarMax: 150
   maxBulletCount: 3
   reloadBulletTime: 10
+  rangeAttackDamage: 20
   meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
   burnTicks: 4
   maxBurnTicks: 3
@@ -33,7 +34,7 @@ MonoBehaviour:
   corrisionExplosionDamage: 10
   slowDownSpeed: 0.7
   enabledSecondUpgrade: 0
-  enabledThirdUpgrade: 1
+  enabledThirdUpgrade: 0
   enabledFourthUpgrade: 0
   upgradeDamage_Gauntlet1: 1.15
   upgradeDamage_Gauntlet2: 1.3

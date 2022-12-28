@@ -127,7 +127,8 @@ public class EnemySpawnPoolController : MonoBehaviour
         yield return new WaitForSeconds(EnemySpawnInterval);
 
         float enemyIntensity = Random.Range(0f, 1f);
-        //Transform spawnPoint = spawnPoints[stageNum].transforms[Random.Range(0, spawnPoints[stageNum].transforms.Count)];
+        //Transform spawnPoint = spawnPoints[
+        //].transforms[Random.Range(0, spawnPoints[stageNum].transforms.Count)];
 
         Vector3 spawnPoint = GenerateRandomPosition();
         //Debug.Log(spawnPoint);

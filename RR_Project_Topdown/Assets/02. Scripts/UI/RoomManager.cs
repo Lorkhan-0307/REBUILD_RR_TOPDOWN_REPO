@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private GameObject SceneLoader;
     [SerializeField] private Animator Transition;
     [SerializeField] private float transitionTime = 4f;
+    [SerializeField] private int bossStagenum = 9;
     private GameObject Player;
     [System.Serializable]
     public class StartPositionArray
@@ -38,8 +39,10 @@ public class RoomManager : MonoBehaviour
     //[SerializeField] private int LastStage = 3;
     [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
     [SerializeField] private List<GameObject> potals;
+    [SerializeField] DialogueTrigger dt;
 
     private int currentStage = 0;
+    private int countStage = 0;
     private int stageNum;
 
     private void Awake()
@@ -54,6 +57,10 @@ public class RoomManager : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         enemySpawnPoolController.OnSetActivePotal += SetActivePotal;
+        if(countStage ==0)
+        {
+            dt.TriggerDialogue();
+        }
     }
 
     public void NextStage()
@@ -65,6 +72,10 @@ public class RoomManager : MonoBehaviour
         if (startPositionArray.StartPosition.Count == 0)
         {
             Debug.Log("BossRoom");
+            if(countStage == bossStagenum)
+            {
+                dt.TriggerDialogue();
+            }
             return;
         }
 
@@ -78,8 +89,6 @@ public class RoomManager : MonoBehaviour
         enemySpawnPoolController.spawnCountList.RemoveAt(currentStage);
         enemySpawnPoolController.stageNum = randomIndex;
         currentStage = randomIndex;
-
-
     }
 
     private void SetActivePotal(object sender, EnemySpawnPoolController.OnSetActivePotalEventArgs e)
@@ -95,6 +104,5 @@ public class RoomManager : MonoBehaviour
 
         yield return new WaitForSeconds(transitionTime);
         SceneLoader.SetActive(false);
-
     }
 }
