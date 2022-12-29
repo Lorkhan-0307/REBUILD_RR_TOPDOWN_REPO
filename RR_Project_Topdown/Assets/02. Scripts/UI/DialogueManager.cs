@@ -26,6 +26,10 @@ public class DialogueManager : MonoBehaviour
     public Text playerDialogueText;
     public Image playerImage;
 
+    [Header("Images")]
+    public List<CharacterImage> textureList;
+    
+
     public List<string> playerList;
     private bool playerCheck;
 
@@ -35,6 +39,9 @@ public class DialogueManager : MonoBehaviour
     private List<Dialogue> dialogues;
     
     [SerializeField] PauseManager pauseManager;
+
+    enum Emotions { TALK, POSITIVE, NEGATIVE };
+    enum Characters { OB, Shade, Rimo, ÀüÈ­±â };
 
     void Start()
     {
@@ -114,9 +121,12 @@ public class DialogueManager : MonoBehaviour
                 }
 
                 nameText.text = dialogues[lineNum].name;
-            }
-                
 
+            }
+            if(dialogues[lineNum].emotion != "")
+            {
+                
+            }
             //if(_sentences == null)
               //_sentences = new Queue<string>();
 

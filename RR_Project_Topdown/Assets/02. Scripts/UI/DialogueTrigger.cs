@@ -53,6 +53,8 @@ public class DialogueTrigger : MonoBehaviour
                 }
                 while (row[0].ToString() == "");
 
+                _dialogue.emotion = row[3];
+
                 _dialogue.sentences = _dialogueList.ToArray();
 
                 dialogueList.Add(_dialogue);

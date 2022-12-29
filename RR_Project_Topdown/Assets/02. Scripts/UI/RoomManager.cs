@@ -79,6 +79,8 @@ public class RoomManager : MonoBehaviour
             return;
         }
 
+        countStage++;
+
         StartCoroutine(ChangeStage());
 
         int randomIndex = Random.Range(0, startPositionArray.StartPosition.Count);
